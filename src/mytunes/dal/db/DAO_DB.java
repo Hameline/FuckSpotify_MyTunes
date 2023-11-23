@@ -1,9 +1,6 @@
-package easv.mrs.DAL.db;
+package mytunes.dal.db;
 
 import java.io.IOException;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DAO_DB {
 
