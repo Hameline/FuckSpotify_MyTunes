@@ -1,2 +1,0 @@
-# Movie Recommendation System Starter 
- 
