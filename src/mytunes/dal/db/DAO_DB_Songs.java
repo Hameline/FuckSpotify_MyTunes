@@ -18,7 +18,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
     public List<Song> getAllSongs() throws Exception {
 
-        ArrayList<Song> allMovies = new ArrayList<>();
+        ArrayList<Song> allSongs = new ArrayList<>();
 
         try (Connection conn = databaseConnector.getConnection();
              Statement stmt = conn.createStatement())
@@ -30,14 +30,15 @@ public class DAO_DB_Songs implements ISongDataAccess {
             while (rs.next()) {
 
                 //Map DB row to Movie object
+                int id = rs.getInt("id");
                 String title = rs.getString("title");
                 double time = rs.getDouble("time");
                 String genre = rs.getString("genre");
 
-                Song song = new Song(title, time, genre);
-                allMovies.add(song);
+                Song song = new Song(id, title, time, genre);
+                allSongs.add(song);
             }
-            return allMovies;
+            return allSongs;
 
         }
         catch (SQLException ex)
@@ -50,15 +51,16 @@ public class DAO_DB_Songs implements ISongDataAccess {
     public Song createSong(Song song) throws Exception {
 
         // SQL command
-        String sql = "INSERT INTO dbo.FSpotify (Title,Year) VALUES (?,?);";
+        String sql = "INSERT INTO dbo.FSpotify (Title, Time, Genre) VALUES (?,?);";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
 
             // Bind parameters
-            stmt.setString(1,movie.getTitle());
-            stmt.setInt(2, movie.getYear());
+            stmt.setString(1,song.getTitle());
+            stmt.setDouble(2, song.getTime());
+            stmt.setString(3, song.getGenre());
 
             // Run the specified SQL statement
             stmt.executeUpdate();
@@ -72,9 +74,9 @@ public class DAO_DB_Songs implements ISongDataAccess {
             }
 
             // Create movie object and send up the layers
-            Movie createdMovie = new Movie(id, movie.getYear(), movie.getTitle());
+            Song createdSong = new Song(id, song.getTitle(), song.getTime(), song.getGenre());
 
-            return createdMovie;
+            return createdSong;
         }
         catch (SQLException ex)
         {
@@ -85,9 +87,8 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
 
 
-    public void updateSong(Song song) throws Exception {
-
-// SQL command
+    public Song updateSong(Song song) throws Exception {
+        // SQL command
         String sql = "UPDATE dbo.Movie SET Title = ?, Year = ? WHERE ID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
@@ -95,9 +96,9 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
 
             // Bind parameters
-            stmt.setString(1,movie.getTitle());
-            stmt.setInt(2, movie.getYear());
-            stmt.setInt(3, movie.getId());
+            stmt.setString(1,song.getTitle());
+            stmt.setDouble(2, song.getTime());
+            stmt.setString(3, song.getGenre());
 
             // Run the specified SQL statement
             stmt.executeUpdate();
@@ -107,17 +108,18 @@ public class DAO_DB_Songs implements ISongDataAccess {
             ex.printStackTrace();
             throw new Exception("Could not update movie", ex);
         }
+        return song;
     }
 
-    public void deleteSong(Song song) throws Exception {
+    public Song deleteSong(Song song) throws Exception {
         // SQL command
-        String sql = "delete from dbo.Movie WHERE ID = ?;";
+        String sql = "delete from dbo.FSpotify WHERE ID = ?;";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             // Bind parameters
-            stmt.setInt(1, Song.getId());
+            stmt.setInt(1, song.getId());
 
             // Run the specified SQL statement
             stmt.executeUpdate();
@@ -125,8 +127,8 @@ public class DAO_DB_Songs implements ISongDataAccess {
         catch (SQLException ex)
         {
             ex.printStackTrace();
-            throw new Exception("Could not create movie", ex);
+            throw new Exception("Could not create song", ex);
         }
-
+        return song;
     }
 }

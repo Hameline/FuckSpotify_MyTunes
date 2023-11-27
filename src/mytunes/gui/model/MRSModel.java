@@ -23,11 +23,10 @@ public class MRSModel {
 
         playlistManager = new PlaylistManager();
         listOfPlaylists = FXCollections.observableArrayList();
-        listOfPlaylists.addAll(playlistManager.getAllPlaylists);
+        listOfPlaylists.addAll(playlistManager.getAllPlaylists());
     }
 
     public ObservableList<Song> getListOfSongs() {
         return listOfSongs;
     }
-
 }
