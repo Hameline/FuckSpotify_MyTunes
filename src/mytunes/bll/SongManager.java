@@ -1,6 +1,7 @@
 package mytunes.bll;
 
 import mytunes.be.Song;
+import mytunes.bll.util.SongSearcher;
 import mytunes.dal.ISongDataAccess;
 import mytunes.dal.db.DAO_DB_Songs;
 
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class SongManager {
+    private SongSearcher songSearcher = new SongSearcher();
     private ISongDataAccess DAO_DB;
 
     public SongManager() throws IOException {
@@ -18,11 +20,11 @@ public class SongManager {
         return DAO_DB.getAllSongs();
     }
 
-    /*public List<Song> searchSongs(String query) throws Exception {
+    public List<Song> searchSong(String query) throws Exception {
         List<Song> allSongs = getAllSongs();
-        /*List<Song> searchResult = songSearcher.search(allSongs, query);
+        List<Song> searchResult = songSearcher.search(allSongs, query);
         return searchResult;
-    }*/
+    }
 
     public Song createSong(Song newSong) throws Exception {
         return DAO_DB.createSong(newSong);
