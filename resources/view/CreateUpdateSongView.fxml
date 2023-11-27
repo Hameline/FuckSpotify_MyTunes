@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="264.0" prefWidth="182.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.UpdateViewController">
+<AnchorPane prefHeight="264.0" prefWidth="182.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.CreateUpdateSongViewController">
    <children>
       <TextField fx:id="txtSongName" layoutX="14.0" layoutY="63.0" promptText="Song Name" />
       <TextField fx:id="txtArtistsName" layoutX="14.0" layoutY="97.0" promptText="Artists Name" />

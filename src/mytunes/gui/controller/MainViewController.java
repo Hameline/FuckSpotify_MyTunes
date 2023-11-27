@@ -23,8 +23,14 @@ public class MainViewController {
     private TextField txtSearchField;
 
 
+    public void initialize() {
+        tblViewSearch.setVisible(false);
+    }
+
+
     @FXML
     private void HandleNewPlaylist(ActionEvent actionEvent) {
+
     }
 
     @FXML
@@ -46,8 +52,12 @@ public class MainViewController {
         }
     }
 
-    public void initialize() {
-       tblViewSearch.setVisible(false);
+    @FXML
+    private void handelCreate(ActionEvent actionEvent) {
+
     }
 
+    @FXML
+    private void handleUpdate(ActionEvent actionEvent) {
+    }
 }
