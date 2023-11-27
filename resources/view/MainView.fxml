@@ -52,7 +52,7 @@
                 <ListView orientation="HORIZONTAL" prefHeight="76.0" prefWidth="867.0" />
             </children>
         </VBox>
-      <ButtonBar layoutX="883.0" layoutY="126.0" prefHeight="27.0" prefWidth="200.0">
+      <ButtonBar fx:id="btnBarSong" layoutX="883.0" layoutY="126.0" prefHeight="27.0" prefWidth="200.0">
         <buttons>
           <Button fx:id="btnCreate" mnemonicParsing="false" onAction="#handelCreate" text="Create" />
             <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#handleUpdate" text="Update" />
