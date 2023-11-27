@@ -22,8 +22,9 @@ public class MainViewController {
     @FXML
     private TextField txtSearchField;
 
-
+    // sets the DEFAULT MAIN VIEW is called in the MAIN CLASS
     public void initialize() {
+        // MAKES the TBT VIEW INVISIBLE
         tblViewSearch.setVisible(false);
     }
 
@@ -39,14 +40,20 @@ public class MainViewController {
 
     @FXML
     private void handleSearchField(KeyEvent keyEvent) {
+        // Detects if the ENTER KEY have been PRESSED
         if (keyEvent.getCode() == KeyCode.ENTER) {
+            // Looks TO SEE if the TXT SEARCH FIELD is NOT EMPTY
             if (!(txtSearchField.getText().isEmpty())) {
+                // MAKES the TBL VIEW VISIBLE
                 tblViewSearch.setVisible(true);
+                // MAKES the VBOX INVISIBLE
                 vBoxDefault.setVisible(false);
             }
-
+            // Looks TO SEE if the TXT SEARCH FIELD is EMPTY
             if (txtSearchField.getText().isEmpty()) {
+                // MAKES the TBT VIEW INVISIBLE
                 tblViewSearch.setVisible(false);
+                // MAKES the VBOX VISIBLE
                 vBoxDefault.setVisible(true);
             }
         }
