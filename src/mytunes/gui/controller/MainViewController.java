@@ -43,8 +43,13 @@ public class MainViewController {
 
 
     @FXML
-    private void HandleNewPlaylist(ActionEvent actionEvent) {
-
+    private void HandleNewPlaylist(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateUpdatePlaylistView.fxml"));
+        Parent popupWindow = loader.load();
+        Stage PopupWindow = new Stage();
+        PopupWindow.setScene(new Scene(popupWindow));
+        PopupWindow.initModality(Modality.APPLICATION_MODAL);
+        PopupWindow.showAndWait();
     }
 
     @FXML

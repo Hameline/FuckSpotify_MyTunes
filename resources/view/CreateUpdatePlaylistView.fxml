@@ -7,12 +7,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="154.0" prefWidth="196.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.CreateUpdatePlaylistViewController">
+<AnchorPane id="background" prefHeight="154.0" prefWidth="196.0" stylesheets="@../css/CreateUpdatePlaylistView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.CreateUpdatePlaylistViewController">
    <children>
-      <TextField fx:id="txtSongName" layoutX="9.0" layoutY="63.0" prefHeight="25.0" prefWidth="179.0" promptText="Playlist Name" />
-      <Button fx:id="btnUpdate" layoutX="9.0" layoutY="95.0" mnemonicParsing="false" onAction="#handleUpdate" text="Update" />
-      <Button fx:id="btnCreate" layoutX="131.0" layoutY="95.0" mnemonicParsing="false" onAction="#handleCreate" text="Create" />
-      <Label layoutX="2.0" layoutY="21.0" text="Playlist Details">
+      <TextField id="field" fx:id="txtSongName" layoutX="9.0" layoutY="63.0" prefHeight="25.0" prefWidth="179.0" promptText="Playlist Name" stylesheets="@../css/CreateUpdatePlaylistView.css" />
+      <Button id="field" fx:id="btnUpdate" layoutX="9.0" layoutY="95.0" mnemonicParsing="false" onAction="#handleUpdate" stylesheets="@../css/CreateUpdatePlaylistView.css" text="Update" />
+      <Button id="field" fx:id="btnCreate" layoutX="131.0" layoutY="95.0" mnemonicParsing="false" onAction="#handleCreate" stylesheets="@../css/CreateUpdatePlaylistView.css" text="Create" />
+      <Label id="text" layoutX="2.0" layoutY="21.0" stylesheets="@../css/CreateUpdatePlaylistView.css" text="Playlist Details">
          <font>
             <Font name="Comic Sans MS Bold" size="24.0" />
          </font>

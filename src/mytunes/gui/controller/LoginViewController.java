@@ -22,18 +22,11 @@ public class LoginViewController {
     private void handleLogIn(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainView.fxml"));
         Parent secondWindow = loader.load();
-
-        // Create a new stage
         Stage newStage = new Stage();
         newStage.setTitle("FSpotify");
-
-        // Set the scene for the new stage
         Scene scene = new Scene(secondWindow);
         newStage.setScene(scene);
-
-        // Show the new stage
         newStage.show();
-
         btnLogIn.getScene().getWindow().hide();
     }
 }

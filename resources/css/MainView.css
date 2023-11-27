@@ -1,0 +1,33 @@
+#background{
+    -fx-background-color: linear-gradient(to top, rgba(2,0,36,1) 0%, rgba(5,12,46,1) 37%, rgba(18,19,82,1) 87%);
+}
+#vbox{
+    -fx-background-color: null;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+}
+#vboxtext{
+    -fx-text-fill: white;
+}
+#vboxlist{
+    -fx-background-radius: 7 0 0 7; /* 1st is top 2nd one is right 3rd one is button 4th one is left */
+}
+#vboxplaylist{
+    -fx-background-color: null;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
+    -fx-border-width: 3 3 0 0; /* 1st is top 2nd one is right 3rd one is button 4th one is left */
+    -fx-border-color: black;
+}
+#defaultbutton{
+    -fx-background-radius: 10;
+}
+#tableviewsearch{
+    -fx-border-width: 3 0 0 3; /* 1st is top 2nd one is right 3rd one is button 4th one is left */
+    -fx-border-color: black;
+    -fx-background-radius: 10;
+}
