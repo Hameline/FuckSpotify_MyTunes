@@ -1,0 +1,11 @@
+#background {
+    /* Set the background color */
+    -fx-background-color: linear-gradient(to top, rgba(2,0,36,1) 0%, rgba(5,12,46,1) 37%, rgba(18,19,82,1) 87%);
+}
+#text{
+    -fx-text-fill: white;
+}
+#login-background {
+    -fx-background-color: black;
+    -fx-background-radius: 14;
+}
