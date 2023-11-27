@@ -1,6 +1,5 @@
 package mytunes.gui.controller;
 
-import com.sun.jdi.connect.spi.TransportService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -37,13 +36,18 @@ public class MainViewController {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             if (!(txtSearchField.getText().isEmpty())) {
                 tblViewSearch.setVisible(true);
-                vBoxDefault.isDisabled();
+                vBoxDefault.setVisible(false);
             }
 
             if (txtSearchField.getText().isEmpty()) {
-                tblViewSearch.isDisabled();
-                vBoxDefault.setVisible(false);
+                tblViewSearch.setVisible(false);
+                vBoxDefault.setVisible(true);
             }
         }
     }
+
+    public void initialize() {
+       tblViewSearch.setVisible(false);
+    }
+
 }
