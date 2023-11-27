@@ -1,18 +1,24 @@
 package mytunes.dal.db;
 
+import mytunes.be.Song;
+import mytunes.dal.ISongDataAccess;
+
 import java.io.IOException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DAO_DB {
+public class DAO_DB_Songs implements ISongDataAccess {
 
-    //private MyDatabaseConnector databaseConnector;
+    private MyTunesDataBaseConnector databaseConnector;
 
-    public DAO_DB() throws IOException {
-        //databaseConnector = new MyDatabaseConnector();
+    public DAO_DB_Songs() throws IOException {
+        databaseConnector = new MyTunesDataBaseConnector();
     }
 
-    /*public List<Movie> getAllMovies() throws Exception {
+    public List<Song> getAllSongs() throws Exception {
 
-        ArrayList<Movie> allMovies = new ArrayList<>();
+        ArrayList<Song> allMovies = new ArrayList<>();
 
         try (Connection conn = databaseConnector.getConnection();
              Statement stmt = conn.createStatement())
@@ -24,12 +30,12 @@ public class DAO_DB {
             while (rs.next()) {
 
                 //Map DB row to Movie object
-                int id = rs.getInt("Id");
-                String title = rs.getString("Title");
-                int year = rs.getInt("year");
+                String title = rs.getString("title");
+                double time = rs.getDouble("time");
+                String genre = rs.getString("genre");
 
-                Movie movie = new Movie(id, year, title);
-                allMovies.add(movie);
+                Song song = new Song(title, time, genre);
+                allMovies.add(song);
             }
             return allMovies;
 
@@ -37,16 +43,14 @@ public class DAO_DB {
         catch (SQLException ex)
         {
             ex.printStackTrace();
-            throw new Exception("Could not get movies from database", ex);
+            throw new Exception("Could not get songs from database", ex);
         }
     }
 
-     */
-
-    /*public Movie createMovie(Movie movie) throws Exception {
+    public Song createSong(Song song) throws Exception {
 
         // SQL command
-        String sql = "INSERT INTO dbo.Movie (Title,Year) VALUES (?,?);";
+        String sql = "INSERT INTO dbo.FSpotify (Title,Year) VALUES (?,?);";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -79,9 +83,9 @@ public class DAO_DB {
         }
     }
 
-     */
 
-    /*public void updateMovie(Movie movie) throws Exception {
+
+    public void updateSong(Song song) throws Exception {
 
 // SQL command
         String sql = "UPDATE dbo.Movie SET Title = ?, Year = ? WHERE ID = ?";
@@ -105,7 +109,7 @@ public class DAO_DB {
         }
     }
 
-    public void deleteMovie(Movie movie) throws Exception {
+    public void deleteSong(Song song) throws Exception {
         // SQL command
         String sql = "delete from dbo.Movie WHERE ID = ?;";
 
@@ -113,7 +117,7 @@ public class DAO_DB {
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             // Bind parameters
-            stmt.setInt(1, movie.getId());
+            stmt.setInt(1, Song.getId());
 
             // Run the specified SQL statement
             stmt.executeUpdate();
@@ -125,5 +129,4 @@ public class DAO_DB {
         }
 
     }
-     */
 }
