@@ -1,15 +1,17 @@
 package mytunes.gui.controller;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
 
 public class MainViewController {
-    public void HandleNewPlaylist(ActionEvent actionEvent) {
+    @FXML
+    private void HandleNewPlaylist(ActionEvent actionEvent) {
     }
-
-    public void HandleMainMenu(ActionEvent actionEvent) {
+    @FXML
+    private void HandleMainMenu(ActionEvent actionEvent) {
     }
-
-    public void handleSearchField(KeyEvent keyEvent) {
+    @FXML
+    private void handleSearchField(KeyEvent keyEvent) {
     }
 }

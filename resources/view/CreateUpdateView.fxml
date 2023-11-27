@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="mytunes.gui.controller.UpdateViewController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="264.0" prefWidth="182.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.UpdateViewController">
+   <children>
+      <TextField fx:id="txtSongName" layoutX="14.0" layoutY="63.0" promptText="Song Name" />
+      <TextField fx:id="txtArtistsName" layoutX="14.0" layoutY="97.0" promptText="Artists Name" />
+      <TextField fx:id="txtAlbumName" layoutX="14.0" layoutY="214.0" promptText="Album Name" />
+      <ToggleButton fx:id="tgglBtnIfAlbum" layoutX="14.0" layoutY="181.0" mnemonicParsing="false" onAction="#handleIfAlbum" prefHeight="25.0" prefWidth="149.0" text="Is Apart Of An Album" />
+      <Button fx:id="btnUpdate" layoutX="15.0" layoutY="130.0" mnemonicParsing="false" onAction="#handleUpdate" text="Update" />
+      <Button fx:id="btnCreate" layoutX="112.0" layoutY="130.0" mnemonicParsing="false" onAction="#handleCreate" text="Create" />
+      <Label layoutX="16.0" layoutY="21.0" text="Song Details">
+         <font>
+            <Font name="Comic Sans MS Bold" size="24.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>
