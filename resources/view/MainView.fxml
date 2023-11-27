@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
     <children>
         <AnchorPane />
@@ -28,7 +27,7 @@
         </Button>
         <Button fx:id="btnMainMenu" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#HandleMainMenu" text="Main Menu" />
         <TextField fx:id="txtSearchField" layoutX="216.0" layoutY="14.0" onKeyPressed="#handleSearchField" prefHeight="25.0" prefWidth="365.0" promptText="🔍 Search after a Song, Genre or Artist" />
-        <TableView layoutX="216.0" layoutY="153.0" prefHeight="570.0" prefWidth="867.0">
+        <TableView fx:id="tblViewSearch" disable="true" layoutX="216.0" layoutY="153.0" prefHeight="570.0" prefWidth="867.0">
             <columns>
                 <TableColumn fx:id="tblViewSearchSong" prefWidth="75.0" text="Song" />
                 <TableColumn fx:id="tblViewSearchDuration" prefWidth="75.0" text="Duration" />
@@ -36,7 +35,7 @@
                 <TableColumn fx:id="tblViewSearchGenre" prefWidth="75.0" text="Genre" />
             </columns>
         </TableView>
-        <VBox layoutX="216.0" layoutY="152.0" prefHeight="570.0" prefWidth="867.0">
+        <VBox fx:id="vBoxDefault" layoutX="216.0" layoutY="152.0" prefHeight="570.0" prefWidth="867.0">
             <children>
                 <Label text="Suggested">
                     <padding>
