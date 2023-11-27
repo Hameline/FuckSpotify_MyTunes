@@ -36,13 +36,13 @@ public class MainViewController {
     private void handleSearchField(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             if (!(txtSearchField.getText().isEmpty())) {
-                tblViewSearch.isVisible();
+                tblViewSearch.setVisible(true);
                 vBoxDefault.isDisabled();
             }
 
             if (txtSearchField.getText().isEmpty()) {
                 tblViewSearch.isDisabled();
-                vBoxDefault.isVisible();
+                vBoxDefault.setVisible(false);
             }
         }
     }
