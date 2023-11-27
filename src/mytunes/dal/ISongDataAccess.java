@@ -5,7 +5,7 @@ import mytunes.be.Song;
 import java.util.List;
 
 public interface ISongDataAccess {
-    List<Song> getAllSongs();
+    List<Song> getAllSongs() throws Exception;
 
     public Song createSong(Song song) throws Exception;
 
