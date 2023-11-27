@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface IPlaylistDataAccess {
 
-    List<Playlist> getAllPlaylists();
+    List<Playlist> getAllPlaylists() throws Exception;
 
-    public Playlist createMovie(Playlist playlist) throws Exception;
+    public Playlist createPlaylist(Playlist playlist) throws Exception;
 
-    public Playlist updateMovie(Playlist playlist) throws Exception;
+    public Playlist updatePlaylist(Playlist playlist) throws Exception;
 
-    public Playlist deleteMovie(Playlist playlist) throws Exception;
+    public Playlist deletePlaylist(Playlist playlist) throws Exception;
 }

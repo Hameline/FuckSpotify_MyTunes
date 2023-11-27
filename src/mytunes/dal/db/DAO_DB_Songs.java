@@ -23,13 +23,13 @@ public class DAO_DB_Songs implements ISongDataAccess {
         try (Connection conn = databaseConnector.getConnection();
              Statement stmt = conn.createStatement())
         {
-            String sql = "SELECT * FROM dbo.Movie;";
+            String sql = "SELECT * FROM dbo.FSpotify;";
             ResultSet rs = stmt.executeQuery(sql);
 
             // Loop through rows from the database result set
             while (rs.next()) {
 
-                //Map DB row to Movie object
+                //Map DB row to Song object
                 int id = rs.getInt("id");
                 String title = rs.getString("title");
                 double time = rs.getDouble("time");
@@ -49,7 +49,6 @@ public class DAO_DB_Songs implements ISongDataAccess {
     }
 
     public Song createSong(Song song) throws Exception {
-
         // SQL command
         String sql = "INSERT INTO dbo.FSpotify (Title, Time, Genre) VALUES (?,?);";
 
@@ -73,7 +72,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
                 id = rs.getInt(1);
             }
 
-            // Create movie object and send up the layers
+            // Create song object and send up the layers
             Song createdSong = new Song(id, song.getTitle(), song.getTime(), song.getGenre());
 
             return createdSong;
@@ -81,7 +80,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
         catch (SQLException ex)
         {
             ex.printStackTrace();
-            throw new Exception("Could not create movie", ex);
+            throw new Exception("Could not create song", ex);
         }
     }
 
@@ -89,7 +88,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
     public Song updateSong(Song song) throws Exception {
         // SQL command
-        String sql = "UPDATE dbo.Movie SET Title = ?, Year = ? WHERE ID = ?";
+        String sql = "UPDATE dbo.FSpotify SET Title = ?, Time = ?, Genre = ? WHERE ID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -99,6 +98,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
             stmt.setString(1,song.getTitle());
             stmt.setDouble(2, song.getTime());
             stmt.setString(3, song.getGenre());
+            stmt.setInt(4, song.getId());
 
             // Run the specified SQL statement
             stmt.executeUpdate();
@@ -106,7 +106,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
         catch (SQLException ex)
         {
             ex.printStackTrace();
-            throw new Exception("Could not update movie", ex);
+            throw new Exception("Could not update song", ex);
         }
         return song;
     }
