@@ -2,9 +2,8 @@ package mytunes.be;
 
 public class Song {
     private int id;
-    private String title;
     private double time;
-    private String genre;
+    private String genre, artist, formatedTime, title;
 
     public Song(int id,String title, double time, String genre) {
         this.title = title;
@@ -30,6 +29,13 @@ public class Song {
 
     public double getTime() {
         return time;
+    }
+
+    public String getConvertedTime() {
+        int minutes = (int) time / 60;
+        int seconds = (int) time % 60;
+        formatedTime = String.format("%d:%02d", minutes, seconds);
+        return formatedTime;
     }
 
     public void setTime(double time) {
