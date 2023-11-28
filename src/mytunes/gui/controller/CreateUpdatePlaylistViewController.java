@@ -24,7 +24,15 @@ public class CreateUpdatePlaylistViewController extends BaseController implement
     private SongPlaylistModel songPlaylistModel;
 
     private MainViewController mainViewController;
-
+    public CreateUpdatePlaylistViewController() throws Exception {
+        try {
+            songPlaylistModel = new SongPlaylistModel();
+        }
+        catch (Exception e) {
+            displayError(e);
+            e.printStackTrace();
+        }
+    }
     @FXML
     private void handleUpdate(ActionEvent actionEvent) {
     }
@@ -36,15 +44,11 @@ public class CreateUpdatePlaylistViewController extends BaseController implement
 
         try {
             songPlaylistModel.createPlaylist(newPlaylist);
-
-            mainViewController.refreshLists();
+            btnCreate.getScene().getWindow().hide();
         }
         catch (Exception e) {
             displayError(e);
             e.printStackTrace();
-        }
-        finally {
-            btnCreate.getScene().getWindow().hide();
         }
     }
 

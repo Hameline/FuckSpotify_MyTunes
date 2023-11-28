@@ -22,15 +22,14 @@
                       <Font name="Comic Sans MS Bold" size="12.0" />
                   </font>
               </Button>
-              <TableView prefHeight="570.0" prefWidth="149.0">
+              <TableView fx:id="tblViewPlaylist" prefHeight="570.0" prefWidth="149.0">
                   <columns>
-                      <TableColumn fx:id="tblViewPlaylistPlaylist" prefWidth="75.0" text="Playlist" />
-                      <TableColumn fx:id="tblViewPlaylistUser" prefWidth="75.0" text="User" />
+                      <TableColumn fx:id="tblViewPlaylistPlaylist" prefWidth="148.0" text="Playlist" />
                   </columns>
               </TableView>
          </children>
       </VBox>
-        <Button id="logo" fx:id="btnMainMenu" layoutX="-251.0" layoutY="-154.0" mnemonicParsing="false" onAction="#HandleMainMenu" prefHeight="340.0" prefWidth="500.0" stylesheets="@../css/MainView.css" />
+        <Button id="logo" fx:id="btnMainMenu" layoutX="-247.0" layoutY="-158.0" mnemonicParsing="false" onAction="#HandleMainMenu" prefHeight="340.0" prefWidth="500.0" stylesheets="@../css/MainView.css" />
         <TextField id="defaultbutton" fx:id="txtSearchField" layoutX="216.0" layoutY="14.0" onKeyPressed="#handleSearchField" prefHeight="25.0" prefWidth="365.0" promptText="🔍 Search after a Song, Genre or Artist" stylesheets="@../css/MainView.css" />
         <VBox id="vbox" fx:id="vBoxDefault" layoutX="216.0" layoutY="152.0" prefHeight="570.0" prefWidth="867.0" stylesheets="@../css/MainView.css">
             <children>
@@ -56,10 +55,10 @@
       </ButtonBar>
         <TableView id="tableviewsearch" fx:id="tblViewSearch" layoutX="216.0" layoutY="153.0" prefHeight="570.0" prefWidth="867.0" stylesheets="@../css/MainView.css">
             <columns>
-                <TableColumn fx:id="tblViewSearchSong" prefWidth="75.0" text="Song" />
-                <TableColumn fx:id="tblViewSearchDuration" prefWidth="75.0" text="Duration" />
-                <TableColumn fx:id="tblViewSearchArtist" prefWidth="75.0" text="Artist" />
-                <TableColumn fx:id="tblViewSearchGenre" prefWidth="75.0" text="Genre" />
+                <TableColumn fx:id="tblViewSearchSong" prefWidth="218.0" text="Song" />
+                <TableColumn fx:id="tblViewSearchDuration" minWidth="0.0" prefWidth="59.0" text="Duration" />
+                <TableColumn fx:id="tblViewSearchArtist" prefWidth="211.0" text="Artist" />
+                <TableColumn fx:id="tblViewSearchGenre" prefWidth="117.0" text="Genre" />
             </columns>
         </TableView>
     </children>

@@ -14,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import mytunes.be.Playlist;
 import mytunes.gui.model.SongPlaylistModel;
 
 import java.io.IOException;
@@ -22,6 +23,10 @@ import java.util.ResourceBundle;
 
 public class MainViewController extends BaseController implements Initializable {
 
+    @FXML
+    private TableView tblViewPlaylist;
+    @FXML
+    private Button btnNewPlaylist;
     @FXML
     private Button btnMainMenu;
     @FXML
@@ -55,7 +60,6 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
-    // sets the DEFAULT MAIN VIEW is called in the MAIN CLASS
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setup();
@@ -64,14 +68,6 @@ public class MainViewController extends BaseController implements Initializable 
 
         // MAKES the BUTTON BAR INVISIBLE
         btnBarSong.setVisible(false);
-
-
-        tblViewSearchArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
-        tblViewSearchGenre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
-        tblViewSearchSong.setCellValueFactory(new PropertyValueFactory<>("title"));
-        tblViewSearchDuration.setCellValueFactory(new PropertyValueFactory<>("time"));
-
-        tblViewSearch.setItems(songPlaylistModel.getListOfSongs());
 
         txtSearchField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             try {
@@ -95,17 +91,34 @@ public class MainViewController extends BaseController implements Initializable 
     public void setup() {
         if (songPlaylistModel != null) {
             tblViewSearch.setItems(songPlaylistModel.getListOfSongs());
+            tblViewPlaylist.setItems(songPlaylistModel.getListOfPlaylists());
         }
+        tblViewSearchArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+        tblViewSearchGenre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
+        tblViewSearchSong.setCellValueFactory(new PropertyValueFactory<>("title"));
+        tblViewSearchDuration.setCellValueFactory(new PropertyValueFactory<>("time"));
+
+        tblViewPlaylistPlaylist.setCellValueFactory(new PropertyValueFactory<>("name"));
     }
 
     @FXML
     private void HandleNewPlaylist(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateUpdatePlaylistView.fxml"));
         Parent popupWindow = loader.load();
+
+        CreateUpdatePlaylistViewController controller = loader.getController();
+        controller.setModel(songPlaylistModel);
+        controller.setup();
+
         Stage PopupWindow = new Stage();
-        PopupWindow.setScene(new Scene(popupWindow));
+        PopupWindow.setTitle("Create/Update Playlist");
         PopupWindow.initModality(Modality.APPLICATION_MODAL);
+        PopupWindow.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+
+        PopupWindow.setScene(new Scene(popupWindow));
         PopupWindow.showAndWait();
+
     }
 
     @FXML
@@ -176,5 +189,6 @@ public class MainViewController extends BaseController implements Initializable 
 
     public void refreshLists() {
         tblViewSearch.refresh();
+        tblViewPlaylist.refresh();
     }
 }
