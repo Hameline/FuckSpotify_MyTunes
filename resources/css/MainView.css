@@ -12,6 +12,11 @@
 #vboxtext{
     -fx-text-fill: white;
 }
+#text{
+    -fx-text-fill: white;
+    -fx-stroke: firebrick; /* Set the outline color */
+    -fx-stroke-width: 50px; /* Set the width of the outline */
+}
 #logo{
     -fx-graphic: url("../images/logo.png");
     -fx-scale-x: 0.235; /* Adjust the scale factor as needed */

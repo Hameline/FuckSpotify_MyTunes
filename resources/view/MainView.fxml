@@ -61,5 +61,14 @@
                 <TableColumn fx:id="tblViewSearchGenre" prefWidth="117.0" text="Genre" />
             </columns>
         </TableView>
+      <Label id="text" fx:id="lblPlaylistName" layoutX="216.0" layoutY="131.0" stylesheets="@../css/MainView.css" text="Playlist Name" />
+      <TableView layoutX="218.0" layoutY="155.0" prefHeight="570.0" prefWidth="867.0">
+        <columns>
+            <TableColumn fx:id="tblViewSearchSong1" prefWidth="218.0" text="Song" />
+            <TableColumn fx:id="tblViewSearchDuration1" minWidth="0.0" prefWidth="59.0" text="Duration" />
+            <TableColumn fx:id="tblViewSearchArtist1" prefWidth="211.0" text="Artist" />
+            <TableColumn fx:id="tblViewSearchGenre1" prefWidth="117.0" text="Genre" />
+        </columns>
+      </TableView>
     </children>
 </AnchorPane>
