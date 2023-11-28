@@ -3,6 +3,8 @@ package mytunes.gui.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonBar;
@@ -14,10 +16,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import mytunes.gui.model.SongPlaylistModel;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MainViewController {
+public class MainViewController extends BaseController implements Initializable {
 
     @FXML
     private ButtonBar btnBarSong;
@@ -31,9 +36,21 @@ public class MainViewController {
     private TableColumn tblViewPlaylistUser;
     @FXML
     private TextField txtSearchField;
+    private SongPlaylistModel songPlaylistModel;
+
+    public MainViewController() {
+        try {
+            songPlaylistModel = new SongPlaylistModel();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     // sets the DEFAULT MAIN VIEW is called in the MAIN CLASS
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setup();
         // MAKES the TBT VIEW INVISIBLE
         tblViewSearch.setVisible(false);
 
@@ -41,6 +58,12 @@ public class MainViewController {
         btnBarSong.setVisible(false);
     }
 
+    @Override
+    public void setup() {
+        if (songPlaylistModel != null) {
+            tblViewSearch.setItems(songPlaylistModel.getListOfSongs());
+        }
+    }
 
     @FXML
     private void HandleNewPlaylist(ActionEvent actionEvent) throws IOException {
@@ -97,11 +120,20 @@ public class MainViewController {
 
     @FXML
     private void handelCreate(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateUpdateSongView.fxml"));
         Parent popupWindow = loader.load();
+
+        CreateUpdateSongViewController controller = loader.getController();
+        controller.setModel(songPlaylistModel);
+        controller.setup();
+
         Stage PopupWindow = new Stage();
-        PopupWindow.setScene(new Scene(popupWindow));
+        PopupWindow.setTitle("Create/Update Song");
         PopupWindow.initModality(Modality.APPLICATION_MODAL);
+        PopupWindow.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+
+        PopupWindow.setScene(new Scene(popupWindow));
         PopupWindow.showAndWait();
     }
 

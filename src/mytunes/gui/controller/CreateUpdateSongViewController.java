@@ -2,6 +2,7 @@ package mytunes.gui.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -9,13 +10,23 @@ import javafx.scene.control.ToggleButton;
 import mytunes.be.Song;
 import mytunes.gui.model.SongPlaylistModel;
 
-public class CreateUpdateSongViewController {
-    private SongPlaylistModel songPlaylistModel;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+public class CreateUpdateSongViewController extends BaseController implements Initializable {
+    private SongPlaylistModel songPlaylistModel;
     public ToggleButton tgglBtnIfAlbum;
     public Button btnUpdate, btnCreate;
     @FXML
     private TextField txtSongName, txtArtist, txtGenre, txtAlbumName;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
+    public void setup() {
+        songPlaylistModel = getModel();
+    }
 
     @FXML
     private void handleIfAlbum(ActionEvent actionEvent) {

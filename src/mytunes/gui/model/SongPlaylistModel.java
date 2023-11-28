@@ -83,4 +83,20 @@ public class SongPlaylistModel {
         Playlist p = listOfPlaylists.get(listOfPlaylists.indexOf(selectedPlaylist));
         p.setName(selectedPlaylist.getName());
     }
+
+    public void setSelectedSong(Song selectedSong) {
+        this.selectedSong = selectedSong;
+    }
+
+    public Song getSelectedSong() {
+        return selectedSong;
+    }
+
+    public void setSelectedPlaylist(Playlist selectedPlaylist) {
+        this.selectedPlaylist = selectedPlaylist;
+    }
+
+    public Playlist getSelectedPlaylist() {
+        return selectedPlaylist;
+    }
 }

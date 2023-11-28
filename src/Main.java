@@ -21,16 +21,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        setMainView();
     }
 
     // CALLS the INITIALIZE method in MAIN VIEW CONTROLLER
-    private static void setMainView() {
-        // CHECKS to see if the START variable is TRUE or FALSE
-        if (start == true) {
-            // CALLS the METHOD
-            mainView.initialize();
-            start = false;
-        }
-    }
 }
