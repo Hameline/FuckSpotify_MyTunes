@@ -71,7 +71,14 @@ public class MainViewController extends BaseController implements Initializable 
 
         tblViewSearch.setItems(songPlaylistModel.getListOfSongs());
 
-
+        txtSearchField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            try {
+                songPlaylistModel.searchSong(newValue);
+            } catch (Exception e) {
+                displayError(e);
+                e.printStackTrace();
+            }
+        });
     }
 
     private void displayError(Throwable t)
