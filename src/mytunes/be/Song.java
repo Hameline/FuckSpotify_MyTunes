@@ -8,6 +8,7 @@ public class Song {
     public Song(int id,String title, double time, String artist, String genre) {
         this.title = title;
         this.time = time;
+        this.artist = artist;
         this.genre = genre;
     }
 

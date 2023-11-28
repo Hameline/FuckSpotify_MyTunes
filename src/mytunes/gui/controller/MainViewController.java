@@ -7,10 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
@@ -24,6 +22,14 @@ import java.util.ResourceBundle;
 
 public class MainViewController extends BaseController implements Initializable {
 
+    @FXML
+    private TableColumn tblViewSearchSong;
+    @FXML
+    private TableColumn tblViewSearchDuration;
+    @FXML
+    private TableColumn tblViewSearchArtist;
+    @FXML
+    private TableColumn tblViewSearchGenre;
     @FXML
     private ButtonBar btnBarSong;
     @FXML
@@ -56,6 +62,24 @@ public class MainViewController extends BaseController implements Initializable 
 
         // MAKES the BUTTON BAR INVISIBLE
         btnBarSong.setVisible(false);
+
+
+        tblViewSearchArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+        tblViewSearchGenre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
+        tblViewSearchSong.setCellValueFactory(new PropertyValueFactory<>("title"));
+        tblViewSearchDuration.setCellValueFactory(new PropertyValueFactory<>("time"));
+
+        tblViewSearch.setItems(songPlaylistModel.getListOfSongs());
+
+
+    }
+
+    private void displayError(Throwable t)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Something went wrong");
+        alert.setHeaderText(t.getMessage());
+        alert.showAndWait();
     }
 
     @Override

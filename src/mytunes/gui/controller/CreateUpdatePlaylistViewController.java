@@ -31,9 +31,8 @@ public class CreateUpdatePlaylistViewController extends BaseController implement
 
     @FXML
     private void handleCreate(ActionEvent actionEvent) {
-        String title = txtPlaylistName.getText();
 
-        Playlist newPlaylist = new Playlist(-1, title);
+        Playlist newPlaylist = new Playlist(-1, txtPlaylistName.getText());
 
         try {
             songPlaylistModel.createPlaylist(newPlaylist);
