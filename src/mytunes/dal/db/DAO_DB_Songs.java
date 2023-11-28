@@ -51,7 +51,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
     public Song createSong(Song song) throws Exception {
         // SQL command
-        String sql = "INSERT INTO FSpotify.dbo.Songs (Title, Time, Genre) VALUES (?,?);";
+        String sql = "INSERT INTO FSpotify.dbo.Songs (SongTitle, SongDuration, ArtistID, GenreID) VALUES (?,?,?,?);";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -88,7 +88,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
     public Song updateSong(Song song) throws Exception {
         // SQL command
-        String sql = "UPDATE FSpotify.dbo.Songs SET Title = ?, Time = ?, Artist = ?, Genre = ? WHERE ID = ?";
+        String sql = "UPDATE FSpotify.dbo.Songs SET SongTitle = ?, SongDuration = ?, Artist = ?, GenreID = ? WHERE ID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

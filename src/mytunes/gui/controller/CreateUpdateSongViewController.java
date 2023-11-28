@@ -46,6 +46,9 @@ public class CreateUpdateSongViewController extends BaseController implements In
             displayError(e);
             e.printStackTrace();
         }
+        finally {
+            btnCreate.getScene().getWindow().hide();
+        }
     }
 
     private void displayError(Throwable t)

@@ -1,5 +1,7 @@
 package mytunes.gui.controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
+import mytunes.be.Song;
 import mytunes.gui.model.SongPlaylistModel;
 
 import java.io.IOException;
@@ -23,6 +26,8 @@ import java.util.ResourceBundle;
 
 public class MainViewController extends BaseController implements Initializable {
 
+    @FXML
+    private Button btnCreate, btnUpdate;
     @FXML
     private TableView tblViewPlaylist;
     @FXML
@@ -89,6 +94,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     @Override
     public void setup() {
+        btnUpdate.setDisable(true);
         if (songPlaylistModel != null) {
             tblViewSearch.setItems(songPlaylistModel.getListOfSongs());
             tblViewPlaylist.setItems(songPlaylistModel.getListOfPlaylists());
@@ -99,6 +105,12 @@ public class MainViewController extends BaseController implements Initializable 
         tblViewSearchDuration.setCellValueFactory(new PropertyValueFactory<>("time"));
 
         tblViewPlaylistPlaylist.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tblViewSearch.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
+            @Override
+            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
+                btnUpdate.setDisable(newValue == null);
+            }
+        });
     }
 
     @FXML
