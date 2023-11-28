@@ -22,15 +22,15 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
         try (Connection conn = databaseConnector.getConnection();
              Statement stmt = conn.createStatement())
         {
-            String sql = "SELECT * FROM dbo.Playlist;";
+            String sql = "SELECT * FROM FSpotify.dbo.Playlist;";
             ResultSet rs = stmt.executeQuery(sql);
 
             // Loop through rows from the database result set
             while (rs.next()) {
 
                 //Map DB row to Playlist object
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
+                int id = rs.getInt("PlaylistID");
+                String name = rs.getString("PlaylistName");
 
                 Playlist playlist = new Playlist(id, name);
                 allPlaylists.add(playlist);
@@ -47,7 +47,7 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
 
     public Playlist createPlaylist(Playlist playlist) throws Exception {
         // SQL command
-        String sql = "INSERT INTO dbo.Playlist (Name) VALUES (?,?);";
+        String sql = "INSERT INTO FSpotify.dbo.Playlist (Name) VALUES (?,?);";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -80,7 +80,7 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
 
     public Playlist updatePlaylist(Playlist playlist) throws Exception {
         // SQL command
-        String sql = "UPDATE dbo.Playlist SET Name = ? WHERE ID = ?";
+        String sql = "UPDATE FSpotify.dbo.Playlist SET Name = ? WHERE ID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -103,7 +103,7 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
 
     public Playlist deletePlaylist(Playlist playlist) throws Exception {
         // SQL command
-        String sql = "delete from dbo.Playlist WHERE ID = ?;";
+        String sql = "delete from FSpotify.dbo.Playlist WHERE ID = ?;";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {

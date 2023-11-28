@@ -23,18 +23,18 @@ public class DAO_DB_Songs implements ISongDataAccess {
         try (Connection conn = databaseConnector.getConnection();
              Statement stmt = conn.createStatement())
         {
-            String sql = "SELECT * FROM dbo.Songs;";
+            String sql = "SELECT * FROM FSpotify.dbo.Songs;";
             ResultSet rs = stmt.executeQuery(sql);
 
             // Loop through rows from the database result set
             while (rs.next()) {
 
                 //Map DB row to Song object
-                int id = rs.getInt("id");
-                String title = rs.getString("title");
-                double time = rs.getDouble("time");
-                String artist = rs.getString("artist");
-                String genre = rs.getString("genre");
+                int id = rs.getInt("SongID");
+                String title = rs.getString("SongTitle");
+                double time = rs.getDouble("SongDuration");
+                String artist = rs.getString("ArtistID");
+                String genre = rs.getString("GenreID");
 
                 Song song = new Song(id, title, time, artist, genre);
                 allSongs.add(song);
@@ -51,7 +51,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
     public Song createSong(Song song) throws Exception {
         // SQL command
-        String sql = "INSERT INTO dbo.Songs (Title, Time, Genre) VALUES (?,?);";
+        String sql = "INSERT INTO FSpotify.dbo.Songs (Title, Time, Genre) VALUES (?,?);";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -88,7 +88,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
     public Song updateSong(Song song) throws Exception {
         // SQL command
-        String sql = "UPDATE dbo.Songs SET Title = ?, Time = ?, Artist = ?, Genre = ? WHERE ID = ?";
+        String sql = "UPDATE FSpotify.dbo.Songs SET Title = ?, Time = ?, Artist = ?, Genre = ? WHERE ID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -114,7 +114,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
     public Song deleteSong(Song song) throws Exception {
         // SQL command
-        String sql = "delete from dbo.Songs WHERE ID = ?;";
+        String sql = "delete from FSpotify.dbo.Songs WHERE ID = ?;";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
