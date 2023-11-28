@@ -14,6 +14,13 @@
 }
 #logo{
     -fx-graphic: url("../images/logo.png");
+    -fx-scale-x: 0.25; /* Adjust the scale factor as needed */
+    -fx-scale-y: 0.25; /* Adjust the scale factor as needed */
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
 }
 #vboxlist{
     -fx-background-radius: 7 0 0 7; /* 1st is top 2nd one is right 3rd one is button 4th one is left */

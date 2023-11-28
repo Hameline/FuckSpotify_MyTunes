@@ -23,6 +23,8 @@ import java.util.ResourceBundle;
 public class MainViewController extends BaseController implements Initializable {
 
     @FXML
+    private Button btnMainMenu;
+    @FXML
     private TableColumn tblViewSearchSong;
     @FXML
     private TableColumn tblViewSearchDuration;

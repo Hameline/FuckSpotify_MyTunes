@@ -30,7 +30,7 @@
               </TableView>
          </children>
       </VBox>
-        <Button fx:id="btnMainMenu" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#HandleMainMenu" text="Main Menu" />
+        <Button id="logo" fx:id="btnMainMenu" layoutX="-251.0" layoutY="-154.0" mnemonicParsing="false" onAction="#HandleMainMenu" prefHeight="340.0" prefWidth="500.0" stylesheets="@../css/MainView.css" />
         <TextField id="defaultbutton" fx:id="txtSearchField" layoutX="216.0" layoutY="14.0" onKeyPressed="#handleSearchField" prefHeight="25.0" prefWidth="365.0" promptText="🔍 Search after a Song, Genre or Artist" stylesheets="@../css/MainView.css" />
         <VBox id="vbox" fx:id="vBoxDefault" layoutX="216.0" layoutY="152.0" prefHeight="570.0" prefWidth="867.0" stylesheets="@../css/MainView.css">
             <children>
