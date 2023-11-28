@@ -23,7 +23,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
         try (Connection conn = databaseConnector.getConnection();
              Statement stmt = conn.createStatement())
         {
-            String sql = "SELECT * FROM dbo.FSpotify;";
+            String sql = "SELECT * FROM dbo.Songs;";
             ResultSet rs = stmt.executeQuery(sql);
 
             // Loop through rows from the database result set
@@ -50,7 +50,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
     public Song createSong(Song song) throws Exception {
         // SQL command
-        String sql = "INSERT INTO dbo.FSpotify (Title, Time, Genre) VALUES (?,?);";
+        String sql = "INSERT INTO dbo.Songs (Title, Time, Genre) VALUES (?,?);";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -84,11 +84,9 @@ public class DAO_DB_Songs implements ISongDataAccess {
         }
     }
 
-
-
     public Song updateSong(Song song) throws Exception {
         // SQL command
-        String sql = "UPDATE dbo.FSpotify SET Title = ?, Time = ?, Genre = ? WHERE ID = ?";
+        String sql = "UPDATE dbo.Songs SET Title = ?, Time = ?, Genre = ? WHERE ID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -113,7 +111,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
     public Song deleteSong(Song song) throws Exception {
         // SQL command
-        String sql = "delete from dbo.FSpotify WHERE ID = ?;";
+        String sql = "delete from dbo.Songs WHERE ID = ?;";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {

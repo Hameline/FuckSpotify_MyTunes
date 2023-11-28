@@ -22,7 +22,7 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
         try (Connection conn = databaseConnector.getConnection();
              Statement stmt = conn.createStatement())
         {
-            String sql = "SELECT * FROM dbo.FSpotify;";
+            String sql = "SELECT * FROM dbo.Playlist;";
             ResultSet rs = stmt.executeQuery(sql);
 
             // Loop through rows from the database result set
@@ -47,7 +47,7 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
 
     public Playlist createPlaylist(Playlist playlist) throws Exception {
         // SQL command
-        String sql = "INSERT INTO dbo.FSpotify (Name) VALUES (?,?);";
+        String sql = "INSERT INTO dbo.Playlist (Name) VALUES (?,?);";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -80,7 +80,7 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
 
     public Playlist updatePlaylist(Playlist playlist) throws Exception {
         // SQL command
-        String sql = "UPDATE dbo.FSpotify SET Name = ? WHERE ID = ?";
+        String sql = "UPDATE dbo.Playlist SET Name = ? WHERE ID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -103,7 +103,7 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
 
     public Playlist deletePlaylist(Playlist playlist) throws Exception {
         // SQL command
-        String sql = "delete from dbo.FSpotify WHERE ID = ?;";
+        String sql = "delete from dbo.Playlist WHERE ID = ?;";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
