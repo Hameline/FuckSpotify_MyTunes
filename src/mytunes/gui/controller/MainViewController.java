@@ -140,4 +140,8 @@ public class MainViewController extends BaseController implements Initializable 
     @FXML
     private void handleUpdate(ActionEvent actionEvent) {
     }
+
+    public void refreshLists() {
+        tblViewSearch.refresh();
+    }
 }
