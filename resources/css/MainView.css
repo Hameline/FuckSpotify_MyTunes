@@ -12,6 +12,9 @@
 #vboxtext{
     -fx-text-fill: white;
 }
+#logo{
+    -fx-graphic: url("../images/logo.png");
+}
 #vboxlist{
     -fx-background-radius: 7 0 0 7; /* 1st is top 2nd one is right 3rd one is button 4th one is left */
 }

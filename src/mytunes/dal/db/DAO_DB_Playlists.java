@@ -47,7 +47,7 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
 
     public Playlist createPlaylist(Playlist playlist) throws Exception {
         // SQL command
-        String sql = "INSERT INTO FSpotify.dbo.Playlist (Name) VALUES (?);";
+        String sql = "INSERT INTO FSpotify.dbo.Playlist (PlaylistName) VALUES (?);";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
