@@ -16,7 +16,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.gui.model.SongPlaylistModel;
 
@@ -55,6 +54,7 @@ public class MainViewController extends BaseController implements Initializable 
     @FXML
     private TextField txtSearchField;
     private SongPlaylistModel songPlaylistModel;
+    private CreateUpdatePlaylistViewController createUpdatePlaylistViewController;
 
     public MainViewController() {
         try {
@@ -115,6 +115,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     @FXML
     private void HandleNewPlaylist(ActionEvent actionEvent) throws IOException {
+
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateUpdatePlaylistView.fxml"));
         Parent popupWindow = loader.load();
@@ -130,6 +131,14 @@ public class MainViewController extends BaseController implements Initializable 
 
         PopupWindow.setScene(new Scene(popupWindow));
         PopupWindow.showAndWait();
+
+        /*
+        Playlist selectedPlaylist = (Playlist) tblViewPlaylist.getSelectionModel().getSelectedItem();
+        String updateName = selectedPlaylist.getName();
+        createUpdatePlaylistViewController.setTxtPlaylistName(updateName);
+        System.out.println(updateName);
+
+         */
 
     }
 
@@ -196,11 +205,15 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     @FXML
-    private void handleUpdate(ActionEvent actionEvent) {
+    private void handleUpdate(ActionEvent actionEvent) throws IOException {
+
     }
 
     public void refreshLists() {
         tblViewSearch.refresh();
         tblViewPlaylist.refresh();
+    }
+
+    public void handleDeletePlaylist(ActionEvent actionEvent) {
     }
 }
