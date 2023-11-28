@@ -9,7 +9,7 @@ import mytunes.bll.SongManager;
 
 import java.util.List;
 
-public class MRSModel {
+public class SongPlaylistModel {
 
     private ObservableList<Song> listOfSongs;
     private ObservableList<Playlist> listOfPlaylists;
@@ -18,7 +18,7 @@ public class MRSModel {
     private SongManager songManager;
     private PlaylistManager playlistManager;
 
-    public MRSModel() throws Exception {
+    public SongPlaylistModel() throws Exception {
         songManager = new SongManager();
         listOfSongs = FXCollections.observableArrayList();
         listOfSongs.addAll(songManager.getAllSongs());

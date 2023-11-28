@@ -5,7 +5,7 @@ public class Song {
     private double time;
     private String genre, artist, formatedTime, title;
 
-    public Song(int id,String title, double time, String genre) {
+    public Song(int id,String title, double time, String artist, String genre) {
         this.title = title;
         this.time = time;
         this.genre = genre;
@@ -40,6 +40,14 @@ public class Song {
 
     public void setTime(double time) {
         this.time = time;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
     }
 
     public String getGenre() {

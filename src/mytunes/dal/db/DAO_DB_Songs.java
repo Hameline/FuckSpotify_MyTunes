@@ -33,9 +33,10 @@ public class DAO_DB_Songs implements ISongDataAccess {
                 int id = rs.getInt("id");
                 String title = rs.getString("title");
                 double time = rs.getDouble("time");
+                String artist = rs.getString("artist");
                 String genre = rs.getString("genre");
 
-                Song song = new Song(id, title, time, genre);
+                Song song = new Song(id, title, time, artist, genre);
                 allSongs.add(song);
             }
             return allSongs;
@@ -59,7 +60,8 @@ public class DAO_DB_Songs implements ISongDataAccess {
             // Bind parameters
             stmt.setString(1,song.getTitle());
             stmt.setDouble(2, song.getTime());
-            stmt.setString(3, song.getGenre());
+            stmt.setString(3, song.getArtist());
+            stmt.setString(4, song.getGenre());
 
             // Run the specified SQL statement
             stmt.executeUpdate();
@@ -73,7 +75,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
             }
 
             // Create song object and send up the layers
-            Song createdSong = new Song(id, song.getTitle(), song.getTime(), song.getGenre());
+            Song createdSong = new Song(id, song.getTitle(), song.getTime(), song.getArtist(), song.getGenre());
 
             return createdSong;
         }
@@ -86,7 +88,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
     public Song updateSong(Song song) throws Exception {
         // SQL command
-        String sql = "UPDATE dbo.Songs SET Title = ?, Time = ?, Genre = ? WHERE ID = ?";
+        String sql = "UPDATE dbo.Songs SET Title = ?, Time = ?, Artist = ?, Genre = ? WHERE ID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -95,8 +97,9 @@ public class DAO_DB_Songs implements ISongDataAccess {
             // Bind parameters
             stmt.setString(1,song.getTitle());
             stmt.setDouble(2, song.getTime());
-            stmt.setString(3, song.getGenre());
-            stmt.setInt(4, song.getId());
+            stmt.setString(3, song.getArtist());
+            stmt.setString(4, song.getGenre());
+            stmt.setInt(5, song.getId());
 
             // Run the specified SQL statement
             stmt.executeUpdate();

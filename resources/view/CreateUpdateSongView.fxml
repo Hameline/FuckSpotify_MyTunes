@@ -7,10 +7,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" prefHeight="310.0" prefWidth="182.0" stylesheets="@../css/CreateUpdateSongView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.CreateUpdateSongViewController">
+<AnchorPane id="background" prefHeight="310.0" prefWidth="182.0" stylesheets="@../css/CreateUpdateSongView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.CreateUpdateSongViewController">
    <children>
       <TextField id="field" fx:id="txtSongName" layoutX="14.0" layoutY="63.0" promptText="Song Name" stylesheets="@../css/CreateUpdateSongView.css" />
-      <TextField id="field" fx:id="txtGenre" layoutX="14.0" layoutY="97.0" promptText="Artists Name" stylesheets="@../css/CreateUpdateSongView.css" />
+      <TextField id="field" fx:id="txtArtist" layoutX="14.0" layoutY="97.0" promptText="Artists Name" stylesheets="@../css/CreateUpdateSongView.css" />
       <TextField id="field" fx:id="txtAlbumName" layoutX="14.0" layoutY="270.0" prefHeight="26.0" prefWidth="160.0" promptText="Album Name" stylesheets="@../css/CreateUpdateSongView.css" />
       <ToggleButton id="field" fx:id="tgglBtnIfAlbum" layoutX="14.0" layoutY="234.0" mnemonicParsing="false" onAction="#handleIfAlbum" prefHeight="26.0" prefWidth="160.0" stylesheets="@../css/CreateUpdateSongView.css" text="Is Apart Of An Album" />
       <Button id="field" fx:id="btnUpdate" layoutX="16.0" layoutY="168.0" mnemonicParsing="false" onAction="#handleUpdate" stylesheets="@../css/CreateUpdateSongView.css" text="Update" />
@@ -20,6 +20,6 @@
             <Font name="Comic Sans MS Bold" size="24.0" />
          </font>
       </Label>
-      <TextField id="field" fx:id="txtArtistsName1" layoutX="14.0" layoutY="129.0" promptText="Genre" stylesheets="@../css/CreateUpdateSongView.css" />
+      <TextField id="field" fx:id="txtGenre" layoutX="14.0" layoutY="129.0" promptText="Genre" stylesheets="@../css/CreateUpdateSongView.css" />
    </children>
 </AnchorPane>
