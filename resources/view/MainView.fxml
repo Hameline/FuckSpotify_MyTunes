@@ -5,6 +5,8 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -62,13 +64,18 @@
             </columns>
         </TableView>
       <Label id="text" fx:id="lblPlaylistName" layoutX="216.0" layoutY="131.0" stylesheets="@../css/MainView.css" text="Playlist Name" />
-      <TableView layoutX="218.0" layoutY="155.0" prefHeight="570.0" prefWidth="867.0">
+      <TableView fx:id="tblViewSongsInPlaylist" layoutX="218.0" layoutY="155.0" prefHeight="570.0" prefWidth="867.0">
         <columns>
-            <TableColumn fx:id="tblViewSearchSong1" prefWidth="218.0" text="Song" />
-            <TableColumn fx:id="tblViewSearchDuration1" minWidth="0.0" prefWidth="59.0" text="Duration" />
-            <TableColumn fx:id="tblViewSearchArtist1" prefWidth="211.0" text="Artist" />
+            <TableColumn fx:id="tblViewSongInPlaylistSong" prefWidth="218.0" text="Song" />
+            <TableColumn fx:id="tblViewSongInPlaylistDuration" minWidth="0.0" prefWidth="59.0" text="Duration" />
+            <TableColumn fx:id="tblViewSongInPlaylistArtist" prefWidth="211.0" text="Artist" />
             <TableColumn fx:id="tblViewSearchGenre1" prefWidth="117.0" text="Genre" />
         </columns>
       </TableView>
+      <MenuButton fx:id="btnMenuPlaylist" layoutX="296.0" layoutY="127.0" mnemonicParsing="false" stylesheets="@../css/MainView.css" text="BugerMenu">
+        <items>
+          <MenuItem fx:id="btnMenuDelete" mnemonicParsing="false" onAction="#handleDeletePlaylist" text="Action 1" />
+        </items>
+      </MenuButton>
     </children>
 </AnchorPane>
