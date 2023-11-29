@@ -131,7 +131,6 @@ public class MainViewController extends BaseController implements Initializable 
         vBoxDefault.setVisible(true);
 
         btnMenuPlaylist.setVisible(false);
-
     }
 
     @FXML
@@ -160,7 +159,6 @@ public class MainViewController extends BaseController implements Initializable 
         System.out.println(updateName);
 
          */
-
     }
 
     @FXML
@@ -221,7 +219,6 @@ public class MainViewController extends BaseController implements Initializable 
 
     @FXML
     private void handleUpdate(ActionEvent actionEvent) throws IOException {
-
     }
 
     public void refreshLists() {
