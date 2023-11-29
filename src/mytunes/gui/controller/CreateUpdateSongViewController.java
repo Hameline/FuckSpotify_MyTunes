@@ -7,6 +7,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import mytunes.be.Artist;
+import mytunes.be.Genre;
 import mytunes.be.Song;
 import mytunes.gui.model.SongPlaylistModel;
 
@@ -39,7 +41,10 @@ public class CreateUpdateSongViewController extends BaseController implements In
         String title = txtSongName.getText();
         String artist = txtArtist.getText();
         String genre = txtGenre.getText();
-        Song newSong = new Song(-1, title, -1, artist, genre);
+
+        Artist artist1 = new Artist(artist, -1);
+        Genre genre1 = new Genre(genre, -1, -1);
+        Song newSong = new Song(-1, title, -1, artist1, genre1);
         try {
             songPlaylistModel.createSong(newSong);
         } catch (Exception e) {

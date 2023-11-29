@@ -1,5 +1,7 @@
 package mytunes.dal.db;
 
+import mytunes.be.Artist;
+import mytunes.be.Genre;
 import mytunes.be.Song;
 import mytunes.dal.ISongDataAccess;
 
@@ -23,7 +25,9 @@ public class DAO_DB_Songs implements ISongDataAccess {
         try (Connection conn = databaseConnector.getConnection();
              Statement stmt = conn.createStatement())
         {
-            String sql = "SELECT * FROM FSpotify.dbo.Songs;";
+            String sql = "SELECT * from Songs\n" +
+                    "join dbo.Genre G on Songs.GenreID = G.GenreID\n" +
+                    "left join dbo.Artist A on A.ArtistID = Songs.ArtistID";
             ResultSet rs = stmt.executeQuery(sql);
 
             // Loop through rows from the database result set
@@ -33,10 +37,14 @@ public class DAO_DB_Songs implements ISongDataAccess {
                 int id = rs.getInt("SongID");
                 String title = rs.getString("SongTitle");
                 double time = rs.getDouble("SongDuration");
-                String artist = rs.getString("ArtistID");
-                String genre = rs.getString("GenreID");
+                String artistName = rs.getString("ArtistName");
+                int artistID = rs.getInt("ArtistID");
+                String type = rs.getString("GenreType");
+                int genre = rs.getInt("GenreID");
 
-                Song song = new Song(id, title, time, artist, genre);
+                Artist artist = new Artist(artistName, artistID);
+                Genre genreType = new Genre(type, genre, artistID);
+                Song song = new Song(id, title, time, artist, genreType);
                 allSongs.add(song);
             }
             return allSongs;
@@ -60,8 +68,8 @@ public class DAO_DB_Songs implements ISongDataAccess {
             // Bind parameters
             stmt.setString(1,song.getTitle());
             stmt.setDouble(2, song.getTime());
-            stmt.setString(3, song.getArtist());
-            stmt.setString(4, song.getGenre());
+            //stmt.setString(3, song.getArtist());
+            //stmt.setString(4, song.getGenre());
 
             // Run the specified SQL statement
             stmt.executeUpdate();
@@ -97,8 +105,8 @@ public class DAO_DB_Songs implements ISongDataAccess {
             // Bind parameters
             stmt.setString(1,song.getTitle());
             stmt.setDouble(2, song.getTime());
-            stmt.setString(3, song.getArtist());
-            stmt.setString(4, song.getGenre());
+            //stmt.setString(3, song.getArtist());
+            //stmt.setString(4, song.getGenre());
             stmt.setInt(5, song.getId());
 
             // Run the specified SQL statement

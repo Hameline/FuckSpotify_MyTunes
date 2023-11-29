@@ -3,13 +3,16 @@ package mytunes.be;
 public class Song {
     private int id;
     private double time;
-    private String genre, artist, formatedTime, title;
+    private String formatedTime, title;
+    private Artist artist;
+    private Genre type;
 
-    public Song(int id,String title, double time, String artist, String genre) {
+
+    public Song(int id,String title, double time, Artist artist, Genre type) {
         this.title = title;
         this.time = time;
         this.artist = artist;
-        this.genre = genre;
+        this.type = type;
     }
 
     public int getId() {
@@ -43,19 +46,19 @@ public class Song {
         this.time = time;
     }
 
-    public String getArtist() {
-        return artist;
+    public Artist getArtist() {
+        return this.artist;
     }
 
-    public void setArtist(String artist) {
+    public void setArtist(Artist artist) {
         this.artist = artist;
     }
 
-    public String getGenre() {
-        return genre;
+    public Genre getGenre() {
+        return this.type;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setGenre(Genre type) {
+        this.type = type;
     }
 }
