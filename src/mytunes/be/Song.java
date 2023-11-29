@@ -11,9 +11,12 @@ public class Song {
     public Song(int id,String title, double time, Artist artist, Genre type) {
         this.title = title;
         this.time = time;
+        this.formatedTime = getConvertedTime();
         this.artist = artist;
         this.type = type;
     }
+
+
 
     public int getId() {
         return id;
@@ -36,14 +39,22 @@ public class Song {
     }
 
     public String getConvertedTime() {
-        int minutes = (int) time / 60;
+        int hours = (int) time / 3600;
+        int minutes = (int) (time % 3600) / 60;
         int seconds = (int) time % 60;
-        formatedTime = String.format("%d:%02d", minutes, seconds);
+        formatedTime = hours > 0
+                ? String.format("%d:%02d:%02d", hours, minutes, seconds)
+                : String.format("%d:%02d", minutes, seconds);
+        return formatedTime;
+    }
+
+    public String getFormatedTime(){
         return formatedTime;
     }
 
     public void setTime(double time) {
         this.time = time;
+        this.formatedTime = getConvertedTime();
     }
 
     public Artist getArtist() {

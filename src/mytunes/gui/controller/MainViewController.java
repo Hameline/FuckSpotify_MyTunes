@@ -105,7 +105,8 @@ public class MainViewController extends BaseController implements Initializable 
         tblViewSearchArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
         tblViewSearchGenre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
         tblViewSearchSong.setCellValueFactory(new PropertyValueFactory<>("title"));
-        tblViewSearchDuration.setCellValueFactory(new PropertyValueFactory<>("time"));
+        tblViewSearchDuration.setCellValueFactory(new PropertyValueFactory<>("formatedTime"));
+
 
         tblViewPlaylistPlaylist.setCellValueFactory(new PropertyValueFactory<>("name"));
         tblViewSearch.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
