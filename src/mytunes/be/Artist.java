@@ -10,8 +10,10 @@ public class Artist {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 
     public void setName(String name) {
