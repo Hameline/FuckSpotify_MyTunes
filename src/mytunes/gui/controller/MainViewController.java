@@ -25,6 +25,13 @@ import java.util.ResourceBundle;
 
 public class MainViewController extends BaseController implements Initializable {
 
+
+    @FXML
+    private MenuButton btnMenuPlaylist;
+    @FXML
+    private TableView tblViewSongsInPlaylist;
+    @FXML
+    private Label lblPlaylistName;
     @FXML
     private Button btnCreate, btnUpdate;
     @FXML
@@ -68,11 +75,7 @@ public class MainViewController extends BaseController implements Initializable 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setup();
-        // MAKES the TBT VIEW INVISIBLE
-        tblViewSearch.setVisible(false);
-
-        // MAKES the BUTTON BAR INVISIBLE
-        btnBarSong.setVisible(false);
+        defaultMenu();
 
         txtSearchField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             try {
@@ -112,6 +115,24 @@ public class MainViewController extends BaseController implements Initializable 
             }
         });
     }
+    private void defaultMenu() {
+        // MAKES the TBT VIEW INVISIBLE
+        tblViewSearch.setVisible(false);
+
+        // MAKES the BUTTON BAR INVISIBLE
+        btnBarSong.setVisible(false);
+
+        lblPlaylistName.setVisible(false);
+
+        tblViewSongsInPlaylist.setVisible(false);
+
+        txtSearchField.setText("");
+
+        vBoxDefault.setVisible(true);
+
+        btnMenuPlaylist.setVisible(false);
+
+    }
 
     @FXML
     private void HandleNewPlaylist(ActionEvent actionEvent) throws IOException {
@@ -144,14 +165,8 @@ public class MainViewController extends BaseController implements Initializable 
 
     @FXML
     private void HandleMainMenu(ActionEvent actionEvent) {
-        // RESETS the SEARCH FIELD
-        txtSearchField.setText(null);
-        // MAKES the TBT VIEW INVISIBLE
-        tblViewSearch.setVisible(false);
-        // MAKES the VBOX VISIBLE
-        vBoxDefault.setVisible(true);
-        // MAKES the BUTTON BAR INVISIBLE
-        btnBarSong.setVisible(false);
+        defaultMenu();
+        setup();
     }
 
     @FXML
