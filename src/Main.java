@@ -3,11 +3,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import mytunes.gui.controller.MainViewController;
 
 public class Main extends Application {
 
-    private static MainViewController mainView = new MainViewController();
     private static boolean start = true;
 
     @Override
@@ -23,5 +21,4 @@ public class Main extends Application {
         launch(args);
     }
 
-    // CALLS the INITIALIZE method in MAIN VIEW CONTROLLER
 }

@@ -16,6 +16,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.gui.model.SongPlaylistModel;
 
@@ -62,11 +63,13 @@ public class MainViewController extends BaseController implements Initializable 
     private TextField txtSearchField;
     private SongPlaylistModel songPlaylistModel;
     private CreateUpdatePlaylistViewController createUpdatePlaylistViewController;
+    private String playlistUpdateName = "";
 
-    public MainViewController() {
+    public MainViewController() throws Exception {
+
         try {
             songPlaylistModel = new SongPlaylistModel();
-        }
+            }
         catch (Exception e) {
             e.printStackTrace();
         }
@@ -87,8 +90,7 @@ public class MainViewController extends BaseController implements Initializable 
         });
     }
 
-    private void displayError(Throwable t)
-    {
+    private void displayError(Throwable t) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Something went wrong");
         alert.setHeaderText(t.getMessage());
@@ -115,6 +117,7 @@ public class MainViewController extends BaseController implements Initializable 
             }
         });
     }
+
     private void defaultMenu() {
         // MAKES the TBT VIEW INVISIBLE
         tblViewSearch.setVisible(false);
@@ -134,8 +137,19 @@ public class MainViewController extends BaseController implements Initializable 
 
     }
 
+    public String getPlaylistUpdateName() {
+        return playlistUpdateName;
+    }
+
     @FXML
-    private void HandleNewPlaylist(ActionEvent actionEvent) throws IOException {
+    private void HandleNewPlaylist(ActionEvent actionEvent) throws Exception {
+
+        Playlist selectedPlaylist = (Playlist) tblViewPlaylist.getSelectionModel().getSelectedItem();
+        if (selectedPlaylist != null){
+            String updateName = selectedPlaylist.getName();
+            playlistUpdateName = updateName;
+            System.out.println(playlistUpdateName);
+        }
 
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateUpdatePlaylistView.fxml"));
@@ -152,14 +166,6 @@ public class MainViewController extends BaseController implements Initializable 
 
         PopupWindow.setScene(new Scene(popupWindow));
         PopupWindow.showAndWait();
-
-        /*
-        Playlist selectedPlaylist = (Playlist) tblViewPlaylist.getSelectionModel().getSelectedItem();
-        String updateName = selectedPlaylist.getName();
-        createUpdatePlaylistViewController.setTxtPlaylistName(updateName);
-        System.out.println(updateName);
-
-         */
 
     }
 

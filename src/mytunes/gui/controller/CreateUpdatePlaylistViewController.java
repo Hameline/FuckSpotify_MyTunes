@@ -24,10 +24,11 @@ public class CreateUpdatePlaylistViewController extends BaseController implement
     private SongPlaylistModel songPlaylistModel;
 
     private MainViewController mainViewController;
-    private String updateString;
+    private String updateString = "";
 
     public CreateUpdatePlaylistViewController() throws Exception {
         try {
+            mainViewController = new MainViewController();
             songPlaylistModel = new SongPlaylistModel();
         }
         catch (Exception e) {
@@ -69,18 +70,16 @@ public class CreateUpdatePlaylistViewController extends BaseController implement
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        /*System.out.println(updateString);
-        if (updateString != null) {
-            txtPlaylistName.setText(setTxtPlaylistName(updateString));
+        setPlaylistNameFromMainView();
+    }
+
+    private void setPlaylistNameFromMainView(){
+        if (!(mainViewController.getPlaylistUpdateName().isEmpty())){
+            txtPlaylistName.setText(mainViewController.getPlaylistUpdateName());
         }
-
-         */
-    }
-    /*
-    public String setTxtPlaylistName(String newName) {
-        this.updateString = newName;
-        return newName;
     }
 
-     */
+    public String setUpdateString(String newName) {
+        return updateString = newName;
+    }
 }
