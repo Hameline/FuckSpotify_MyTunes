@@ -13,10 +13,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
+import mytunes.be.PlaylistSongs;
 import mytunes.be.Song;
 import mytunes.gui.model.SongPlaylistModel;
 
@@ -24,9 +26,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+@SuppressWarnings("ALL")
 public class MainViewController extends BaseController implements Initializable {
 
-
+    @FXML
+    private TableColumn tblViewSongInPlaylistSong;
+    @FXML
+    private TableColumn tblViewSongInPlaylistDuration;
+    @FXML
+    private TableColumn tblViewSongInPlaylistArtist;
+    @FXML
+    private TableColumn tblViewSongInPlaylistGenre;
     @FXML
     private MenuButton btnMenuPlaylist;
     @FXML
@@ -63,6 +73,8 @@ public class MainViewController extends BaseController implements Initializable 
     private TextField txtSearchField;
     private SongPlaylistModel songPlaylistModel;
     private CreateUpdatePlaylistViewController createUpdatePlaylistViewController;
+    private Playlist selectedPlaylist;
+    private Playlist storePlaylist = selectedPlaylist;
 
     public MainViewController() {
         try {
@@ -134,6 +146,10 @@ public class MainViewController extends BaseController implements Initializable 
         vBoxDefault.setVisible(true);
 
         btnMenuPlaylist.setVisible(false);
+
+        btnNewPlaylist.setText("+ New Playlist");
+
+
     }
 
     @FXML
@@ -241,11 +257,50 @@ public class MainViewController extends BaseController implements Initializable 
     private void handleUpdate(ActionEvent actionEvent) throws IOException {
     }
 
-    public void refreshLists() {
-        tblViewSearch.refresh();
-        tblViewPlaylist.refresh();
-    }
-
     public void handleDeletePlaylist(ActionEvent actionEvent) {
     }
+
+    public void handlePlaylist(MouseEvent mouseEvent) {
+        selectedPlaylist = (Playlist) tblViewPlaylist.getSelectionModel().getSelectedItem();
+        if (selectedPlaylist != null){
+            vBoxDefault.setVisible(false);
+            tblViewSearch.setVisible(false);
+            btnBarSong.setVisible(false);
+            btnMenuPlaylist.setVisible(true);
+            tblViewSongsInPlaylist.setVisible(true);
+            lblPlaylistName.setVisible(true);
+
+            btnNewPlaylist.setText("Change Playlist Name");
+
+            lblPlaylistName.setText(selectedPlaylist.getName());
+            tblViewSongsInPlaylist.setItems(songPlaylistModel.getListOfSongs());
+            tblViewSongInPlaylistArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+            tblViewSongInPlaylistGenre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
+            tblViewSongInPlaylistSong.setCellValueFactory(new PropertyValueFactory<>("title"));
+            tblViewSongInPlaylistDuration.setCellValueFactory(new PropertyValueFactory<>("formatedTime"));
+
+
+        }
+        else {
+            defaultMenu();
+        }
+    }
+    /* VIRKER IKKE ENDNU
+    public void handleAddSongToPlaylist(MouseEvent mouseEvent) {
+        Song selectedSong = (Song) tblViewSearch.getSelectionModel().getSelectedItem();
+        if (selectedSong != null && storePlaylist != null){
+            PlaylistSongs newPlaylistSongs = new PlaylistSongs(storePlaylist.getId(), selectedSong.getId());
+
+            try {
+                songPlaylistModel.addSongToPlaylist(newPlaylistSongs);
+
+            }
+            catch (Exception e) {
+                displayError(e);
+                e.printStackTrace();
+            }
+        }
+    }
+
+     */
 }

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" prefHeight="720.0" prefWidth="1080.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
+<AnchorPane id="background" prefHeight="799.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
     <children>
         <AnchorPane />
       <VBox id="vboxplaylist" layoutY="126.0" stylesheets="@../css/MainView.css">
@@ -24,7 +24,7 @@
                       <Font name="Comic Sans MS Bold" size="12.0" />
                   </font>
               </Button>
-              <TableView fx:id="tblViewPlaylist" prefHeight="570.0" prefWidth="149.0">
+              <TableView fx:id="tblViewPlaylist" onMouseClicked="#handlePlaylist" prefHeight="570.0" prefWidth="149.0">
                   <columns>
                       <TableColumn fx:id="tblViewPlaylistPlaylist" prefWidth="148.0" text="Playlist" />
                   </columns>
@@ -33,7 +33,7 @@
       </VBox>
         <Button id="logo" fx:id="btnMainMenu" layoutX="-247.0" layoutY="-158.0" mnemonicParsing="false" onAction="#HandleMainMenu" prefHeight="340.0" prefWidth="500.0" stylesheets="@../css/MainView.css" />
         <TextField id="defaultbutton" fx:id="txtSearchField" layoutX="216.0" layoutY="14.0" onKeyPressed="#handleSearchField" prefHeight="25.0" prefWidth="365.0" promptText="🔍 Search after a Song, Genre or Artist" stylesheets="@../css/MainView.css" />
-        <VBox id="vbox" fx:id="vBoxDefault" layoutX="216.0" layoutY="152.0" prefHeight="570.0" prefWidth="867.0" stylesheets="@../css/MainView.css">
+        <VBox id="vbox" fx:id="vBoxDefault" layoutX="215.0" layoutY="152.0" prefHeight="570.0" prefWidth="1091.0" stylesheets="@../css/MainView.css">
             <children>
                 <Label id="vboxtext" stylesheets="@../css/MainView.css" text="Suggested">
                     <padding>
@@ -49,13 +49,13 @@
                 <ListView id="vboxlist" orientation="HORIZONTAL" prefHeight="76.0" prefWidth="867.0" stylesheets="@../css/MainView.css" />
             </children>
         </VBox>
-      <ButtonBar fx:id="btnBarSong" layoutX="883.0" layoutY="126.0" prefHeight="27.0" prefWidth="200.0">
+      <ButtonBar fx:id="btnBarSong" layoutX="1106.0" layoutY="126.0" prefHeight="27.0" prefWidth="200.0">
         <buttons>
           <Button fx:id="btnCreate" mnemonicParsing="false" onAction="#handelCreate" stylesheets="@../css/MainView.css" text="Create" />
             <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#handleUpdate" text="Update" />
         </buttons>
       </ButtonBar>
-        <TableView id="tableviewsearch" fx:id="tblViewSearch" layoutX="216.0" layoutY="153.0" prefHeight="570.0" prefWidth="867.0" stylesheets="@../css/MainView.css">
+        <TableView id="tableviewsearch" fx:id="tblViewSearch" layoutX="215.0" layoutY="153.0" onMouseClicked="#handleAddSongToPlaylist" prefHeight="570.0" prefWidth="1091.0" stylesheets="@../css/MainView.css">
             <columns>
                 <TableColumn fx:id="tblViewSearchSong" prefWidth="218.0" text="Song" />
                 <TableColumn fx:id="tblViewSearchDuration" minWidth="0.0" prefWidth="59.0" text="Duration" />
@@ -63,19 +63,25 @@
                 <TableColumn fx:id="tblViewSearchGenre" prefWidth="117.0" text="Genre" />
             </columns>
         </TableView>
-      <Label id="text" fx:id="lblPlaylistName" layoutX="216.0" layoutY="131.0" stylesheets="@../css/MainView.css" text="Playlist Name" />
-      <TableView fx:id="tblViewSongsInPlaylist" layoutX="218.0" layoutY="155.0" prefHeight="570.0" prefWidth="867.0">
+      <TableView fx:id="tblViewSongsInPlaylist" layoutX="217.0" layoutY="155.0" prefHeight="570.0" prefWidth="1091.0">
         <columns>
             <TableColumn fx:id="tblViewSongInPlaylistSong" prefWidth="218.0" text="Song" />
             <TableColumn fx:id="tblViewSongInPlaylistDuration" minWidth="0.0" prefWidth="59.0" text="Duration" />
             <TableColumn fx:id="tblViewSongInPlaylistArtist" prefWidth="211.0" text="Artist" />
-            <TableColumn fx:id="tblViewSearchGenre1" prefWidth="117.0" text="Genre" />
+            <TableColumn fx:id="tblViewSongInPlaylistGenre" prefWidth="117.0" text="Genre" />
         </columns>
       </TableView>
-      <MenuButton fx:id="btnMenuPlaylist" layoutX="296.0" layoutY="127.0" mnemonicParsing="false" stylesheets="@../css/MainView.css" text="BugerMenu">
+      <MenuButton fx:id="btnMenuPlaylist" layoutX="217.0" layoutY="127.0" mnemonicParsing="false" stylesheets="@../css/MainView.css" text="BugerMenu">
         <items>
           <MenuItem fx:id="btnMenuDelete" mnemonicParsing="false" onAction="#handleDeletePlaylist" text="Action 1" />
         </items>
+         <graphic>
+            <Label fx:id="lblPlaylistName" stylesheets="@../css/MainView.css" text="Playlist Name">
+               <padding>
+                  <Insets right="20.0" />
+               </padding>
+            </Label>
+         </graphic>
       </MenuButton>
     </children>
 </AnchorPane>
