@@ -25,9 +25,9 @@ public class DAO_DB_Songs implements ISongDataAccess {
         try (Connection conn = databaseConnector.getConnection();
              Statement stmt = conn.createStatement())
         {
-            String sql = "SELECT * from Songs\n" +
-                    "join dbo.Genre G on Songs.GenreID = G.GenreID\n" +
-                    "left join dbo.Artist A on A.ArtistID = Songs.ArtistID";
+            String sql = "SELECT * from FSpotify.dbo.Songs\n" +
+                    "join FSpotify.dbo.Genre G on Songs.GenreID = G.GenreID\n" +
+                    "left join FSpotify.dbo.Artist A on A.ArtistID = Songs.ArtistID";
             ResultSet rs = stmt.executeQuery(sql);
 
             // Loop through rows from the database result set

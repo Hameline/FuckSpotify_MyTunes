@@ -11,6 +11,10 @@ public class Genre {
         this.artistID = artistID;
     }
 
+    public String getType() {
+        return type;
+    }
+
     @Override
     public String toString() {
         return this.type;

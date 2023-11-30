@@ -12,6 +12,7 @@ import java.util.List;
 public class SongPlaylistModel {
 
     private ObservableList<Song> listOfSongs;
+    private ObservableList<Song> songsToBePlayed;
     private ObservableList<Playlist> listOfPlaylists;
     private Song selectedSong;
     private Playlist selectedPlaylist;
@@ -20,8 +21,8 @@ public class SongPlaylistModel {
 
     public SongPlaylistModel() throws Exception {
         songManager = new SongManager();
-        listOfSongs = FXCollections.observableArrayList();
-        listOfSongs.addAll(songManager.getAllSongs());
+        songsToBePlayed = FXCollections.observableArrayList();
+        songsToBePlayed.addAll(songManager.getAllSongs());
 
         playlistManager = new PlaylistManager();
         listOfPlaylists = FXCollections.observableArrayList();
@@ -29,7 +30,7 @@ public class SongPlaylistModel {
     }
 
     public ObservableList<Song> getListOfSongs() {
-        return listOfSongs;
+        return songsToBePlayed;
     }
 
     public ObservableList<Playlist> getListOfPlaylists() {
@@ -38,8 +39,8 @@ public class SongPlaylistModel {
 
     public void searchSong(String query) throws Exception {
         List<Song> searchResults = songManager.searchSong(query);
-        listOfSongs.clear();
-        listOfSongs.addAll(searchResults);
+        songsToBePlayed.clear();
+        songsToBePlayed.addAll(searchResults);
     }
 
     public void searchPlaylist(String query) throws Exception {
