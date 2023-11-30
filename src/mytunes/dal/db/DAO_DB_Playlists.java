@@ -80,7 +80,7 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
 
     public Playlist updatePlaylist(Playlist playlist) throws Exception {
         // SQL command
-        String sql = "UPDATE FSpotify.dbo.Playlist SET Name = ? WHERE ID = ?";
+        String sql = "UPDATE FSpotify.dbo.Playlist SET PlaylistName = ? WHERE PlaylistID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

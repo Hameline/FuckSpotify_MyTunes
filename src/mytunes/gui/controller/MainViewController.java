@@ -16,6 +16,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.gui.model.SongPlaylistModel;
 
@@ -137,30 +138,47 @@ public class MainViewController extends BaseController implements Initializable 
 
     @FXML
     private void HandleNewPlaylist(ActionEvent actionEvent) throws IOException {
-
-        Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateUpdatePlaylistView.fxml"));
-        Parent popupWindow = loader.load();
-
-        CreateUpdatePlaylistViewController controller = loader.getController();
-        controller.setModel(songPlaylistModel);
-        controller.setup();
-
-        Stage PopupWindow = new Stage();
-        PopupWindow.setTitle("Create/Update Playlist");
-        PopupWindow.initModality(Modality.APPLICATION_MODAL);
-        PopupWindow.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
-
-        PopupWindow.setScene(new Scene(popupWindow));
-        PopupWindow.showAndWait();
-
-        /*
         Playlist selectedPlaylist = (Playlist) tblViewPlaylist.getSelectionModel().getSelectedItem();
-        String updateName = selectedPlaylist.getName();
-        createUpdatePlaylistViewController.setTxtPlaylistName(updateName);
-        System.out.println(updateName);
+        if (selectedPlaylist != null) {
 
-         */
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateUpdatePlaylistView.fxml"));
+            Parent popupWindow = loader.load();
+
+            CreateUpdatePlaylistViewController controller = loader.getController();
+            controller.setModel(songPlaylistModel);
+            controller.setPlaylist(selectedPlaylist);
+            controller.setup();
+
+            Stage PopupWindow = new Stage();
+            PopupWindow.setTitle("Create/Update Playlist");
+            PopupWindow.initModality(Modality.APPLICATION_MODAL);
+            PopupWindow.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+
+            PopupWindow.setScene(new Scene(popupWindow));
+            PopupWindow.showAndWait();
+
+            tblViewPlaylist.refresh();
+        }
+        else {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateUpdatePlaylistView.fxml"));
+            Parent popupWindow = loader.load();
+
+            CreateUpdatePlaylistViewController controller = loader.getController();
+            controller.setModel(songPlaylistModel);
+            controller.setup();
+
+            Stage PopupWindow = new Stage();
+            PopupWindow.setTitle("Create/Update Playlist");
+            PopupWindow.initModality(Modality.APPLICATION_MODAL);
+            PopupWindow.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+
+            PopupWindow.setScene(new Scene(popupWindow));
+            PopupWindow.showAndWait();
+
+            tblViewPlaylist.refresh();
+        }
     }
 
     @FXML
