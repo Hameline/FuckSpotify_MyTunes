@@ -101,6 +101,7 @@ public class MainViewController extends BaseController implements Initializable 
         if (songPlaylistModel != null) {
             tblViewSearch.setItems(songPlaylistModel.getListOfSongs());
             tblViewPlaylist.setItems(songPlaylistModel.getListOfPlaylists());
+
         }
         tblViewSearchArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
         tblViewSearchGenre.setCellValueFactory(new PropertyValueFactory<>("Genre"));

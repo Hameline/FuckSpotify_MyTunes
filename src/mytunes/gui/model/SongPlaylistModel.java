@@ -2,8 +2,10 @@ package mytunes.gui.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import mytunes.be.Artist;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+import mytunes.bll.ArtistManager;
 import mytunes.bll.PlaylistManager;
 import mytunes.bll.SongManager;
 
@@ -13,10 +15,12 @@ public class SongPlaylistModel {
 
     private ObservableList<Song> listOfSongs;
     private ObservableList<Song> songsToBePlayed;
+    private ObservableList<Artist> searchedArtist;
     private ObservableList<Playlist> listOfPlaylists;
     private Song selectedSong;
     private Playlist selectedPlaylist;
     private SongManager songManager;
+    private ArtistManager artistManager;
     private PlaylistManager playlistManager;
 
     public SongPlaylistModel() throws Exception {
@@ -27,6 +31,10 @@ public class SongPlaylistModel {
         playlistManager = new PlaylistManager();
         listOfPlaylists = FXCollections.observableArrayList();
         listOfPlaylists.addAll(playlistManager.getAllPlaylists());
+
+        artistManager = new ArtistManager();
+        searchedArtist = FXCollections.observableArrayList();
+        searchedArtist.addAll(artistManager.getAllArtist());
     }
 
     public ObservableList<Song> getListOfSongs() {
@@ -36,11 +44,18 @@ public class SongPlaylistModel {
     public ObservableList<Playlist> getListOfPlaylists() {
         return listOfPlaylists;
     }
+    public ObservableList<Artist> getSearchedArtist(){return searchedArtist;}
 
     public void searchSong(String query) throws Exception {
         List<Song> searchResults = songManager.searchSong(query);
         songsToBePlayed.clear();
         songsToBePlayed.addAll(searchResults);
+    }
+
+    public void searchArtist(String query) throws Exception {
+        List<Artist> searchArtist = artistManager.searchArtist(query);
+        searchedArtist.clear();
+        searchedArtist.addAll(searchArtist);
     }
 
     public void searchPlaylist(String query) throws Exception {

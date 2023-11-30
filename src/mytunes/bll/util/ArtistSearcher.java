@@ -20,7 +20,6 @@ public class ArtistSearcher {
         return searchResult;
     }
 
-
     private boolean compareToSongArtist(String query, Artist artist){
         return artist.getName().toLowerCase().contains(query.toLowerCase());
     }
