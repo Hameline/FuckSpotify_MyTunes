@@ -3,7 +3,6 @@ package mytunes.dal.db;
 import mytunes.be.Playlist;
 import mytunes.be.PlaylistSongs;
 import mytunes.be.Song;
-import mytunes.dal.IPlaylistDataAccess;
 import mytunes.dal.IPlaylistSongsDataAccess;
 
 import java.io.IOException;
@@ -53,14 +52,14 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
     @Override
     public PlaylistSongs addSongToPlaylist(PlaylistSongs playlistSongs) throws Exception {
         // SQL command
-        String sql = "INSERT INTO FSpotify.dbo.PlaylistSongs (PlaylistID, SongID) VALUES (?,?);";
+        String sql = "INSERT INTO FSpotify.dbo.PlaylistSongs (PlaylistID, SongID) VALUES (?, ?)";
 
         try (Connection conn = databaseConnector.getConnection()) {
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
                 // Bind parameters
-                stmt.setInt(1, playlistSongs.getPlaylistID());
-                stmt.setInt(2, playlistSongs.getSongID());
+                stmt.setInt(1, playlist.getId());
+                stmt.setInt(2, song.getId());
 
                 // Run the specified SQL statement
                 stmt.executeUpdate();

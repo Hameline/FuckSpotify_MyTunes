@@ -49,10 +49,11 @@
                 <ListView id="vboxlist" orientation="HORIZONTAL" prefHeight="76.0" prefWidth="867.0" stylesheets="@../css/MainView.css" />
             </children>
         </VBox>
-      <ButtonBar fx:id="btnBarSong" layoutX="1106.0" layoutY="126.0" prefHeight="27.0" prefWidth="200.0">
+      <ButtonBar fx:id="btnBarSong" layoutX="982.0" layoutY="125.0" prefHeight="27.0" prefWidth="324.0">
         <buttons>
-          <Button fx:id="btnCreate" mnemonicParsing="false" onAction="#handelCreate" stylesheets="@../css/MainView.css" text="Create" />
+            <Button fx:id="btnAddToPlaylist" mnemonicParsing="false" onAction="#handleAddtoPlaylist" prefHeight="25.0" prefWidth="134.0" text="Add to Playlist" />
             <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#handleUpdate" text="Update" />
+          <Button fx:id="btnCreate" mnemonicParsing="false" onAction="#handelCreate" stylesheets="@../css/MainView.css" text="Create" />
         </buttons>
       </ButtonBar>
         <TableView id="tableviewsearch" fx:id="tblViewSearch" layoutX="215.0" layoutY="153.0" onMouseClicked="#handleAddSongToPlaylist" prefHeight="570.0" prefWidth="1091.0" stylesheets="@../css/MainView.css">

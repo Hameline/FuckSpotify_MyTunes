@@ -8,6 +8,7 @@ import mytunes.be.PlaylistSongs;
 import mytunes.be.Song;
 import mytunes.bll.ArtistManager;
 import mytunes.bll.PlaylistManager;
+import mytunes.bll.PlaylistSongsManager;
 import mytunes.bll.SongManager;
 
 import java.util.List;
@@ -18,12 +19,13 @@ public class SongPlaylistModel {
     private ObservableList<Song> songsToBePlayed;
     private ObservableList<Artist> searchedArtist;
     private ObservableList<Playlist> listOfPlaylists;
+    private ObservableList<PlaylistSongs> listSongsFromPlaylist;
     private Song selectedSong;
     private Playlist selectedPlaylist;
     private SongManager songManager;
     private ArtistManager artistManager;
     private PlaylistManager playlistManager;
-    private ObservableList<Song> songsFromPlaylist;
+    private PlaylistSongsManager playlistSongsManager;
 
     public SongPlaylistModel() throws Exception {
         songManager = new SongManager();
@@ -38,17 +40,22 @@ public class SongPlaylistModel {
         searchedArtist = FXCollections.observableArrayList();
         searchedArtist.addAll(artistManager.getAllArtist());
 
+        playlistSongsManager = new PlaylistSongsManager();
+        listSongsFromPlaylist = FXCollections.observableArrayList();
+        listSongsFromPlaylist.addAll(playlistSongsManager.getAllSongsFromPlaylist());
+
     }
 
     public ObservableList<Song> getListOfSongs() {
         return songsToBePlayed;
     }
-    public ObservableList<Song> getSongsFromPlaylist() {
-        return songsFromPlaylist;
+    public ObservableList<PlaylistSongs> getSongsFromPlaylist() {
+        return listSongsFromPlaylist;
     }
 
-    public void addSongToPlaylist(PlaylistSongs playlistSongs) {
-
+    public void addSongToPlaylist(PlaylistSongs playlistSongs) throws Exception {
+        PlaylistSongs pS = playlistSongsManager.addSongToPlaylist(playlistSongs);
+        listSongsFromPlaylist.add(pS);
     }
 
     public ObservableList<Playlist> getListOfPlaylists() {
