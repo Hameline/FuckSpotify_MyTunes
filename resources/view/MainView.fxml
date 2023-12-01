@@ -72,9 +72,9 @@
             <TableColumn fx:id="tblViewSongInPlaylistGenre" prefWidth="117.0" text="Genre" />
         </columns>
       </TableView>
-      <MenuButton fx:id="btnMenuPlaylist" layoutX="217.0" layoutY="127.0" mnemonicParsing="false" stylesheets="@../css/MainView.css" text="BugerMenu">
+      <MenuButton fx:id="btnMenuPlaylist" layoutX="217.0" layoutY="127.0" mnemonicParsing="false" stylesheets="@../css/MainView.css" text=":">
         <items>
-          <MenuItem fx:id="btnMenuDelete" mnemonicParsing="false" onAction="#handleDeletePlaylist" text="Action 1" />
+          <MenuItem fx:id="btnMenuDelete" mnemonicParsing="false" onAction="#handleDeletePlaylist" text="Delete Playlist" />
         </items>
          <graphic>
             <Label fx:id="lblPlaylistName" stylesheets="@../css/MainView.css" text="Playlist Name">

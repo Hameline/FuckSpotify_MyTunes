@@ -33,8 +33,9 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
             while (rs.next()) {
 
                 //Map DB row to Playlist object
-                int songID = rs.getInt("SongID");
+
                 int playlistID = rs.getInt("PlaylistID");
+                int songID = rs.getInt("SongID");
 
                 PlaylistSongs playlistSongs = new PlaylistSongs(playlistID, songID);
                 allPlaylistSongs.add(playlistSongs);
@@ -58,8 +59,8 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
                 // Bind parameters
-                stmt.setInt(1, playlist.getId());
-                stmt.setInt(2, song.getId());
+                stmt.setInt(1, playlistSongs.getPlaylistID());
+                stmt.setInt(2, playlistSongs.getSongID());
 
                 // Run the specified SQL statement
                 stmt.executeUpdate();

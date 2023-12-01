@@ -1,6 +1,7 @@
 package mytunes.dal.db;
 
 import mytunes.be.Playlist;
+import mytunes.be.PlaylistSongs;
 import mytunes.dal.IPlaylistDataAccess;
 
 import java.io.IOException;
@@ -101,22 +102,61 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
         return playlist;
     }
 
-    public Playlist deletePlaylist(Playlist playlist) throws Exception {
+    public void deletePlaylist(Playlist playlist) throws Exception {
         // SQL command
-        String sql = "delete from FSpotify.dbo.Playlist WHERE ID = ?;";
+        String sql = "delete from FSpotify.dbo.Playlist WHERE PlaylistID = ?;";
+        String sql1 = "DELETE From FSpotify.dbo.PlaylistSongs WHERE PlaylistID = 1;";
 
         try (Connection conn = databaseConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
+             PreparedStatement stmt = conn.prepareStatement(sql1))
+        {
             // Bind parameters
             stmt.setInt(1, playlist.getId());
 
             // Run the specified SQL statement
             stmt.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            throw new Exception("Could not create playlist", ex);
         }
-        return playlist;
+        catch (SQLException ex)
+        {
+            // create entry in log file
+            ex.printStackTrace();
+            throw new Exception("Could not delete playlist", ex);
+        }
+
+        try (Connection conn = databaseConnector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql))
+        {
+            // Bind parameters
+            stmt.setInt(1, playlist.getId());
+
+            // Run the specified SQL statement
+            stmt.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            // create entry in log file
+            ex.printStackTrace();
+            throw new Exception("Could not delete playlist", ex);
+        }
+    }
+    private void deletePlayListWithSongs(PlaylistSongs playlistSongs) throws Exception {
+        // SQL command
+        String sql = "delete from FSpotify.dbo.PlaylistSongs WHERE PlaylistID = ?;";
+
+        try (Connection conn = databaseConnector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql))
+        {
+            // Bind parameters
+            stmt.setInt(1, playlistSongs.getPlaylistID());
+
+            // Run the specified SQL statement
+            stmt.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            // create entry in log file
+            ex.printStackTrace();
+            throw new Exception("Could not delete playlist", ex);
+        }
     }
 }

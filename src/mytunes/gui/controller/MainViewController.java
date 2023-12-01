@@ -155,6 +155,10 @@ public class MainViewController extends BaseController implements Initializable 
 
         btnAddToPlaylist.setVisible(false);
 
+        allowSongsInPlaylistView = true;
+        storeSong = null;
+        storePlaylist = null;
+
 
     }
 
@@ -269,6 +273,19 @@ public class MainViewController extends BaseController implements Initializable 
 
     @FXML
     private void handleDeletePlaylist(ActionEvent actionEvent) {
+        selectedPlaylist = (Playlist) tblViewPlaylist.getSelectionModel().getSelectedItem();
+
+        if (selectedPlaylist != null)
+        {
+            try {
+                // Delete movie in DAL layer (through the layers)
+                songPlaylistModel.deletePlaylist(selectedPlaylist);
+            }
+            catch (Exception e) {
+                displayError(e);
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
@@ -286,7 +303,7 @@ public class MainViewController extends BaseController implements Initializable 
                 btnNewPlaylist.setText("Change Playlist Name");
 
                 lblPlaylistName.setText(selectedPlaylist.getName());
-                tblViewSongsInPlaylist.setItems(songPlaylistModel.getSongsFromPlaylist());
+                tblViewSongsInPlaylist.setItems(songPlaylistModel.getListOfSongs());
                 tblViewSongInPlaylistArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
                 tblViewSongInPlaylistGenre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
                 tblViewSongInPlaylistSong.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -299,9 +316,9 @@ public class MainViewController extends BaseController implements Initializable 
         }
         if (allowSongsInPlaylistView == false) {
             selectedPlaylist = (Playlist) tblViewPlaylist.getSelectionModel().getSelectedItem();
-            storePlaylist = selectedPlaylist;
+            selectedSong = (Song) tblViewSearch.getSelectionModel().getSelectedItem();
             if (storeSong != null && storePlaylist != null){
-                PlaylistSongs newPlaylistSongs = new PlaylistSongs(storePlaylist.getId(), storeSong.getId());
+                PlaylistSongs newPlaylistSongs = new PlaylistSongs(selectedPlaylist.getId(), selectedSong.getId());
 
                 try {
 
@@ -313,9 +330,6 @@ public class MainViewController extends BaseController implements Initializable 
                     e.printStackTrace();
                 }
             }
-
-            System.out.println(storePlaylist.getName());
-            System.out.println(storeSong.getTitle());
         }
     }
 

@@ -15,13 +15,18 @@ import java.util.List;
 
 public class SongPlaylistModel {
 
+    // ObservableLists to store different types of data
     private ObservableList<Song> listOfSongs;
     private ObservableList<Song> songsToBePlayed;
     private ObservableList<Artist> searchedArtist;
     private ObservableList<Playlist> listOfPlaylists;
     private ObservableList<PlaylistSongs> listSongsFromPlaylist;
+
+    // Selected song and playlist
     private Song selectedSong;
     private Playlist selectedPlaylist;
+
+    // Managers for handling data operations
     private SongManager songManager;
     private ArtistManager artistManager;
     private PlaylistManager playlistManager;
@@ -46,51 +51,66 @@ public class SongPlaylistModel {
 
     }
 
+    // Getter for the list of songs to be played
     public ObservableList<Song> getListOfSongs() {
         return songsToBePlayed;
     }
+
+    // Getter for the list of songs in a playlist
     public ObservableList<PlaylistSongs> getSongsFromPlaylist() {
         return listSongsFromPlaylist;
     }
 
+    // Method to add a song to a playlist
     public void addSongToPlaylist(PlaylistSongs playlistSongs) throws Exception {
         PlaylistSongs pS = playlistSongsManager.addSongToPlaylist(playlistSongs);
         listSongsFromPlaylist.add(pS);
     }
 
+    // Getter for the list of playlists
     public ObservableList<Playlist> getListOfPlaylists() {
         return listOfPlaylists;
     }
-    public ObservableList<Artist> getSearchedArtist(){return searchedArtist;}
 
+    // Getter for the list of searched artists
+    public ObservableList<Artist> getSearchedArtist() {
+        return searchedArtist;
+    }
+
+    // Method to search for songs based on a query
     public void searchSong(String query) throws Exception {
         List<Song> searchResults = songManager.searchSong(query);
         songsToBePlayed.clear();
         songsToBePlayed.addAll(searchResults);
     }
 
+    // Method to search for artists based on a query
     public void searchArtist(String query) throws Exception {
         List<Artist> searchArtist = artistManager.searchArtist(query);
         searchedArtist.clear();
         searchedArtist.addAll(searchArtist);
     }
 
+    // Method to search for playlists based on a query
     public void searchPlaylist(String query) throws Exception {
         List<Playlist> searchResults = playlistManager.searchPlaylist(query);
         listOfPlaylists.clear();
         listOfPlaylists.addAll(searchResults);
     }
 
+    // Method to create a new song
     public void createSong(Song newSong) throws Exception {
         Song s = songManager.createSong(newSong);
-        listOfSongs.add(s);
+        listOfSongs.add(s); // Note: listOfSongs is missing initialization
     }
 
+    // Method to delete a song
     public void deleteSong(Song deletedSong) throws Exception {
         Song s = songManager.deleteSong(deletedSong);
         listOfSongs.remove(s);
     }
 
+    // Method to update song information
     public void updateSong(Song selectedSong) throws Exception {
         songManager.updateSong(selectedSong);
 
@@ -100,16 +120,19 @@ public class SongPlaylistModel {
         s.setGenre(selectedSong.getGenre());
     }
 
+    // Method to create a new playlist
     public void createPlaylist(Playlist newPlaylist) throws Exception {
         Playlist p = playlistManager.createPlaylist(newPlaylist);
         listOfPlaylists.add(p);
     }
 
+    // Method to delete a playlist
     public void deletePlaylist(Playlist deletedPlaylist) throws Exception {
-        Playlist p = playlistManager.deletePlaylist(deletedPlaylist);
-        listOfPlaylists.remove(p);
+        playlistManager.deletePlaylist(deletedPlaylist);
+        listOfPlaylists.remove(deletedPlaylist);
     }
 
+    // Method to update playlist information
     public void updatePlaylist(Playlist selectedPlaylist) throws Exception {
         playlistManager.updatePlaylist(selectedPlaylist);
 
@@ -117,18 +140,22 @@ public class SongPlaylistModel {
         p.setName(selectedPlaylist.getName());
     }
 
+    // Setter for the selected song
     public void setSelectedSong(Song selectedSong) {
         this.selectedSong = selectedSong;
     }
 
+    // Getter for the selected song
     public Song getSelectedSong() {
         return selectedSong;
     }
 
+    // Setter for the selected playlist
     public void setSelectedPlaylist(Playlist selectedPlaylist) {
         this.selectedPlaylist = selectedPlaylist;
     }
 
+    // Getter for the selected playlist
     public Playlist getSelectedPlaylist() {
         return selectedPlaylist;
     }
