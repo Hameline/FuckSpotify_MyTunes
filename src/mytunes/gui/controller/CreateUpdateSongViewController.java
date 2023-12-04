@@ -44,7 +44,7 @@ public class CreateUpdateSongViewController extends BaseController implements In
 
         Artist artist1 = new Artist(artist, -1);
         Genre genre1 = new Genre(genre, -1, -1);
-        Song newSong = new Song(-1, title, -1, artist1, genre1);
+        Song newSong = new Song(-1, title, -1, artist1, genre1, "");
         try {
             songPlaylistModel.createSong(newSong);
         } catch (Exception e) {

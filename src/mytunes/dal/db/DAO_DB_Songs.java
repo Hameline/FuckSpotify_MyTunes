@@ -36,7 +36,8 @@ public class DAO_DB_Songs implements ISongDataAccess {
                 //Map DB row to Song object
                 int id = rs.getInt("SongID");
                 String title = rs.getString("SongTitle");
-                double time = rs.getDouble("SongDuration");
+                int time = rs.getInt("SongDuration");
+                String formatedTime = rs.getString("SongDuration");
                 String artistName = rs.getString("ArtistName");
                 int artistID = rs.getInt("ArtistID");
                 String type = rs.getString("GenreType");
@@ -44,7 +45,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
                 Artist artist = new Artist(artistName, artistID);
                 Genre genreType = new Genre(type, genre, artistID);
-                Song song = new Song(id, title, time, artist, genreType);
+                Song song = new Song(id, title, time, artist, genreType, formatedTime);
                 allSongs.add(song);
             }
             return allSongs;
@@ -59,17 +60,18 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
     public Song createSong(Song song) throws Exception {
         // SQL command
-        String sql = "INSERT INTO FSpotify.dbo.Songs (SongTitle, SongDuration, ArtistID, GenreID) VALUES (?,?,?,?);";
+        String sql = "INSERT INTO FSpotify.dbo.Songs (SongTitle, SongDuration, ArtistID, GenreID, FormatedTime) VALUES (?,?,?,?,?);";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-
             // Bind parameters
-            stmt.setString(1,song.getTitle());
-            stmt.setDouble(2, song.getTime());
-            //stmt.setString(3, song.getArtist());
-            //stmt.setString(4, song.getGenre());
+            stmt.setString(1, song.getTitle());
+            stmt.setInt(2, song.getTime());
+            stmt.setString(3, String.valueOf(song.getArtist()));
+            stmt.setString(4, String.valueOf(song.getGenre()));
+            stmt.setString(5, song.getFormatedTime());
+
 
             // Run the specified SQL statement
             stmt.executeUpdate();
@@ -83,7 +85,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
             }
 
             // Create song object and send up the layers
-            Song createdSong = new Song(id, song.getTitle(), song.getTime(), song.getArtist(), song.getGenre());
+            Song createdSong = new Song(id, song.getTitle(), song.getTime(), song.getArtist(), song.getGenre(), song.getFormatedTime());
 
             return createdSong;
         }
@@ -104,7 +106,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
             // Bind parameters
             stmt.setString(1,song.getTitle());
-            stmt.setDouble(2, song.getTime());
+            stmt.setInt(2, song.getTime());
             //stmt.setString(3, song.getArtist());
             //stmt.setString(4, song.getGenre());
             stmt.setInt(5, song.getId());

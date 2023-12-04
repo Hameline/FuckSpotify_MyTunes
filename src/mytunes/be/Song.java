@@ -2,13 +2,13 @@ package mytunes.be;
 
 public class Song {
     private int id;
-    private double time;
+    private int time;
     private String formatedTime, title;
     private Artist artist;
     private Genre type;
 
 
-    public Song(int id,String title, double time, Artist artist, Genre type) {
+    public Song(int id,String title, int time, Artist artist, Genre type, String formatedTime) {
         this.title = title;
         this.time = time;
         this.formatedTime = getConvertedTime();
@@ -34,7 +34,7 @@ public class Song {
         this.title = title;
     }
 
-    public double getTime() {
+    public int getTime() {
         return time;
     }
 
@@ -52,7 +52,7 @@ public class Song {
         return formatedTime;
     }
 
-    public void setTime(double time) {
+    public void setTime(int time) {
         this.time = time;
         this.formatedTime = getConvertedTime();
     }
