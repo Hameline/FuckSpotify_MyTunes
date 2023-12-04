@@ -265,8 +265,6 @@ public class MainViewController extends BaseController implements Initializable 
 
         PopupWindow.setScene(new Scene(popupWindow));
         PopupWindow.showAndWait();
-
-        tblViewSearch.refresh();
     }
 
     @FXML
