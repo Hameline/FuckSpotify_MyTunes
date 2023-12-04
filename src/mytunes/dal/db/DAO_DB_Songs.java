@@ -68,8 +68,8 @@ public class DAO_DB_Songs implements ISongDataAccess {
             // Bind parameters
             stmt.setString(1, song.getTitle());
             stmt.setInt(2, song.getTime());
-            stmt.setString(3, String.valueOf(song.getArtist()));
-            stmt.setString(4, String.valueOf(song.getGenre()));
+            stmt.setInt(3, Integer.parseInt(String.valueOf(song.getArtist())));
+            stmt.setInt(4, Integer.parseInt(String.valueOf(song.getGenre())));
             stmt.setString(5, song.getFormatedTime());
 
 

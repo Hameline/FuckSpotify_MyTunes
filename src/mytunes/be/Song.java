@@ -9,6 +9,7 @@ public class Song {
 
 
     public Song(int id,String title, int time, Artist artist, Genre type, String formatedTime) {
+        this.id = id;
         this.title = title;
         this.time = time;
         this.formatedTime = getConvertedTime();

@@ -101,7 +101,9 @@ public class SongPlaylistModel {
     // Method to create a new song
     public void createSong(Song newSong) throws Exception {
         Song s = songManager.createSong(newSong);
-        listOfSongs.add(s); // Note: listOfSongs is missing initialization
+        if (listOfSongs != null) {
+            listOfSongs.add(s); // Note: listOfSongs is missing initialization
+        }
     }
 
     // Method to delete a song
