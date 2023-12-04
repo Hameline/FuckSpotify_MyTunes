@@ -4,10 +4,7 @@ import mytunes.be.Artist;
 import mytunes.dal.IArtistDataAccess;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +48,31 @@ public class DOA_DB_Artist implements IArtistDataAccess {
 
     @Override
     public Artist createArtist(Artist artist) throws Exception {
-        return null;
+        String sql = "INSERT INTO FSpotify.dbo.Artist (ArtistName) VALUES (?);";
+
+        try (Connection conn = databaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+
+            pstmt.setString(1, artist.getName());
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows == 0){
+                throw new SQLException("Creating artist failed, now name affected");
+            }
+
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()){
+                if (generatedKeys.next()){
+                    artist.setId(generatedKeys.getInt(1));
+                    return artist;
+                } else {
+                    throw new SQLException("No id generated");
+                }
+
+            }catch (SQLException se){
+                se.printStackTrace();
+                throw new Exception("Error creating a artist");
+            }
+        }
     }
 
     @Override

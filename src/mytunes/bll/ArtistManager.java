@@ -34,4 +34,14 @@ public class ArtistManager {
     public Artist updateArtist(Artist selectedSong) throws Exception {
         return DAO_DB.updateArtist(selectedSong);
     }
+
+    public Artist findArtistByName(String name) throws Exception {
+        List<Artist> allArtists = getAllArtist();
+        for (Artist artist : allArtists) {
+            if (artist.getName().equalsIgnoreCase(name)) {
+                return artist;
+            }
+        }
+        return null;
+    }
 }

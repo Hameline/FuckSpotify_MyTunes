@@ -10,6 +10,7 @@ import mytunes.be.Song;
 import mytunes.gui.model.SongPlaylistModel;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class CreateUpdateSongViewController extends BaseController implements Initializable {
@@ -21,6 +22,7 @@ public class CreateUpdateSongViewController extends BaseController implements In
     public Button btnUpdate, btnCreate;
     @FXML
     private TextField txtSongName, txtArtist, txtGenre, txtAlbumName, txtTime;
+
 
     public CreateUpdateSongViewController() throws Exception {
         try {
@@ -35,8 +37,7 @@ public class CreateUpdateSongViewController extends BaseController implements In
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        menuGenre.getItems().addAll("Pop", "Country", "Rock", "Techno", "Jazz", "HipHop", "Dance", "Blues", "Phunk");
-        menuGenre.getSelectionModel().selectFirst();
+        addToComboBox();
     }
     public void setup() {
         songPlaylistModel = getModel();
@@ -51,20 +52,30 @@ public class CreateUpdateSongViewController extends BaseController implements In
     @FXML
     private void handleCreate(ActionEvent actionEvent) {
         String title = txtSongName.getText();
-        String artist = txtArtist.getText();
-        String genre = txtGenre.getText();
+        String artistName = txtArtist.getText().toLowerCase();
+        String genreType = menuGenre.getValue();
         int time = Integer.parseInt(txtTime.getText());
 
-        Artist artist1 = new Artist(artist, -1);
-        Genre genre1 = new Genre(genre, -1, -1);
-        Song newSong = new Song(-1, title, time, artist1, genre1, "");
         try {
+            Artist artist = songPlaylistModel.findArtistName();
+            if (artist == null){
+                artist = new Artist(artistName, -1);
+                artistName = String.valueOf(songPlaylistModel.createArtist(artist));
+            }
+
+            List<Genre> allGenres = songPlaylistModel.getAllGenres();
+            Genre selecedGenre = null;
+            for (Genre genre : allGenres){
+                if (genre.getType().equals(genreType));
+                selecedGenre = genre;
+                break;
+            }
+            Song newSong = new Song(-1, title, time, artist, selecedGenre, "");
             songPlaylistModel.createSong(newSong);
         } catch (Exception e) {
             displayError(e);
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             btnCreate.getScene().getWindow().hide();
         }
     }
@@ -76,4 +87,17 @@ public class CreateUpdateSongViewController extends BaseController implements In
         alert.setHeaderText(t.getMessage());
         alert.showAndWait();
     }
+
+    private void addToComboBox(){
+        try {
+            List<Genre> genres = songPlaylistModel.getAllGenres();
+            for (Genre type : genres){
+                menuGenre.getItems().add(type.getType());
+            }
+            menuGenre.getSelectionModel().selectFirst();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

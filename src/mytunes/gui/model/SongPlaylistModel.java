@@ -2,14 +2,8 @@ package mytunes.gui.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import mytunes.be.Artist;
-import mytunes.be.Playlist;
-import mytunes.be.PlaylistSongs;
-import mytunes.be.Song;
-import mytunes.bll.ArtistManager;
-import mytunes.bll.PlaylistManager;
-import mytunes.bll.PlaylistSongsManager;
-import mytunes.bll.SongManager;
+import mytunes.be.*;
+import mytunes.bll.*;
 
 import java.util.List;
 
@@ -29,11 +23,13 @@ public class SongPlaylistModel {
     // Managers for handling data operations
     private SongManager songManager;
     private ArtistManager artistManager;
+    private GenreManager genreManager;
     private PlaylistManager playlistManager;
     private PlaylistSongsManager playlistSongsManager;
 
     public SongPlaylistModel() throws Exception {
         songManager = new SongManager();
+        genreManager = new GenreManager();
         songsToBePlayed = FXCollections.observableArrayList();
         songsToBePlayed.addAll(songManager.getAllSongs());
 
@@ -161,4 +157,19 @@ public class SongPlaylistModel {
     public Playlist getSelectedPlaylist() {
         return selectedPlaylist;
     }
+
+    public ObservableList<Genre> getAllGenres() throws Exception {
+        List<Genre> genreType = genreManager.getAllGenre();
+        return FXCollections.observableArrayList(genreType);
+    }
+
+
+    public Artist findArtistName() throws Exception {
+            return artistManager.findArtistByName("");
+    }
+
+    public Artist createArtist(Artist artist) throws Exception {
+        return artistManager.createArtist(artist);
+    }
+
 }

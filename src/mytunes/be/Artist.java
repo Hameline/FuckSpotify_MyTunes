@@ -20,7 +20,7 @@ public class Artist {
         this.name = name;
     }
 
-    public double getId() {
+    public int getId() {
         return id;
     }
 
