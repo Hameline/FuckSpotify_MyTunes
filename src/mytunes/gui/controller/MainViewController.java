@@ -20,17 +20,19 @@ import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.PlaylistSongs;
 import mytunes.be.Song;
+import mytunes.dal.ISongDataAccess;
 import mytunes.gui.model.SongPlaylistModel;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("ALL")
 public class MainViewController extends BaseController implements Initializable {
 
     @FXML
-    private Button btnAddToPlaylist;
+    private Label lblSelectPlaylist;
     @FXML
     private TableColumn tblViewSongInPlaylistSong;
     @FXML
@@ -76,9 +78,9 @@ public class MainViewController extends BaseController implements Initializable 
     private SongPlaylistModel songPlaylistModel;
     private CreateUpdatePlaylistViewController createUpdatePlaylistViewController;
     private Playlist selectedPlaylist;
-    private Playlist storePlaylist = selectedPlaylist;
+    private Playlist storePlaylist;
     private Song selectedSong;
-    private Song storeSong = selectedSong;
+    private Song storeSong;
     private boolean allowSongsInPlaylistView = true;
 
     public MainViewController() {
@@ -153,11 +155,10 @@ public class MainViewController extends BaseController implements Initializable 
 
         btnNewPlaylist.setText("+ New Playlist");
 
-        btnAddToPlaylist.setVisible(false);
-
         allowSongsInPlaylistView = true;
         storeSong = null;
         storePlaylist = null;
+        lblSelectPlaylist.setVisible(false);
 
 
     }
@@ -303,11 +304,11 @@ public class MainViewController extends BaseController implements Initializable 
                 btnNewPlaylist.setText("Change Playlist Name");
 
                 lblPlaylistName.setText(selectedPlaylist.getName());
-                tblViewSongsInPlaylist.setItems(songPlaylistModel.getListOfSongs());
-                tblViewSongInPlaylistArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
-                tblViewSongInPlaylistGenre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
-                tblViewSongInPlaylistSong.setCellValueFactory(new PropertyValueFactory<>("title"));
-                tblViewSongInPlaylistDuration.setCellValueFactory(new PropertyValueFactory<>("formatedTime"));
+                tblViewSongsInPlaylist.setItems(songPlaylistModel.getSongsFromPlaylist());
+                //tblViewSongInPlaylistArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+                //tblViewSongInPlaylistGenre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
+                tblViewSongInPlaylistSong.setCellValueFactory(new PropertyValueFactory<>("songID"));
+                //tblViewSongInPlaylistDuration.setCellValueFactory(new PropertyValueFactory<>("formatedTime"));
 
             }
             else {
@@ -316,10 +317,9 @@ public class MainViewController extends BaseController implements Initializable 
         }
         if (allowSongsInPlaylistView == false) {
             selectedPlaylist = (Playlist) tblViewPlaylist.getSelectionModel().getSelectedItem();
-            selectedSong = (Song) tblViewSearch.getSelectionModel().getSelectedItem();
+            storePlaylist = selectedPlaylist;
             if (storeSong != null && storePlaylist != null){
-                PlaylistSongs newPlaylistSongs = new PlaylistSongs(selectedPlaylist.getId(), selectedSong.getId());
-
+                PlaylistSongs newPlaylistSongs = new PlaylistSongs(storePlaylist.getId(), storeSong.getId());
                 try {
 
                     songPlaylistModel.addSongToPlaylist(newPlaylistSongs);
@@ -329,21 +329,27 @@ public class MainViewController extends BaseController implements Initializable 
                     displayError(e);
                     e.printStackTrace();
                 }
+                finally {
+                    defaultMenu();
+                    tblViewSearch.setVisible(true);
+                    btnBarSong.setVisible(true);
+                    vBoxDefault.setVisible(false);
+                }
+            }
+            else {
+                System.out.println("stored playlist is empty same goes for stored song");
             }
         }
     }
 
     @FXML
     private void handleAddSongToPlaylist(MouseEvent mouseEvent) {
-        Song selectedSong = (Song) tblViewSearch.getSelectionModel().getSelectedItem();
+        selectedSong = (Song) tblViewSearch.getSelectionModel().getSelectedItem();
         if (selectedSong != null){
+            allowSongsInPlaylistView = false;
             storeSong = selectedSong;
-            btnAddToPlaylist.setVisible(true);
+            lblSelectPlaylist.setVisible(true);
         }
     }
 
-    @FXML
-    private void handleAddtoPlaylist(ActionEvent actionEvent) {
-        allowSongsInPlaylistView = false;
-    }
 }

@@ -51,7 +51,6 @@
         </VBox>
       <ButtonBar fx:id="btnBarSong" layoutX="982.0" layoutY="125.0" prefHeight="27.0" prefWidth="324.0">
         <buttons>
-            <Button fx:id="btnAddToPlaylist" mnemonicParsing="false" onAction="#handleAddtoPlaylist" prefHeight="25.0" prefWidth="134.0" text="Add to Playlist" />
             <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#handleUpdate" text="Update" />
           <Button fx:id="btnCreate" mnemonicParsing="false" onAction="#handelCreate" stylesheets="@../css/MainView.css" text="Create" />
         </buttons>
@@ -84,5 +83,6 @@
             </Label>
          </graphic>
       </MenuButton>
+      <Label id="text" fx:id="lblSelectPlaylist" layoutX="217.0" layoutY="128.0" prefHeight="26.0" prefWidth="131.0" stylesheets="@../css/MainView.css" text="Select a Playlist" />
     </children>
 </AnchorPane>

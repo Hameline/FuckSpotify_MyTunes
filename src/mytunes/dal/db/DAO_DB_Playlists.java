@@ -105,7 +105,7 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
     public void deletePlaylist(Playlist playlist) throws Exception {
         // SQL command
         String sql = "delete from FSpotify.dbo.Playlist WHERE PlaylistID = ?;";
-        String sql1 = "DELETE From FSpotify.dbo.PlaylistSongs WHERE PlaylistID = 1;";
+        String sql1 = "DELETE From FSpotify.dbo.PlaylistSongs WHERE PlaylistID = ?;";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql1))

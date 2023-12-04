@@ -66,7 +66,7 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
                 stmt.executeUpdate();
 
                 // Create playlist object and send up the layers
-                PlaylistSongs addSongToPlaylist = new PlaylistSongs(playlist.getId(), song.getId());
+                PlaylistSongs addSongToPlaylist = new PlaylistSongs(playlistSongs.getPlaylistID(), playlistSongs.getSongID());
 
                 return addSongToPlaylist;
             }
