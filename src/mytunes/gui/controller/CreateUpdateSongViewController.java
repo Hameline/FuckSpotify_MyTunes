@@ -66,14 +66,18 @@ public class CreateUpdateSongViewController extends BaseController implements In
         try {
             String title = txtSongName.getText();
             String artistName = txtArtist.getText();
+            String artistNameLowercase = artistName.toLowerCase();
             String genreType = menuGenre.getValue();
             int time = Integer.parseInt(txtTime.getText());
 
             // Update artist details
-            Artist artist = songPlaylistModel.findArtistName();
+            Artist artist = songPlaylistModel.findArtistName(artistNameLowercase);
             if (artist == null) {
-                artist = new Artist(artistName, selectedSong.getArtist().getId());
-                // Update artist in the model if needed
+                artist = new Artist(artistName, -1);
+                int artistID = songPlaylistModel.createArtist(artist).getId();
+                artistName = artist.getName();
+            } else {
+                artistName = artist.getName();
             }
 
             // Update genre
@@ -110,13 +114,14 @@ public class CreateUpdateSongViewController extends BaseController implements In
     @FXML
     private void handleCreate(ActionEvent actionEvent) {
         String title = txtSongName.getText();
-        String artistName = txtArtist.getText().toLowerCase();
+        String artistName = txtArtist.getText();
+        String artistNameLowercase = artistName.toLowerCase();
         String genreType = menuGenre.getValue();
         int time = Integer.parseInt(txtTime.getText());
         String fPath = txtFile.getText();
 
         try {
-            Artist artist = songPlaylistModel.findArtistName();
+            Artist artist = songPlaylistModel.findArtistName(artistNameLowercase);
             if (artist == null){
                 artist = new Artist(artistName, -1);
                 artistName = String.valueOf(songPlaylistModel.createArtist(artist));

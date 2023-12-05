@@ -166,8 +166,8 @@ public class SongPlaylistModel {
     }
 
 
-    public Artist findArtistName() throws Exception {
-            return artistManager.findArtistByName("");
+    public Artist findArtistName(String artistNameLowercase) throws Exception {
+            return artistManager.findArtistByName(artistNameLowercase);
     }
 
     public Artist createArtist(Artist artist) throws Exception {

@@ -1,5 +1,6 @@
 package mytunes.dal.db;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import mytunes.be.Artist;
 import mytunes.dal.IArtistDataAccess;
 
@@ -46,6 +47,25 @@ public class DOA_DB_Artist implements IArtistDataAccess {
         }
     }
 
+    public Artist findArtistByName(String name) throws SQLException {
+        Connection connection = databaseConnector.getConnection();
+        String stmt = "SELECT * from FSpotify.dbo.Artist Where Lower(ArtistName) = Lower(?);";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(stmt)){
+            pstmt.setString(1, name);
+            try (ResultSet rs = pstmt.executeQuery()){
+                if (rs.next()){
+                    return createArtistFromResultSet(rs);
+                }
+            }
+        } catch (SQLException e){
+            throw e;
+        } finally {
+            connection.close();
+        }
+        return null;
+    }
+
     @Override
     public Artist createArtist(Artist artist) throws Exception {
         String sql = "INSERT INTO FSpotify.dbo.Artist (ArtistName) VALUES (?);";
@@ -73,6 +93,13 @@ public class DOA_DB_Artist implements IArtistDataAccess {
                 throw new Exception("Error creating a artist");
             }
         }
+    }
+
+    private Artist createArtistFromResultSet(ResultSet rs) throws SQLException {
+        int id = rs.getInt("ArtistID");
+        String name = rs.getString("ArtistName");
+
+        return new Artist(name, id);
     }
 
     @Override

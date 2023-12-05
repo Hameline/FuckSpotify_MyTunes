@@ -36,12 +36,7 @@ public class ArtistManager {
     }
 
     public Artist findArtistByName(String name) throws Exception {
-        List<Artist> allArtists = getAllArtist();
-        for (Artist artist : allArtists) {
-            if (artist.getName().equalsIgnoreCase(name)) {
-                return artist;
-            }
-        }
+        DAO_DB.findArtistByName(name);
         return null;
     }
 }
