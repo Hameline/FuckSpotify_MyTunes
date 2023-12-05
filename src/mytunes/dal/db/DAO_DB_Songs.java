@@ -3,6 +3,7 @@ package mytunes.dal.db;
 import javafx.beans.property.StringProperty;
 import mytunes.be.Artist;
 import mytunes.be.Genre;
+import mytunes.be.PlaylistSongs;
 import mytunes.be.Song;
 import mytunes.dal.ISongDataAccess;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 public class DAO_DB_Songs implements ISongDataAccess {
 
+    private PlaylistSongs playlistSongs;
     private MyTunesDataBaseConnector databaseConnector;
     private static StringProperty fPath;
     public static String getFpath() {
@@ -130,7 +132,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
     public Song deleteSong(Song song) throws Exception {
         // SQL command
-        String sql = "delete from FSpotify.dbo.Songs WHERE ID = ?;";
+        String sql = "delete from FSpotify.dbo.Songs WHERE SongID = ?;";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {

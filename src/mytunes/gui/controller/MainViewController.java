@@ -1,5 +1,7 @@
 package mytunes.gui.controller;
 
+import javafx.beans.binding.StringBinding;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -29,13 +31,18 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("ALL")
 public class MainViewController<songPath> extends BaseController implements Initializable {
 
     @FXML
-    private Button btnPlay;
+    private Button btnPlay, btnDelete, nextSong, previousSong;
+    @FXML
+    private Slider volumeSlider;
+    @FXML
+    private Label playingSong;
     @FXML
     private Label lblSelectPlaylist;
     @FXML
@@ -63,8 +70,6 @@ public class MainViewController<songPath> extends BaseController implements Init
     @FXML
     private TableColumn tblViewSearchSong;
     @FXML
-    private TableColumn tblViewSearchDuration;
-    @FXML
     private TableColumn tblViewSearchArtist;
     @FXML
     private TableColumn tblViewSearchGenre;
@@ -88,6 +93,8 @@ public class MainViewController<songPath> extends BaseController implements Init
     private Song storeSong;
     private boolean allowSongsInPlaylistView = true;
     private MediaPlayer mediaPlayer;
+    @FXML
+    private TableColumn<Song, String> tblViewSearchDuration;
 
     public MainViewController() {
         try {
@@ -102,6 +109,8 @@ public class MainViewController<songPath> extends BaseController implements Init
     public void initialize(URL location, ResourceBundle resources) {
         setup();
         defaultMenu();
+        tblViewSearchDuration.setCellValueFactory(t -> new SimpleStringProperty(t.getValue().getTimeStamp()));
+
 
         txtSearchField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             try {
@@ -123,6 +132,7 @@ public class MainViewController<songPath> extends BaseController implements Init
     @Override
     public void setup() {
         btnUpdate.setDisable(true);
+        btnDelete.setDisable(true);
         if (songPlaylistModel != null) {
             tblViewSearch.setItems(songPlaylistModel.getListOfSongs());
             tblViewPlaylist.setItems(songPlaylistModel.getListOfPlaylists());
@@ -139,6 +149,13 @@ public class MainViewController<songPath> extends BaseController implements Init
             @Override
             public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
                 btnUpdate.setDisable(newValue == null);
+            }
+        });
+
+        tblViewSearch.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
+            @Override
+            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
+                btnDelete.setDisable(newValue == null);
             }
         });
     }
@@ -305,6 +322,29 @@ public class MainViewController<songPath> extends BaseController implements Init
         tblViewSearch.refresh();
     }
 
+    public void handleDelete(ActionEvent actionEvent) throws Exception{
+        try {
+            confirmationAlertSong();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("Could not delete song", e);
+        }
+    }
+
+    public void confirmationAlertSong() throws Exception {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("You are about to delete a Song");
+        alert.setContentText("Are you sure you want to delete?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            Song deletedSong = tblViewSearch.getSelectionModel().getSelectedItem();
+            songPlaylistModel.deleteSong(deletedSong);
+        } else {
+
+        }
+    }
+
     @FXML
     private void handleDeletePlaylist(ActionEvent actionEvent) {
         selectedPlaylist = (Playlist) tblViewPlaylist.getSelectionModel().getSelectedItem();
@@ -432,5 +472,11 @@ public class MainViewController<songPath> extends BaseController implements Init
             exc.printStackTrace();
             throw new Exception("Could not play song", exc);
         }
+    }
+
+    public void handleNextSong(ActionEvent actionEvent) {
+    }
+
+    public void handlePreviousSong(ActionEvent actionEvent) {
     }
 }

@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -51,6 +52,7 @@
         </VBox>
       <ButtonBar fx:id="btnBarSong" layoutX="982.0" layoutY="125.0" prefHeight="27.0" prefWidth="324.0">
         <buttons>
+            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#handleDelete" text="Delete" />
             <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#handleUpdate" text="Update" />
           <Button fx:id="btnCreate" mnemonicParsing="false" onAction="#handelCreate" stylesheets="@../css/MainView.css" text="Create" />
         </buttons>
@@ -84,6 +86,14 @@
          </graphic>
       </MenuButton>
       <Label id="text" fx:id="lblSelectPlaylist" layoutX="217.0" layoutY="128.0" prefHeight="26.0" prefWidth="131.0" stylesheets="@../css/MainView.css" text="Select a Playlist" />
-      <Button fx:id="btnPlay" layoutX="786.0" layoutY="36.0" mnemonicParsing="false" onAction="#handlePlaySong" text="Play" />
+      <Button fx:id="btnPlay" layoutX="786.0" layoutY="36.0" mnemonicParsing="false" onAction="#handlePlaySong" prefWidth="38.0" text="Play" />
+      <Button fx:id="nextSong" layoutX="834.0" layoutY="36.0" mnemonicParsing="false" onAction="#handleNextSong" text="&gt;&gt;" />
+      <Button fx:id="previousSong" layoutX="744.0" layoutY="36.0" mnemonicParsing="false" onAction="#handlePreviousSong" text="&lt;&lt;" />
+      <Slider fx:id="volumeSlider" layoutX="735.0" layoutY="69.0" />
+      <Label fx:id="songTimer" layoutX="791.0" layoutY="89.0" text="Label" textFill="#b9d620">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>
