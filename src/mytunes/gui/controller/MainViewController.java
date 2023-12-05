@@ -323,6 +323,7 @@ public class MainViewController<songPath> extends BaseController implements Init
     }
 
     public void handleDelete(ActionEvent actionEvent) throws Exception{
+
         try {
             confirmationAlertSong();
         } catch (Exception e) {
@@ -332,16 +333,20 @@ public class MainViewController<songPath> extends BaseController implements Init
     }
 
     public void confirmationAlertSong() throws Exception {
+        /**
+         * skal have lavet en if statement der kontrollere om
+         * sang er i en playliste før den skal slettes.
+         */
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
         alert.setHeaderText("You are about to delete a Song");
         alert.setContentText("Are you sure you want to delete?");
         Optional<ButtonType> result = alert.showAndWait();
+
         if (result.get() == ButtonType.OK) {
             Song deletedSong = tblViewSearch.getSelectionModel().getSelectedItem();
             songPlaylistModel.deleteSong(deletedSong);
         } else {
-
         }
     }
 
@@ -378,10 +383,10 @@ public class MainViewController<songPath> extends BaseController implements Init
 
                 lblPlaylistName.setText(selectedPlaylist.getName());
                 tblViewSongsInPlaylist.setItems(songPlaylistModel.getSongsFromPlaylist());
-                //tblViewSongInPlaylistArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
-                //tblViewSongInPlaylistGenre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
-                tblViewSongInPlaylistSong.setCellValueFactory(new PropertyValueFactory<>("songID"));
-                //tblViewSongInPlaylistDuration.setCellValueFactory(new PropertyValueFactory<>("formatedTime"));
+                tblViewSongInPlaylistArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+                tblViewSongInPlaylistGenre.setCellValueFactory(new PropertyValueFactory<>("type"));
+                tblViewSongInPlaylistSong.setCellValueFactory(new PropertyValueFactory<>("title"));
+                tblViewSongInPlaylistDuration.setCellValueFactory(new PropertyValueFactory<>("formatedTime"));
 
             }
             else {

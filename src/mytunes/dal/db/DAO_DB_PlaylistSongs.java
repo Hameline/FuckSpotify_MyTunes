@@ -1,8 +1,6 @@
 package mytunes.dal.db;
 
-import mytunes.be.Playlist;
-import mytunes.be.PlaylistSongs;
-import mytunes.be.Song;
+import mytunes.be.*;
 import mytunes.dal.IPlaylistSongsDataAccess;
 
 import java.io.IOException;
@@ -26,7 +24,10 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
         try (Connection conn = databaseConnector.getConnection();
              Statement stmt = conn.createStatement())
         {
-            String sql = "SELECT * FROM FSpotify.dbo.PlaylistSongs;";
+            String sql = "SELECT * FROM FSpotify.dbo.PlaylistSongs " +
+                         "left join FSpotify.dbo.Songs S on S.SongID = PlaylistSongs.SongID " +
+                         "left join FSpotify.dbo.Artist A on A.ArtistID = S.ArtistID " +
+                         "left outer join dbo.Genre G on A.ArtistID = G.ArtistID;";
             ResultSet rs = stmt.executeQuery(sql);
 
             // Loop through rows from the database result set
@@ -36,8 +37,18 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
 
                 int playlistID = rs.getInt("PlaylistID");
                 int songID = rs.getInt("SongID");
+                String songTitle = rs.getString("SongTitle");
+                int duration = rs.getInt("SongDuration");
+                String formatedTime = rs.getString("SongDuration");
+                String artistName = rs.getString("ArtistName");
+                int artistID = rs.getInt("ArtistID");
+                String type = rs.getString("GenreType");
+                int id = rs.getInt("GenreID");
+                String fPath = rs.getString("songPath");
 
-                PlaylistSongs playlistSongs = new PlaylistSongs(playlistID, songID);
+                Artist artist = new Artist(artistName, artistID);
+                Genre genreType = new Genre(type, id, artistID);
+                PlaylistSongs playlistSongs = new PlaylistSongs(playlistID, songID, songTitle, duration, artist, genreType, formatedTime, fPath);
                 allPlaylistSongs.add(playlistSongs);
             }
             return allPlaylistSongs;
