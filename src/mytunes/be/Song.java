@@ -6,15 +6,17 @@ public class Song {
     private String formatedTime, title;
     private Artist artist;
     private Genre type;
+    private String fPath;
 
 
-    public Song(int id,String title, int time, Artist artist, Genre type, String formatedTime) {
+    public Song(int id,String title, int time, Artist artist, Genre type, String formatedTime, String fPath) {
         this.id = id;
         this.title = title;
         this.time = time;
         this.formatedTime = getConvertedTime();
         this.artist = artist;
         this.type = type;
+        this.fPath = fPath;
     }
 
 
@@ -72,5 +74,13 @@ public class Song {
 
     public void setGenre(Genre type) {
         this.type = type;
+    }
+
+    public String getfPath() {
+        return fPath;
+    }
+
+    public void setfPath(String fPath) {
+        this.fPath = fPath;
     }
 }

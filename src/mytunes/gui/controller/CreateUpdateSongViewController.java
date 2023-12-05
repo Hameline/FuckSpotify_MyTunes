@@ -4,11 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import mytunes.be.Artist;
 import mytunes.be.Genre;
 import mytunes.be.Song;
 import mytunes.gui.model.SongPlaylistModel;
 
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -19,9 +22,9 @@ public class CreateUpdateSongViewController extends BaseController implements In
     private SongPlaylistModel songPlaylistModel;
     private MainViewController mainViewController;
     public ToggleButton tgglBtnIfAlbum;
-    public Button btnUpdate, btnCreate;
+    public Button btnUpdate, btnCreate, btnCancel;
     @FXML
-    private TextField txtSongName, txtArtist, txtGenre, txtAlbumName, txtTime;
+    private TextField txtSongName, txtArtist, txtGenre, txtAlbumName, txtTime, txtFile;
     private Song selectedSong;
 
 
@@ -110,6 +113,7 @@ public class CreateUpdateSongViewController extends BaseController implements In
         String artistName = txtArtist.getText().toLowerCase();
         String genreType = menuGenre.getValue();
         int time = Integer.parseInt(txtTime.getText());
+        String fPath = txtFile.getText();
 
         try {
             Artist artist = songPlaylistModel.findArtistName();
@@ -125,7 +129,7 @@ public class CreateUpdateSongViewController extends BaseController implements In
                 selecedGenre = genre;
                 break;
             }
-            Song newSong = new Song(-1, title, time, artist, selecedGenre, "");
+            Song newSong = new Song(-1, title, time, artist, selecedGenre, "", fPath);
             songPlaylistModel.createSong(newSong);
         } catch (Exception e) {
             displayError(e);
@@ -157,5 +161,17 @@ public class CreateUpdateSongViewController extends BaseController implements In
 
     public void setSelectedSong(Song song) {
         this.selectedSong = song;
+    }
+
+    public void handleCancelSong(ActionEvent actionEvent) {
+        Stage stage = (Stage) btnCancel.getScene().getWindow();
+        stage.close();
+    }
+
+    public void handleChooseFile(ActionEvent actionEvent) {
+        FileChooser fc = new FileChooser();
+        Stage stage = (Stage) btnCancel.getScene().getWindow();
+        File f = fc.showOpenDialog(stage);
+        txtFile.setText(f.getPath());
     }
 }

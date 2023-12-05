@@ -1,5 +1,6 @@
 package mytunes.dal.db;
 
+import javafx.beans.property.StringProperty;
 import mytunes.be.Artist;
 import mytunes.be.Genre;
 import mytunes.be.Song;
@@ -13,7 +14,10 @@ import java.util.List;
 public class DAO_DB_Songs implements ISongDataAccess {
 
     private MyTunesDataBaseConnector databaseConnector;
-
+    private static StringProperty fPath;
+    public static String getFpath() {
+        return fPath.get();
+    }
     public DAO_DB_Songs() throws IOException {
         databaseConnector = new MyTunesDataBaseConnector();
     }
@@ -42,10 +46,11 @@ public class DAO_DB_Songs implements ISongDataAccess {
                 int artistID = rs.getInt("ArtistID");
                 String type = rs.getString("GenreType");
                 int genre = rs.getInt("GenreID");
+                String fPath = rs.getString("songPath");
 
                 Artist artist = new Artist(artistName, artistID);
                 Genre genreType = new Genre(type, genre, artistID);
-                Song song = new Song(id, title, time, artist, genreType, formatedTime);
+                Song song = new Song(id, title, time, artist, genreType, formatedTime, fPath);
                 allSongs.add(song);
             }
             return allSongs;
@@ -60,7 +65,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
     public Song createSong(Song song) throws Exception {
         // SQL command
-        String sql = "INSERT INTO FSpotify.dbo.Songs (SongTitle, SongDuration, ArtistID, GenreID, FormatedTime) VALUES (?,?,?,?,?);";
+        String sql = "INSERT INTO FSpotify.dbo.Songs (SongTitle, SongDuration, ArtistID, GenreID, FormatedTime, songPath) VALUES (?,?,?,?,?,?);";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -71,6 +76,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
             stmt.setInt(3, song.getArtist().getId());
             stmt.setInt(4, song.getGenre().getId());
             stmt.setString(5, song.getFormatedTime());
+            stmt.setString(6, song.getfPath());
 
 
             // Run the specified SQL statement
@@ -85,7 +91,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
             }
 
             // Create song object and send up the layers
-            Song createdSong = new Song(id, song.getTitle(), song.getTime(), song.getArtist(), song.getGenre(), song.getFormatedTime());
+            Song createdSong = new Song(id, song.getTitle(), song.getTime(), song.getArtist(), song.getGenre(), song.getFormatedTime(), song.getfPath());
 
             return createdSong;
         }
