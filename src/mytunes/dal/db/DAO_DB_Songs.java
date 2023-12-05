@@ -98,7 +98,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
     public Song updateSong(Song song) throws Exception {
         // SQL command
-        String sql = "UPDATE FSpotify.dbo.Songs SET SongTitle = ?, SongDuration = ?, Artist = ?, GenreID = ? WHERE ID = ?";
+        String sql = "UPDATE FSpotify.dbo.Songs SET SongTitle = ?, SongDuration = ?, ArtistID = ?, GenreID = ? WHERE SongID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -107,8 +107,8 @@ public class DAO_DB_Songs implements ISongDataAccess {
             // Bind parameters
             stmt.setString(1,song.getTitle());
             stmt.setInt(2, song.getTime());
-            //stmt.setString(3, song.getArtist());
-            //stmt.setString(4, song.getGenre());
+            stmt.setInt(3, song.getArtist().getId());
+            stmt.setInt(4, song.getGenre().getId());
             stmt.setInt(5, song.getId());
 
             // Run the specified SQL statement

@@ -22,6 +22,7 @@ public class CreateUpdateSongViewController extends BaseController implements In
     public Button btnUpdate, btnCreate;
     @FXML
     private TextField txtSongName, txtArtist, txtGenre, txtAlbumName, txtTime;
+    private Song selectedSong;
 
 
     public CreateUpdateSongViewController() throws Exception {
@@ -41,6 +42,12 @@ public class CreateUpdateSongViewController extends BaseController implements In
     }
     public void setup() {
         songPlaylistModel = getModel();
+        if (selectedSong != null) {
+            txtSongName.setText(selectedSong.getTitle());
+            txtArtist.setText(selectedSong.getArtist().getName());
+            menuGenre.setValue(selectedSong.getGenre().getType());
+            txtTime.setText(String.valueOf(selectedSong.getTime()));
+        }
     }
 
     @FXML
@@ -48,6 +55,54 @@ public class CreateUpdateSongViewController extends BaseController implements In
     }
     @FXML
     private void handleUpdate(ActionEvent actionEvent) {
+        if (selectedSong == null) {
+            // Handle no selection
+            displayError(new Exception("No song selected"));
+            return;
+        }
+        try {
+            String title = txtSongName.getText();
+            String artistName = txtArtist.getText();
+            String genreType = menuGenre.getValue();
+            int time = Integer.parseInt(txtTime.getText());
+
+            // Update artist details
+            Artist artist = songPlaylistModel.findArtistName();
+            if (artist == null) {
+                artist = new Artist(artistName, selectedSong.getArtist().getId());
+                // Update artist in the model if needed
+            }
+
+            // Update genre
+            List<Genre> allGenres = songPlaylistModel.getAllGenres();
+            Genre selectedGenre = null;
+            for (Genre genre : allGenres) {
+                if (genre.getType().equals(genreType)) {
+                    selectedGenre = genre;
+                    break;
+                }
+            }
+
+            // Update the selected song details
+            selectedSong.setTitle(title);
+            selectedSong.setTime(time);
+            selectedSong.setArtist(artist);
+            selectedSong.setGenre(selectedGenre);
+            // ... Update other details as necessary
+
+            // Save the updated song
+            songPlaylistModel.updateSong(selectedSong);
+
+            // Refresh TableView
+
+        } catch (Exception e) {
+            displayError(e);
+            e.printStackTrace();
+        } finally {
+            // Close the window or perform other cleanup
+            btnUpdate.getScene().getWindow().hide();
+        }
+
     }
     @FXML
     private void handleCreate(ActionEvent actionEvent) {
@@ -100,4 +155,7 @@ public class CreateUpdateSongViewController extends BaseController implements In
         }
     }
 
+    public void setSelectedSong(Song song) {
+        this.selectedSong = song;
+    }
 }

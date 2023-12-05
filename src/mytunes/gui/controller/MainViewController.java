@@ -272,6 +272,31 @@ public class MainViewController extends BaseController implements Initializable 
 
     @FXML
     private void handleUpdate(ActionEvent actionEvent) throws IOException {
+
+        Song selectedSong = (Song) tblViewSearch.getSelectionModel().getSelectedItem();
+        if (selectedSong == null){
+            displayError(new Throwable("No song selected"));
+            return;
+        }
+
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateUpdateSongView.fxml"));
+        Parent popupWindow = loader.load();
+
+        CreateUpdateSongViewController controller = loader.getController();
+        controller.setModel(songPlaylistModel);
+        controller.setSelectedSong(selectedSong);
+        controller.setup();
+
+        Stage PopupWindow = new Stage();
+        PopupWindow.setTitle("Create/Update Song");
+        PopupWindow.initModality(Modality.APPLICATION_MODAL);
+        PopupWindow.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+
+        PopupWindow.setScene(new Scene(popupWindow));
+        PopupWindow.showAndWait();
+
+        tblViewSearch.refresh();
     }
 
     @FXML

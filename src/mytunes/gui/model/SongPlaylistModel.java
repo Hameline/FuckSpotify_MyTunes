@@ -112,10 +112,12 @@ public class SongPlaylistModel {
     public void updateSong(Song selectedSong) throws Exception {
         songManager.updateSong(selectedSong);
 
-        Song s = listOfSongs.get(listOfSongs.indexOf(selectedSong));
-        s.setTitle(selectedSong.getTitle());
-        s.setTime(selectedSong.getTime());
-        s.setGenre(selectedSong.getGenre());
+        if (listOfSongs != null) {
+            Song s = listOfSongs.get(listOfSongs.indexOf(selectedSong));
+            s.setTitle(selectedSong.getTitle());
+            s.setTime(selectedSong.getTime());
+            s.setGenre(selectedSong.getGenre());
+        }
     }
 
     // Method to create a new playlist
