@@ -76,7 +76,7 @@ public class Song {
         this.type = type;
     }
 
-    public String getfPath() {
+    public String getFPath() {
         return fPath;
     }
 

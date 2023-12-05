@@ -76,7 +76,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
             stmt.setInt(3, song.getArtist().getId());
             stmt.setInt(4, song.getGenre().getId());
             stmt.setString(5, song.getFormatedTime());
-            stmt.setString(6, song.getfPath());
+            stmt.setString(6, song.getFPath());
 
 
             // Run the specified SQL statement
@@ -91,7 +91,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
             }
 
             // Create song object and send up the layers
-            Song createdSong = new Song(id, song.getTitle(), song.getTime(), song.getArtist(), song.getGenre(), song.getFormatedTime(), song.getfPath());
+            Song createdSong = new Song(id, song.getTitle(), song.getTime(), song.getArtist(), song.getGenre(), song.getFormatedTime(), song.getFPath());
 
             return createdSong;
         }

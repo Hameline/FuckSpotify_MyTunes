@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" prefHeight="799.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
+<AnchorPane id="background" prefHeight="799.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
     <children>
         <AnchorPane />
       <VBox id="vboxplaylist" layoutY="126.0" stylesheets="@../css/MainView.css">
@@ -84,5 +84,6 @@
          </graphic>
       </MenuButton>
       <Label id="text" fx:id="lblSelectPlaylist" layoutX="217.0" layoutY="128.0" prefHeight="26.0" prefWidth="131.0" stylesheets="@../css/MainView.css" text="Select a Playlist" />
+      <Button fx:id="btnPlay" layoutX="786.0" layoutY="36.0" mnemonicParsing="false" onAction="#handlePlaySong" text="Play" />
     </children>
 </AnchorPane>

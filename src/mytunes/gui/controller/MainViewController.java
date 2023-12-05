@@ -15,6 +15,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
@@ -23,14 +25,17 @@ import mytunes.be.Song;
 import mytunes.dal.ISongDataAccess;
 import mytunes.gui.model.SongPlaylistModel;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("ALL")
-public class MainViewController extends BaseController implements Initializable {
+public class MainViewController<songPath> extends BaseController implements Initializable {
 
+    @FXML
+    private Button btnPlay;
     @FXML
     private Label lblSelectPlaylist;
     @FXML
@@ -68,7 +73,7 @@ public class MainViewController extends BaseController implements Initializable 
     @FXML
     private VBox vBoxDefault;
     @FXML
-    private TableView tblViewSearch;
+    private TableView<Song> tblViewSearch;
     @FXML
     private TableColumn tblViewPlaylistPlaylist;
     @FXML
@@ -82,6 +87,7 @@ public class MainViewController extends BaseController implements Initializable 
     private Song selectedSong;
     private Song storeSong;
     private boolean allowSongsInPlaylistView = true;
+    private MediaPlayer mediaPlayer;
 
     public MainViewController() {
         try {
@@ -379,4 +385,52 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
+    public void handlePlaySong(ActionEvent actionEvent) throws Exception {
+        Song songToPlay = tblViewSearch.getSelectionModel().getSelectedItem();
+        if (songToPlay != null) {
+            playSong(songToPlay.getFPath());
+        } else {
+            Song songsToPlay = tblViewSearch.getSelectionModel().getSelectedItem();
+            playSong(songsToPlay.getFPath());
+        }
+    }
+
+    public void playSong(String songPath) throws Exception{
+        File file = new File(songPath);
+        Media mSong = new Media(file.getAbsoluteFile().toURI().toString());
+
+        if(mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING)
+        {
+            mediaPlayer.stop();
+        }
+        try{
+            mediaPlayer = new MediaPlayer(mSong);
+            mediaPlayer.play();
+            mediaPlayer.setOnEndOfMedia(()->{
+                Song song;
+                if(tblViewSearch.getSelectionModel().getSelectedIndex() != -1){
+                    int nextSongIndex = tblViewSearch.getSelectionModel().getSelectedIndex() +1;
+                    tblViewSearch.getSelectionModel().select(nextSongIndex);
+                    song = tblViewSearch.getSelectionModel().getSelectedItem();
+
+                }else if(tblViewSearch.getSelectionModel().getSelectedIndex() != -1){
+                    int nextSongIndex = tblViewSearch.getSelectionModel().getSelectedIndex() +1;
+                    tblViewSearch.getSelectionModel().select(nextSongIndex);
+                    song = tblViewSearch.getSelectionModel().getSelectedItem();
+                }else{
+                    return;
+                }
+                try {
+                    playSong(song.getFPath());
+
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+            });
+        }catch (Exception exc) {
+            exc.printStackTrace();
+            throw new Exception("Could not play song", exc);
+        }
+    }
 }
