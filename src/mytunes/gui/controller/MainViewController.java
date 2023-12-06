@@ -41,6 +41,8 @@ import java.util.ResourceBundle;
 public class MainViewController<songPath> extends BaseController implements Initializable {
 
     @FXML
+    private TextField txtTotalTime;
+    @FXML
     private Button btnPlay, btnDelete, nextSong, previousSong;
     @FXML
     private Slider volumeSlider;
@@ -294,7 +296,7 @@ public class MainViewController<songPath> extends BaseController implements Init
 
         PopupWindow.setScene(new Scene(popupWindow));
         PopupWindow.showAndWait();
-        
+
         tblViewSearch.refresh();
     }
 
@@ -397,6 +399,7 @@ public class MainViewController<songPath> extends BaseController implements Init
                 try {
                     // here we fetch the songs from the database that is connected the the playlist with the id.
                     List<Song> songs = playlistSongsManager.fetchSongsForPlaylist(playlistId);
+                    updateTotalTimeTextField(songs);
                     ObservableList<Song> songObservableList = FXCollections.observableArrayList(songs);
                     tblViewSongsInPlaylist.setItems(songObservableList); // set the items(songs) in the the view.
                     tblViewSongsInPlaylist.refresh();
@@ -510,4 +513,11 @@ public class MainViewController<songPath> extends BaseController implements Init
 
     public void handlePreviousSong(ActionEvent actionEvent) {
     }
+
+    public void updateTotalTimeTextField(List<Song> songs) {
+        int totalTime = songPlaylistModel.calculateTotalTime(songs);
+        // Assuming txtTotalTime is the TextField where you want to display the total time
+        txtTotalTime.setText(songPlaylistModel.formatDuration(totalTime)); // You can create a method to format the duration as needed
+    }
+
 }

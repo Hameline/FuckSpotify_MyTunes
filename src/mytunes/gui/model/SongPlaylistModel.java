@@ -185,4 +185,25 @@ public class SongPlaylistModel {
         return artistManager.createArtist(artist);
     }
 
+    public int calculateTotalTime(List<Song> songs) {
+        int totalTime = 0;
+        for (Song song : songs) {
+            totalTime += song.getTime(); // getTime() should return the duration of the song in seconds
+        }
+        return totalTime;
+    }
+
+    public String formatDuration(int totalTime) {
+        int hours = totalTime / 3600;
+        int minutes = (totalTime % 3600) / 60;
+        int seconds = totalTime % 60;
+
+        if (hours > 0) {
+            return String.format("%d hours %02d minutes %02d seconds", hours, minutes, seconds);
+        } else if (minutes > 0) {
+            return String.format("%02d minutes %02d seconds", minutes, seconds);
+        } else {
+            return String.format("%02d seconds", seconds);
+        }
+    }
 }

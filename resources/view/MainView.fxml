@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" prefHeight="799.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
+<AnchorPane id="background" prefHeight="799.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
     <children>
         <AnchorPane />
       <VBox id="vboxplaylist" layoutY="126.0" stylesheets="@../css/MainView.css">
@@ -95,5 +95,6 @@
             <Font size="27.0" />
          </font>
       </Label>
+      <TextField fx:id="txtTotalTime" layoutX="366.0" layoutY="126.0" />
     </children>
 </AnchorPane>
