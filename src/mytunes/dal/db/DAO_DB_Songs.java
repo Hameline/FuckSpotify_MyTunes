@@ -141,7 +141,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
             // Bind parameters
             stmt.setInt(1, song.getId());
             stmt.setInt(2, playlistSongs.getSongID());
-
+            stmt.setInt(2, song.getId());
 
             // Run the specified SQL statement
             stmt.executeUpdate();

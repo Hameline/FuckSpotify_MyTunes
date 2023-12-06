@@ -47,7 +47,7 @@ public class MainViewController<songPath> extends BaseController implements Init
     @FXML
     private Slider volumeSlider;
     @FXML
-    private Label playingSong;
+    private Label songTimer;
     @FXML
     private Label lblSelectPlaylist;
     @FXML
@@ -167,7 +167,7 @@ public class MainViewController<songPath> extends BaseController implements Init
         });
     }
     private void defaultMenu() {
-        // MAKES the TBT VIEW INVISIBLE
+        // MAKES the TBL VIEW INVISIBLE
         tblViewSearch.setVisible(false);
 
         // MAKES the BUTTON BAR INVISIBLE
@@ -190,7 +190,8 @@ public class MainViewController<songPath> extends BaseController implements Init
         storePlaylist = null;
         lblSelectPlaylist.setVisible(false);
 
-
+        tblViewSearch.setItems(songPlaylistModel.getListOfSongs());
+        tblViewPlaylist.setItems(songPlaylistModel.getListOfPlaylists());
     }
 
     @FXML
@@ -479,6 +480,7 @@ public class MainViewController<songPath> extends BaseController implements Init
         }
         try{
             mediaPlayer = new MediaPlayer(mSong);
+            //playingTimer();
             mediaPlayer.play();
             mediaPlayer.setOnEndOfMedia(()->{
                 Song song;
@@ -520,4 +522,29 @@ public class MainViewController<songPath> extends BaseController implements Init
         txtTotalTime.setText(songPlaylistModel.formatDuration(totalTime)); // You can create a method to format the duration as needed
     }
 
+
+    private void playingTimer()
+    {/*
+        songTimer.textProperty().bind(
+                new StringBinding()
+                {
+                    {
+                        super.bind(mediaPlayer.currentTimeProperty());
+                    }
+
+                    @Override
+                    protected String computeValue() {
+                        int time = (int) (mediaPlayer.getCurrentTime().toMillis()/1000);
+                        int minutes = time /60;
+                        int seconds = time %60;
+                        String textSeconds;
+                        if(seconds <= 9){
+                            textSeconds = "0" + seconds;
+                        }else{
+                            textSeconds = ""+ seconds;
+                        }
+                        return minutes + ":" + textSeconds;
+                    }
+                });
+    */}
 }

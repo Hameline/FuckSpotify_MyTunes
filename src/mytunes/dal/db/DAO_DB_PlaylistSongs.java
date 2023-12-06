@@ -41,6 +41,7 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement pStmt = conn.prepareStatement(sql)){
 
+
                  pStmt.setInt(1, playlistid); // uses the playlist id here, to get the rest.
                  ResultSet rs = pStmt.executeQuery();
 
@@ -64,13 +65,14 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
                     // this object is added to the list.
                     allSongsInPlaylist.add(playlistSongs);
                 }
-                return allSongsInPlaylist;
+                    return allSongsInPlaylist;
 
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                throw new Exception("Could not get playlist songs from database", ex);
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    throw new Exception("Could not get playlist songs from database", ex);
+                }
             }
-    }
 
     @Override
     public PlaylistSongs addSongToPlaylist(PlaylistSongs playlistSongs) throws Exception {
