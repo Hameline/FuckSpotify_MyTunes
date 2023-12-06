@@ -132,13 +132,16 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
     public Song deleteSong(Song song) throws Exception {
         // SQL command
-        String sql = "delete from FSpotify.dbo.Songs WHERE SongID = ?;";
+        String sql = "delete from FSpotify.dbo.Songs WHERE SongID = ? " +
+                     "delete from FSpotify.dbo.PlaylistSongs where SongID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             // Bind parameters
             stmt.setInt(1, song.getId());
+            stmt.setInt(2, playlistSongs.getSongID());
+
 
             // Run the specified SQL statement
             stmt.executeUpdate();

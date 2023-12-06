@@ -8,6 +8,14 @@ public class PlaylistSongs {
     private Genre type;
     private Song song;
 
+    public Song getSong() {
+        return song;
+    }
+
+    public void setSong(Song song) {
+        this.song = song;
+    }
+
     public int getTime() {
         return time;
     }
@@ -52,13 +60,7 @@ public class PlaylistSongs {
         this.type = type;
     }
 
-    public Song getSong() {
-        return song;
-    }
 
-    public void setSong(Song song) {
-        this.song = song;
-    }
 
     public PlaylistSongs(int songID, int playlistID, String title, int time, Artist artist, Genre type, String formatedTime, String fPath) {
         this.playlistID = playlistID;
@@ -69,6 +71,7 @@ public class PlaylistSongs {
         this.artist = artist;
         this.type = type;
         this.fPath = fPath;
+
     }
 
 
@@ -91,9 +94,7 @@ public class PlaylistSongs {
         this.songID = id;
     }
 
-    public PlaylistSongs(Song song){
-        this.song = song;
-    }
+
 
     /**
      * return null - skal have fixet det.
@@ -101,9 +102,9 @@ public class PlaylistSongs {
      */
     public String getFormatedTime() {
         if (song != null) {
-            return song.getFormatedTime();
+            return song.getConvertedTime();
         } else {
-            return "song is still null";
+            return "no time";
         }
 
     }
