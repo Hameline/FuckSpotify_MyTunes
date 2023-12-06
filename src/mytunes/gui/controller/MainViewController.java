@@ -451,7 +451,7 @@ public class MainViewController<songPath> extends BaseController implements Init
         }
         try{
             mediaPlayer = new MediaPlayer(mSong);
-            playingTimer();
+            //playingTimer();
             mediaPlayer.play();
             mediaPlayer.setOnEndOfMedia(()->{
                 Song song;
