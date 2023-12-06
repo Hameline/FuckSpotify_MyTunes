@@ -22,7 +22,7 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
         ArrayList<PlaylistSongs> allPlaylistSongs = new ArrayList<>();
         List<Integer> playlist = new ArrayList<>();
 
-        if (playlist.isEmpty()){
+        if (playlist.isEmpty()) {
             return allPlaylistSongs;
         }
 
@@ -32,9 +32,9 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
                 "left outer join FSpotify.dbo.Genre G on A.ArtistID = G.ArtistID " +
                 "where PlaylistID = ? ");
 
-        for (int i = 0; i < playlist.size(); i++){
+        for (int i = 0; i < playlist.size(); i++) {
             sql.append("?");
-            if (i < playlist.size() -1 ){
+            if (i < playlist.size() - 1) {
                 sql.append(", ");
             }
         }
@@ -43,37 +43,40 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement pStmt = conn.prepareStatement(sql.toString())) {
 
-            for (int i = 0; i < playlist.size(); i++) {
-                pStmt.setInt(1, playlist.get(i));
-            }
+            {
 
-            try (ResultSet rs = pStmt.executeQuery()) {
-                // Loop through rows from the database result set
-                while (rs.next()) {
-
-                    //Map DB row to Playlist object
-
-                    int playlistID = rs.getInt("PlaylistID");
-                    int songID = rs.getInt("SongID");
-                    String songTitle = rs.getString("SongTitle");
-                    int duration = rs.getInt("SongDuration");
-                    String formatedTime = rs.getString("SongDuration");
-                    String artistName = rs.getString("ArtistName");
-                    int artistID = rs.getInt("ArtistID");
-                    String type = rs.getString("GenreType");
-                    int id = rs.getInt("GenreID");
-                    String fPath = rs.getString("songPath");
-
-                    Artist artist = new Artist(artistName, artistID);
-                    Genre genreType = new Genre(type, id, artistID);
-                    PlaylistSongs playlistSongs = new PlaylistSongs(playlistID, songID, songTitle, duration, artist, genreType, formatedTime, fPath);
-                    allPlaylistSongs.add(playlistSongs);
+                for (int i = 0; i < playlist.size(); i++) {
+                    pStmt.setInt(1, playlist.get(i));
                 }
-                return allPlaylistSongs;
 
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                throw new Exception("Could not get playlist songs from database", ex);
+                try (ResultSet rs = pStmt.executeQuery()) {
+                    // Loop through rows from the database result set
+                    while (rs.next()) {
+
+                        //Map DB row to Playlist object
+
+                        int playlistID = rs.getInt("PlaylistID");
+                        int songID = rs.getInt("SongID");
+                        String songTitle = rs.getString("SongTitle");
+                        int duration = rs.getInt("SongDuration");
+                        String formatedTime = rs.getString("SongDuration");
+                        String artistName = rs.getString("ArtistName");
+                        int artistID = rs.getInt("ArtistID");
+                        String type = rs.getString("GenreType");
+                        int id = rs.getInt("GenreID");
+                        String fPath = rs.getString("songPath");
+
+                        Artist artist = new Artist(artistName, artistID);
+                        Genre genreType = new Genre(type, id, artistID);
+                        PlaylistSongs playlistSongs = new PlaylistSongs(playlistID, songID, songTitle, duration, artist, genreType, formatedTime, fPath);
+                        allPlaylistSongs.add(playlistSongs);
+                    }
+                    return allPlaylistSongs;
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    throw new Exception("Could not get playlist songs from database", ex);
+                }
             }
         }
     }

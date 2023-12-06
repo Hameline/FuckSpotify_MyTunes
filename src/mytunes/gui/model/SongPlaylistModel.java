@@ -11,7 +11,6 @@ public class SongPlaylistModel {
 
     // ObservableLists to store different types of data
     private ObservableList<Song> listOfSongs;
-    private ObservableList<Song> songsToBePlayed;
     private ObservableList<Artist> searchedArtist;
     private ObservableList<Playlist> listOfPlaylists;
     private ObservableList<PlaylistSongs> listSongsFromPlaylist;
@@ -30,8 +29,8 @@ public class SongPlaylistModel {
     public SongPlaylistModel() throws Exception {
         songManager = new SongManager();
         genreManager = new GenreManager();
-        songsToBePlayed = FXCollections.observableArrayList();
-        songsToBePlayed.addAll(songManager.getAllSongs());
+        listOfSongs = FXCollections.observableArrayList();
+        listOfSongs.addAll(songManager.getAllSongs());
 
         playlistManager = new PlaylistManager();
         listOfPlaylists = FXCollections.observableArrayList();
@@ -49,7 +48,7 @@ public class SongPlaylistModel {
 
     // Getter for the list of songs to be played
     public ObservableList<Song> getListOfSongs() {
-        return songsToBePlayed;
+        return listOfSongs;
     }
 
     // Getter for the list of songs in a playlist
@@ -76,8 +75,8 @@ public class SongPlaylistModel {
     // Method to search for songs based on a query
     public void searchSong(String query) throws Exception {
         List<Song> searchResults = songManager.searchSong(query);
-        songsToBePlayed.clear();
-        songsToBePlayed.addAll(searchResults);
+        listOfSongs.clear();
+        listOfSongs.addAll(searchResults);
     }
 
     // Method to search for artists based on a query
