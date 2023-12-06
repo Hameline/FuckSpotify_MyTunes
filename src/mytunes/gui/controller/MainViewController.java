@@ -4,6 +4,8 @@ import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +26,7 @@ import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.PlaylistSongs;
 import mytunes.be.Song;
+import mytunes.bll.PlaylistSongsManager;
 import mytunes.dal.ISongDataAccess;
 import mytunes.gui.model.SongPlaylistModel;
 
@@ -56,7 +59,8 @@ public class MainViewController<songPath> extends BaseController implements Init
     @FXML
     private MenuButton btnMenuPlaylist;
     @FXML
-    private TableView tblViewSongsInPlaylist;
+    //private TableView tblViewSongsInPlaylist;
+    private TableView<Song> tblViewSongsInPlaylist;
     @FXML
     private Label lblPlaylistName;
     @FXML
@@ -95,8 +99,9 @@ public class MainViewController<songPath> extends BaseController implements Init
     private MediaPlayer mediaPlayer;
     @FXML
     private TableColumn<Song, String> tblViewSearchDuration;
+    private PlaylistSongsManager playlistSongsManager = new PlaylistSongsManager();
 
-    public MainViewController() {
+    public MainViewController() throws IOException {
         try {
             songPlaylistModel = new SongPlaylistModel();
         }
@@ -367,8 +372,15 @@ public class MainViewController<songPath> extends BaseController implements Init
         }
     }
 
+    /**
+     * Here we handle the event whem the user selects a playlist.
+     * The user can see what song are in the selected playlist,
+     * the same way as the user sees them in the search window.
+     * @param mouseEvent
+     * @throws Exception
+     */
     @FXML
-    private void handlePlaylist(MouseEvent mouseEvent) {
+    private void handlePlaylist(MouseEvent mouseEvent) throws Exception {
         if (allowSongsInPlaylistView == true) {
             selectedPlaylist = (Playlist) tblViewPlaylist.getSelectionModel().getSelectedItem();
             if (selectedPlaylist != null) {
@@ -381,12 +393,26 @@ public class MainViewController<songPath> extends BaseController implements Init
 
                 btnNewPlaylist.setText("Change Playlist Name");
 
+                int playlistId = selectedPlaylist.getId(); //get the id of the selected playlist.
+                try {
+                    // here we fetch the songs from the database that is connected the the playlist with the id.
+                    List<Song> songs = playlistSongsManager.fetchSongsForPlaylist(playlistId);
+                    ObservableList<Song> songObservableList = FXCollections.observableArrayList(songs);
+                    tblViewSongsInPlaylist.setItems(songObservableList); // set the items(songs) in the the view.
+                    tblViewSongsInPlaylist.refresh();
+                } catch (Exception e) {
+                    displayError(e);
+                    e.printStackTrace();
+                }
+
                 lblPlaylistName.setText(selectedPlaylist.getName());
-                tblViewSongsInPlaylist.setItems(songPlaylistModel.getSongsFromPlaylist());
+                tblViewSongsInPlaylist.setItems(songPlaylistModel.getSongsFromPlaylist(selectedPlaylist.getId()));
                 tblViewSongInPlaylistArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
-                tblViewSongInPlaylistGenre.setCellValueFactory(new PropertyValueFactory<>("type"));
+                tblViewSongInPlaylistGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
                 tblViewSongInPlaylistSong.setCellValueFactory(new PropertyValueFactory<>("title"));
                 tblViewSongInPlaylistDuration.setCellValueFactory(new PropertyValueFactory<>("formatedTime"));
+                tblViewSongsInPlaylist.refresh();
+
 
             }
             else {

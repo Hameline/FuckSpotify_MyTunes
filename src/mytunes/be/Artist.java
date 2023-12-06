@@ -35,4 +35,8 @@ public class Artist {
     public String toLowerCase() {
         return toString();
     }
+
+    public String getArtistName() {
+        return name;
+    }
 }

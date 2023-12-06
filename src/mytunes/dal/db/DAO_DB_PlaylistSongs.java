@@ -18,64 +18,58 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
         databaseConnector = new MyTunesDataBaseConnector();
     }
 
-    public List<PlaylistSongs> getAllPlaylistSongs() throws Exception {
-        ArrayList<PlaylistSongs> allPlaylistSongs = new ArrayList<>();
-        List<Integer> playlist = new ArrayList<>();
+    /**
+     *
+     * @param playlistid is the id of the playlist that the user selects.
+     * @return all the songs that is connected to the playlist with the id selected.
+     * @throws Exception
+     */
+    public List<Song> getPlaylistSong(int playlistid) throws Exception {
+        List<Song> allSongsInPlaylist = new ArrayList<>();
+        String sql =
+                /**
+                 * This is the SQL statement used to get the information from
+                 * the database that we want.
+                 */
+                "SELECT S.*, A.ArtistName, G.GenreType FROM Songs S\n" + // selects the values from column Song
+                "INNER JOIN PlaylistSongs PS ON S.SongID = PS.SongID\n" + // joins so that we can get the song title
+                "LEFT JOIN Artist A ON A.ArtistID = S.ArtistID\n" + // joins so that we can get the artist name
+                "LEFT JOIN Genre G ON G.GenreID = S.GenreID\n" + // joins so that we can get the genre type.
+                "WHERE PS.PlaylistID = ?"; // from the playlist that the user selects
 
-        if (playlist.isEmpty()){
-            return allPlaylistSongs;
-        }
-
-        StringBuilder sql = new StringBuilder("SELECT * FROM FSpotify.dbo.PlaylistSongs " +
-                "left join FSpotify.dbo.Songs S on S.SongID = PlaylistSongs.SongID " +
-                "left join FSpotify.dbo.Artist A on A.ArtistID = S.ArtistID " +
-                "left outer join FSpotify.dbo.Genre G on A.ArtistID = G.ArtistID " +
-                "where PlaylistID = ? ");
-
-        for (int i = 0; i < playlist.size(); i++){
-            sql.append("?");
-            if (i < playlist.size() -1 ){
-                sql.append(", ");
-            }
-        }
-        sql.append(") ");
 
         try (Connection conn = databaseConnector.getConnection();
-             PreparedStatement pStmt = conn.prepareStatement(sql.toString())) {
+             PreparedStatement pStmt = conn.prepareStatement(sql)){
 
-            for (int i = 0; i < playlist.size(); i++) {
-                pStmt.setInt(1, playlist.get(i));
-            }
+                 pStmt.setInt(1, playlistid); // uses the playlist id here, to get the rest.
+                 ResultSet rs = pStmt.executeQuery();
 
-            try (ResultSet rs = pStmt.executeQuery()) {
                 // Loop through rows from the database result set
-                while (rs.next()) {
+                 while (rs.next()) {
 
                     //Map DB row to Playlist object
+                     int songID = rs.getInt("SongID");
+                     String songTitle = rs.getString("SongTitle");
+                     int duration = rs.getInt("SongDuration");
+                     String formatedTime = rs.getString("SongDuration");
+                     String artistName = rs.getString("ArtistName");
+                     int artistID = rs.getInt("ArtistID");
+                     String type = rs.getString("GenreType");
+                     int id = rs.getInt("GenreID");
+                     String fPath = rs.getString("songPath");
 
-                    int playlistID = rs.getInt("PlaylistID");
-                    int songID = rs.getInt("SongID");
-                    String songTitle = rs.getString("SongTitle");
-                    int duration = rs.getInt("SongDuration");
-                    String formatedTime = rs.getString("SongDuration");
-                    String artistName = rs.getString("ArtistName");
-                    int artistID = rs.getInt("ArtistID");
-                    String type = rs.getString("GenreType");
-                    int id = rs.getInt("GenreID");
-                    String fPath = rs.getString("songPath");
-
-                    Artist artist = new Artist(artistName, artistID);
-                    Genre genreType = new Genre(type, id, artistID);
-                    PlaylistSongs playlistSongs = new PlaylistSongs(playlistID, songID, songTitle, duration, artist, genreType, formatedTime, fPath);
-                    allPlaylistSongs.add(playlistSongs);
+                    Artist artist = new Artist(artistName, artistID); // creates an object to bind to the playlistSong
+                    Genre genreType = new Genre(type, id, artistID); // same as above..
+                    Song playlistSongs = new Song(songID, songTitle, duration, artist, genreType, formatedTime, fPath);
+                    // this object is added to the list.
+                    allSongsInPlaylist.add(playlistSongs);
                 }
-                return allPlaylistSongs;
+                return allSongsInPlaylist;
 
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 throw new Exception("Could not get playlist songs from database", ex);
             }
-        }
     }
 
     @Override
@@ -125,5 +119,10 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
             throw new Exception("Could not create playlist", ex);
         }
         return playlistSongs;
+    }
+
+    @Override
+    public List<Song> fetchSongsForPlaylist(int playlistId) throws Exception {
+        return null;
     }
 }

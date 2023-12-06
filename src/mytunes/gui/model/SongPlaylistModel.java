@@ -16,6 +16,8 @@ public class SongPlaylistModel {
     private ObservableList<Playlist> listOfPlaylists;
     private ObservableList<PlaylistSongs> listSongsFromPlaylist;
 
+    private ObservableList<Song> listOfSongInPlaylist = FXCollections.observableArrayList();
+
     // Selected song and playlist
     private Song selectedSong;
     private Playlist selectedPlaylist;
@@ -43,7 +45,7 @@ public class SongPlaylistModel {
 
         playlistSongsManager = new PlaylistSongsManager();
         listSongsFromPlaylist = FXCollections.observableArrayList();
-        listSongsFromPlaylist.addAll(playlistSongsManager.getAllSongsFromPlaylist());
+        //listSongsFromPlaylist.addAll(playlistSongsManager.getAllSongsFromPlaylist());
 
     }
 
@@ -53,8 +55,17 @@ public class SongPlaylistModel {
     }
 
     // Getter for the list of songs in a playlist
-    public ObservableList<PlaylistSongs> getSongsFromPlaylist() {
-        return listSongsFromPlaylist;
+
+    /**
+     *
+     * @param playlistid the id of the selected playlist
+     * @return
+     * @throws Exception
+     */
+    public ObservableList<Song> getSongsFromPlaylist(int playlistid) throws Exception {
+        List<Song> songs = playlistSongsManager.fetchSongsForPlaylist(playlistid);
+        listOfSongInPlaylist.setAll(songs);
+        return listOfSongInPlaylist;
     }
 
     // Method to add a song to a playlist
