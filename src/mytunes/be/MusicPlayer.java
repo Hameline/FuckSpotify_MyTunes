@@ -35,4 +35,17 @@ public class MusicPlayer {
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }
+
+    public double getVolume() {
+        if (mediaPlayer != null) {
+            return mediaPlayer.getVolume();
+        }
+        return 0;
+    }
+
+    public void setVolume(double volume) {
+        if (mediaPlayer != null) {
+            mediaPlayer.setVolume(volume);
+        }
+    }
 }

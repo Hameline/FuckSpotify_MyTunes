@@ -28,7 +28,6 @@ import mytunes.be.Playlist;
 import mytunes.be.PlaylistSongs;
 import mytunes.be.Song;
 import mytunes.bll.PlaylistSongsManager;
-import mytunes.dal.ISongDataAccess;
 import mytunes.gui.model.SongPlaylistModel;
 
 import java.io.File;
@@ -44,7 +43,7 @@ public class MainViewController<songPath> extends BaseController implements Init
     @FXML
     private Label txtTotalTime;
     @FXML
-    private Button btnPlay, btnDelete, nextSong, previousSong;
+    private Button btnPlay, btnDelete, nextSong, previousSong, handlePlaySong;
     @FXML
     private Slider volumeSlider;
     @FXML
@@ -462,14 +461,7 @@ public class MainViewController<songPath> extends BaseController implements Init
         }
     }
 
-    public void handlePlaySong(ActionEvent actionEvent) throws Exception {
-        if (switchFromPlayAndPause == 1){
-            btnPlay.setText("||");
-            switchFromPlayAndPause = 2;
-        } else if (switchFromPlayAndPause == 2) {
-            btnPlay.setText("▶");
-            switchFromPlayAndPause = 1;
-        }
+    public void play() throws Exception{
         Song songToPlaySearch = tblViewSearch.getSelectionModel().getSelectedItem();
         if (songToPlaySearch != null) {
             playSong(songToPlaySearch.getFPath());
@@ -481,7 +473,25 @@ public class MainViewController<songPath> extends BaseController implements Init
         } else if (songToPlayPlaylist == null){}
     }
 
-    public void playSong(String songPath) throws Exception{
+    public void pause() {
+        if (mediaPlayer != null){
+            mediaPlayer.pause();
+        }
+    }
+
+    public void handlePlaySong(ActionEvent actionEvent) throws Exception {
+        if (switchFromPlayAndPause == 1){
+            btnPlay.setText("||");
+            switchFromPlayAndPause = 2;
+            play();
+        } else if (switchFromPlayAndPause == 2) {
+            btnPlay.setText("▶");
+            switchFromPlayAndPause = 1;
+            pause();
+        }
+    }
+
+    public void playSong(String songPath) throws Exception {
         File file = new File(songPath);
         Media mSong = new Media(file.getAbsoluteFile().toURI().toString());
 
@@ -491,7 +501,7 @@ public class MainViewController<songPath> extends BaseController implements Init
         }
         try{
             mediaPlayer = new MediaPlayer(mSong);
-            //playingTimer();
+            playingTimer();
             mediaPlayer.play();
             mediaPlayer.setOnEndOfMedia(()->{
                 Song song;
@@ -500,10 +510,10 @@ public class MainViewController<songPath> extends BaseController implements Init
                     tblViewSearch.getSelectionModel().select(nextSongIndex);
                     song = tblViewSearch.getSelectionModel().getSelectedItem();
 
-                }else if(tblViewSearch.getSelectionModel().getSelectedIndex() != -1){
-                    int nextSongIndex = tblViewSearch.getSelectionModel().getSelectedIndex() +1;
-                    tblViewSearch.getSelectionModel().select(nextSongIndex);
-                    song = tblViewSearch.getSelectionModel().getSelectedItem();
+                }else if(tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex() != -1){
+                    int nextSongIndex = tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex() +1;
+                    tblViewSongsInPlaylist.getSelectionModel().select(nextSongIndex);
+                    song = tblViewSongsInPlaylist.getSelectionModel().getSelectedItem();
                 }else{
                     return;
                 }
@@ -521,10 +531,52 @@ public class MainViewController<songPath> extends BaseController implements Init
         }
     }
 
-    public void handleNextSong(ActionEvent actionEvent) {
+    public void handleStopSong(ActionEvent actionEvent) throws Exception {
+        if (mediaPlayer != null){
+            mediaPlayer.stop();
+        }
     }
 
-    public void handlePreviousSong(ActionEvent actionEvent) {
+    public void handleNextSong(ActionEvent actionEvent) throws Exception {
+        int indexSearch = tblViewSearch.getSelectionModel().getSelectedIndex();
+        int indexPlaylist = tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex();
+
+        if (indexSearch != -1 && indexSearch < tblViewSearch.getItems().size() - 1) {
+            // Select the next song in tblViewSearch
+            tblViewSearch.getSelectionModel().clearAndSelect(indexSearch + 1);
+            Song songToPlay = tblViewSearch.getSelectionModel().getSelectedItem();
+            if (songToPlay != null) {
+                playSong(songToPlay.getFPath());
+            }
+        } else if (indexPlaylist != -1 && indexPlaylist < tblViewSongsInPlaylist.getItems().size() - 1) {
+            // Select the next song in tblViewSongsInPlaylist
+            tblViewSongsInPlaylist.getSelectionModel().clearAndSelect(indexPlaylist + 1);
+            Song songToPlay = tblViewSongsInPlaylist.getSelectionModel().getSelectedItem();
+            if (songToPlay != null) {
+                playSong(songToPlay.getFPath());
+            }
+        }
+    }
+
+    public void handlePreviousSong(ActionEvent actionEvent) throws Exception {
+        int indexSearch = tblViewSearch.getSelectionModel().getSelectedIndex();
+        int indexPlaylist = tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex();
+
+        if (indexSearch > 0) {
+            // Select the previous song in tblViewSearch
+            tblViewSearch.getSelectionModel().clearAndSelect(indexSearch - 1);
+            Song songToPlay = tblViewSearch.getSelectionModel().getSelectedItem();
+            if (songToPlay != null) {
+                playSong(songToPlay.getFPath());
+            }
+        } else if (indexPlaylist > 0) {
+            // Select the previous song in tblViewSongsInPlaylist
+            tblViewSongsInPlaylist.getSelectionModel().clearAndSelect(indexPlaylist - 1);
+            Song songToPlay = tblViewSongsInPlaylist.getSelectionModel().getSelectedItem();
+            if (songToPlay != null) {
+                playSong(songToPlay.getFPath());
+            }
+        }
     }
 
     public void updateTotalTimeTextField(List<Song> songs) {
@@ -535,7 +587,7 @@ public class MainViewController<songPath> extends BaseController implements Init
 
 
     private void playingTimer()
-    {/*
+    {
         songTimer.textProperty().bind(
                 new StringBinding()
                 {
@@ -557,5 +609,5 @@ public class MainViewController<songPath> extends BaseController implements Init
                         return minutes + ":" + textSeconds;
                     }
                 });
-    */}
+    }
 }
