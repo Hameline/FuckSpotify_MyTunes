@@ -25,6 +25,7 @@ public class MyTunesDataBaseConnector {
         dataSource.setPassword(databaseProperties.getProperty("Password"));
         dataSource.setPortNumber(1433);
         dataSource.setTrustServerCertificate(true);
+
     }
 
     public Connection getConnection() throws SQLServerException {
