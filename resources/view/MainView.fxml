@@ -12,12 +12,14 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" prefHeight="799.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
+<AnchorPane id="background" prefHeight="854.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
     <children>
-        <AnchorPane />
       <VBox id="vboxplaylist" layoutY="126.0" stylesheets="@../css/MainView.css">
          <children>
               <Button fx:id="btnNewPlaylist" mnemonicParsing="false" onAction="#HandleNewPlaylist" prefHeight="25.0" prefWidth="149.0" stylesheets="@../css/MainView.css" text="+ New Playlist">
@@ -25,7 +27,7 @@
                       <Font name="Comic Sans MS Bold" size="12.0" />
                   </font>
               </Button>
-              <TableView fx:id="tblViewPlaylist" onMouseClicked="#handlePlaylist" prefHeight="570.0" prefWidth="149.0">
+              <TableView id="vbox" fx:id="tblViewPlaylist" onMouseClicked="#handlePlaylist" prefHeight="570.0" prefWidth="149.0" stylesheets="@../css/MainView.css">
                   <columns>
                       <TableColumn fx:id="tblViewPlaylistPlaylist" prefWidth="148.0" text="Playlist" />
                   </columns>
@@ -57,7 +59,7 @@
           <Button fx:id="btnCreate" mnemonicParsing="false" onAction="#handelCreate" stylesheets="@../css/MainView.css" text="Create" />
         </buttons>
       </ButtonBar>
-        <TableView id="tableviewsearch" fx:id="tblViewSearch" layoutX="215.0" layoutY="153.0" onMouseClicked="#handleAddSongToPlaylist" prefHeight="570.0" prefWidth="1091.0" stylesheets="@../css/MainView.css">
+        <TableView id="vbox" fx:id="tblViewSearch" layoutX="215.0" layoutY="153.0" onMouseClicked="#handleAddSongToPlaylist" prefHeight="570.0" prefWidth="1091.0" stylesheets="@../css/MainView.css">
             <columns>
                 <TableColumn fx:id="tblViewSearchSong" prefWidth="218.0" text="Song" />
                 <TableColumn fx:id="tblViewSearchDuration" minWidth="0.0" prefWidth="59.0" text="Duration" />
@@ -65,7 +67,7 @@
                 <TableColumn fx:id="tblViewSearchGenre" prefWidth="117.0" text="Genre" />
             </columns>
         </TableView>
-      <TableView fx:id="tblViewSongsInPlaylist" layoutX="217.0" layoutY="155.0" prefHeight="570.0" prefWidth="1091.0">
+      <TableView id="vbox" fx:id="tblViewSongsInPlaylist" layoutX="217.0" layoutY="155.0" prefHeight="570.0" prefWidth="1091.0" stylesheets="@../css/MainView.css">
         <columns>
             <TableColumn fx:id="tblViewSongInPlaylistSong" prefWidth="218.0" text="Song" />
             <TableColumn fx:id="tblViewSongInPlaylistDuration" minWidth="0.0" prefWidth="59.0" text="Duration" />
@@ -73,28 +75,50 @@
             <TableColumn fx:id="tblViewSongInPlaylistGenre" prefWidth="117.0" text="Genre" />
         </columns>
       </TableView>
-      <MenuButton fx:id="btnMenuPlaylist" layoutX="217.0" layoutY="127.0" mnemonicParsing="false" stylesheets="@../css/MainView.css" text=":">
-        <items>
-          <MenuItem fx:id="btnMenuDelete" mnemonicParsing="false" onAction="#handleDeletePlaylist" text="Delete Playlist" />
-        </items>
-         <graphic>
-            <Label fx:id="lblPlaylistName" stylesheets="@../css/MainView.css" text="Playlist Name">
-               <padding>
-                  <Insets right="20.0" />
-               </padding>
-            </Label>
-         </graphic>
-      </MenuButton>
+      <Slider layoutX="439.0" layoutY="824.0" prefHeight="14.0" prefWidth="432.0" scaleX="3.0" scaleY="3.0" />
       <Label id="text" fx:id="lblSelectPlaylist" layoutX="217.0" layoutY="128.0" prefHeight="26.0" prefWidth="131.0" stylesheets="@../css/MainView.css" text="Select a Playlist" />
-      <Button fx:id="btnPlay" layoutX="786.0" layoutY="36.0" mnemonicParsing="false" onAction="#handlePlaySong" prefWidth="38.0" text="Play" />
-      <Button fx:id="nextSong" layoutX="834.0" layoutY="36.0" mnemonicParsing="false" onAction="#handleNextSong" text="&gt;&gt;" />
-      <Button fx:id="previousSong" layoutX="744.0" layoutY="36.0" mnemonicParsing="false" onAction="#handlePreviousSong" text="&lt;&lt;" />
-      <Slider fx:id="volumeSlider" layoutX="735.0" layoutY="69.0" />
-      <Label fx:id="songTimer" layoutX="791.0" layoutY="89.0" text="Label" textFill="#b9d620">
+      <Button fx:id="btnPlay" layoutX="623.0" layoutY="809.0" mnemonicParsing="false" onAction="#handlePlaySong" prefHeight="44.0" prefWidth="62.0" text="▶">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+      <Button fx:id="nextSong" layoutX="694.0" layoutY="819.0" mnemonicParsing="false" onAction="#handleNextSong" text="&gt;&gt;" />
+      <Button fx:id="previousSong" layoutX="581.0" layoutY="819.0" mnemonicParsing="false" onAction="#handlePreviousSong" text="&lt;&lt;" />
+      <Slider fx:id="volumeSlider" layoutX="1151.0" layoutY="803.0" prefHeight="14.0" prefWidth="143.0" />
+      <Label fx:id="songTimer" alignment="CENTER" contentDisplay="CENTER" layoutX="587.0" layoutY="763.0" text="Song Timer" textFill="#b9d620">
          <font>
             <Font size="27.0" />
          </font>
       </Label>
-      <TextField fx:id="txtTotalTime" layoutX="366.0" layoutY="126.0" />
+      <GridPane fx:id="btnMenuPlaylist" layoutX="217.0" layoutY="131.0" prefHeight="68.0" prefWidth="275.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <MenuButton mnemonicParsing="false" stylesheets="@../css/MainView.css" text=":">
+              <items>
+                <MenuItem fx:id="btnMenuDelete" mnemonicParsing="false" onAction="#handleDeletePlaylist" text="Delete Playlist" />
+              </items>
+               <graphic>
+                  <Label fx:id="lblPlaylistName" stylesheets="@../css/MainView.css" text="Playlist Name">
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+               </graphic>
+            </MenuButton>
+            <Label id="text" fx:id="txtTotalTime" prefHeight="17.0" prefWidth="109.0" stylesheets="@../css/MainView.css" text="Total Time" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
+      <Label fx:id="songTimer1" alignment="CENTER" contentDisplay="CENTER" layoutX="1175.0" layoutY="763.0" prefHeight="39.0" prefWidth="131.0" text="Volume" textFill="#b9d620">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -41,7 +42,7 @@ import java.util.ResourceBundle;
 public class MainViewController<songPath> extends BaseController implements Initializable {
 
     @FXML
-    private TextField txtTotalTime;
+    private Label txtTotalTime;
     @FXML
     private Button btnPlay, btnDelete, nextSong, previousSong;
     @FXML
@@ -59,7 +60,7 @@ public class MainViewController<songPath> extends BaseController implements Init
     @FXML
     private TableColumn tblViewSongInPlaylistGenre;
     @FXML
-    private MenuButton btnMenuPlaylist;
+    private GridPane btnMenuPlaylist;
     @FXML
     //private TableView tblViewSongsInPlaylist;
     private TableView<Song> tblViewSongsInPlaylist;
@@ -93,8 +94,8 @@ public class MainViewController<songPath> extends BaseController implements Init
     private TextField txtSearchField;
     private SongPlaylistModel songPlaylistModel;
     private CreateUpdatePlaylistViewController createUpdatePlaylistViewController;
-    private Playlist selectedPlaylist;
-    private Playlist storePlaylist;
+    private Playlist selectedPlaylist = null;
+    private Playlist storePlaylist = null;
     private Song selectedSong;
     private Song storeSong;
     private boolean allowSongsInPlaylistView = true;
@@ -102,6 +103,7 @@ public class MainViewController<songPath> extends BaseController implements Init
     @FXML
     private TableColumn<Song, String> tblViewSearchDuration;
     private PlaylistSongsManager playlistSongsManager = new PlaylistSongsManager();
+    private int switchFromPlayAndPause = 1;
 
     public MainViewController() throws IOException {
         try {
@@ -218,7 +220,7 @@ public class MainViewController<songPath> extends BaseController implements Init
 
             tblViewPlaylist.refresh();
         }
-        else {
+        if (selectedPlaylist == null){
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateUpdatePlaylistView.fxml"));
             Parent popupWindow = loader.load();
@@ -461,13 +463,22 @@ public class MainViewController<songPath> extends BaseController implements Init
     }
 
     public void handlePlaySong(ActionEvent actionEvent) throws Exception {
-        Song songToPlay = tblViewSearch.getSelectionModel().getSelectedItem();
-        if (songToPlay != null) {
-            playSong(songToPlay.getFPath());
-        } else {
-            Song songsToPlay = tblViewSearch.getSelectionModel().getSelectedItem();
-            playSong(songsToPlay.getFPath());
+        if (switchFromPlayAndPause == 1){
+            btnPlay.setText("||");
+            switchFromPlayAndPause = 2;
+        } else if (switchFromPlayAndPause == 2) {
+            btnPlay.setText("▶");
+            switchFromPlayAndPause = 1;
         }
+        Song songToPlaySearch = tblViewSearch.getSelectionModel().getSelectedItem();
+        if (songToPlaySearch != null) {
+            playSong(songToPlaySearch.getFPath());
+        } else if (songToPlaySearch == null){}
+
+        Song songToPlayPlaylist = tblViewSongsInPlaylist.getSelectionModel().getSelectedItem();
+        if (songToPlayPlaylist != null) {
+            playSong(songToPlayPlaylist.getFPath());
+        } else if (songToPlayPlaylist == null){}
     }
 
     public void playSong(String songPath) throws Exception{

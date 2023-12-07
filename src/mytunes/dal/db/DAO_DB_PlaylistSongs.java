@@ -31,10 +31,10 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
                  * This is the SQL statement used to get the information from
                  * the database that we want.
                  */
-                "SELECT S.*, A.ArtistName, G.GenreType FROM Songs S\n" + // selects the values from column Song
-                "INNER JOIN PlaylistSongs PS ON S.SongID = PS.SongID\n" + // joins so that we can get the song title
-                "LEFT JOIN Artist A ON A.ArtistID = S.ArtistID\n" + // joins so that we can get the artist name
-                "LEFT JOIN Genre G ON G.GenreID = S.GenreID\n" + // joins so that we can get the genre type.
+                "SELECT S.*, A.ArtistName, G.GenreType FROM FSpotify.dbo.Songs S\n" + // selects the values from column Song
+                "INNER JOIN FSpotify.dbo.PlaylistSongs PS ON S.SongID = PS.SongID\n" + // joins so that we can get the song title
+                "LEFT JOIN FSpotify.dbo.Artist A ON A.ArtistID = S.ArtistID\n" + // joins so that we can get the artist name
+                "LEFT JOIN FSpotify.dbo.Genre G ON G.GenreID = S.GenreID\n" + // joins so that we can get the genre type.
                 "WHERE PS.PlaylistID = ?"; // from the playlist that the user selects
 
 
@@ -96,7 +96,7 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            throw new Exception("Could not create playlist", ex);
+            throw new Exception("Could not create add song to playlist", ex);
         }
     }
 

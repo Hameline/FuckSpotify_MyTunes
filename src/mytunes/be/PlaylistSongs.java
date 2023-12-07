@@ -74,8 +74,9 @@ public class PlaylistSongs {
 
     }
 
-
     public PlaylistSongs(int playlistID, int songID) {
+        this.playlistID = playlistID;
+        this.songID = songID;
     }
 
     public int getPlaylistID() {

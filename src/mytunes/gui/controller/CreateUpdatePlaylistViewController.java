@@ -80,7 +80,9 @@ public class CreateUpdatePlaylistViewController extends BaseController implement
     @Override
     public void setup() {
         songPlaylistModel = getModel();
-        txtPlaylistName.setText(selectedPlaylist.getName());
+        if (selectedPlaylist != null) {
+            txtPlaylistName.setText(selectedPlaylist.getName());
+        }
     }
 
     @Override
