@@ -35,6 +35,7 @@
 #vboxlist{
     -fx-background-radius: 7 0 0 7; /* 1st is top 2nd one is right 3rd one is button 4th one is left */
 }
+
 #vboxplaylist{
     -fx-background-color: null;
     -fx-background-insets: 0;
