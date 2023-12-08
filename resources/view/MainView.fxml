@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" prefHeight="854.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
+<AnchorPane id="background" prefHeight="854.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
     <children>
         <VBox id="vboxplaylist" layoutY="126.0" stylesheets="@../css/MainView.css">
             <children>
@@ -83,7 +83,7 @@
             </font></Button>
         <Button fx:id="nextSong" layoutX="694.0" layoutY="819.0" mnemonicParsing="false" onAction="#handleNextSong" text="&gt;&gt;" />
         <Button fx:id="previousSong" layoutX="581.0" layoutY="819.0" mnemonicParsing="false" onAction="#handlePreviousSong" text="&lt;&lt;" />
-        <Slider fx:id="volumeSlider" layoutX="1151.0" layoutY="803.0" prefHeight="14.0" prefWidth="143.0" />
+        <Slider fx:id="volumeSlider" layoutX="1151.0" layoutY="803.0" prefHeight="14.0" prefWidth="143.0" value="100.0" />
         <Label fx:id="songTimer" alignment="CENTER" contentDisplay="CENTER" layoutX="587.0" layoutY="763.0" text="Song Timer" textFill="#b9d620">
             <font>
                 <Font size="27.0" />
@@ -120,5 +120,8 @@
                 <Font size="27.0" />
             </font>
         </Label>
+      <Button fx:id="btnShuffle" layoutX="763.0" layoutY="751.0" mnemonicParsing="false" onAction="#handleShuffle" text="Shuffle" />
+      <Button fx:id="btnMoveUp" layoutX="152.0" layoutY="215.0" mnemonicParsing="false" onAction="#handleMoveUp" text="up" />
+      <Button fx:id="btnMoveDown" layoutX="152.0" layoutY="282.0" mnemonicParsing="false" onAction="#handleMoveDown" text="Down" />
     </children>
 </AnchorPane>

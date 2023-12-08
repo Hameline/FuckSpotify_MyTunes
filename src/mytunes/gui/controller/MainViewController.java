@@ -34,6 +34,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("ALL")
@@ -45,7 +46,7 @@ public class MainViewController<songPath> extends BaseController implements Init
     @FXML
     private Label txtTotalTime;
     @FXML
-    private Button btnPlay, btnDelete, nextSong, previousSong, handlePlaySong;
+    private Button btnPlay, btnDelete, nextSong, previousSong, handlePlaySong, btnMoveUp, btnMoveDown, btnShuffle;
     @FXML
     private Slider volumeSlider;
     @FXML
@@ -110,8 +111,7 @@ public class MainViewController<songPath> extends BaseController implements Init
     public MainViewController() throws IOException {
         try {
             songPlaylistModel = new SongPlaylistModel();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -154,6 +154,14 @@ public class MainViewController<songPath> extends BaseController implements Init
         tblViewSearchSong.setCellValueFactory(new PropertyValueFactory<>("title"));
         tblViewSearchDuration.setCellValueFactory(new PropertyValueFactory<>("formatedTime"));
 
+        volumeSlider.setMin(0);
+        volumeSlider.setMax(100);
+
+        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (mediaPlayer != null) {
+                mediaPlayer.setVolume(newValue.doubleValue() / 100.0);
+            }
+        });
 
         tblViewPlaylistPlaylist.setCellValueFactory(new PropertyValueFactory<>("name"));
         tblViewSearch.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
@@ -170,6 +178,7 @@ public class MainViewController<songPath> extends BaseController implements Init
             }
         });
     }
+
     private void defaultMenu() {
         // MAKES the TBL VIEW INVISIBLE
         tblViewSearch.setVisible(false);
@@ -223,7 +232,7 @@ public class MainViewController<songPath> extends BaseController implements Init
 
             tblViewPlaylist.refresh();
         }
-        if (selectedPlaylist == null){
+        if (selectedPlaylist == null) {
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateUpdatePlaylistView.fxml"));
             Parent popupWindow = loader.load();
@@ -298,7 +307,7 @@ public class MainViewController<songPath> extends BaseController implements Init
         Stage PopupWindow = new Stage();
         PopupWindow.setTitle("Create/Update Song");
         PopupWindow.initModality(Modality.APPLICATION_MODAL);
-        PopupWindow.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+        PopupWindow.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
 
         PopupWindow.setScene(new Scene(popupWindow));
         PopupWindow.showAndWait();
@@ -311,7 +320,7 @@ public class MainViewController<songPath> extends BaseController implements Init
     private void handleUpdate(ActionEvent actionEvent) throws IOException {
 
         Song selectedSong = (Song) tblViewSearch.getSelectionModel().getSelectedItem();
-        if (selectedSong == null){
+        if (selectedSong == null) {
             displayError(new Throwable("No song selected"));
             return;
         }
@@ -328,7 +337,7 @@ public class MainViewController<songPath> extends BaseController implements Init
         Stage PopupWindow = new Stage();
         PopupWindow.setTitle("Create/Update Song");
         PopupWindow.initModality(Modality.APPLICATION_MODAL);
-        PopupWindow.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+        PopupWindow.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
 
         PopupWindow.setScene(new Scene(popupWindow));
         PopupWindow.showAndWait();
@@ -337,7 +346,7 @@ public class MainViewController<songPath> extends BaseController implements Init
 
     }
 
-    public void handleDelete(ActionEvent actionEvent) throws Exception{
+    public void handleDelete(ActionEvent actionEvent) throws Exception {
 
         try {
             confirmationAlertSong();
@@ -369,13 +378,11 @@ public class MainViewController<songPath> extends BaseController implements Init
     private void handleDeletePlaylist(ActionEvent actionEvent) {
         selectedPlaylist = (Playlist) tblViewPlaylist.getSelectionModel().getSelectedItem();
 
-        if (selectedPlaylist != null)
-        {
+        if (selectedPlaylist != null) {
             try {
                 // Delete movie in DAL layer (through the layers)
                 songPlaylistModel.deletePlaylist(selectedPlaylist);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 displayError(e);
                 e.printStackTrace();
             }
@@ -386,6 +393,7 @@ public class MainViewController<songPath> extends BaseController implements Init
      * Here we handle the event whem the user selects a playlist.
      * The user can see what song are in the selected playlist,
      * the same way as the user sees them in the search window.
+     *
      * @param mouseEvent
      * @throws Exception
      */
@@ -425,33 +433,29 @@ public class MainViewController<songPath> extends BaseController implements Init
                 tblViewSongsInPlaylist.refresh();
 
 
-            }
-            else {
+            } else {
                 defaultMenu();
             }
         }
         if (allowSongsInPlaylistView == false) {
             selectedPlaylist = (Playlist) tblViewPlaylist.getSelectionModel().getSelectedItem();
             storePlaylist = selectedPlaylist;
-            if (storeSong != null && storePlaylist != null){
+            if (storeSong != null && storePlaylist != null) {
                 PlaylistSongs newPlaylistSongs = new PlaylistSongs(storePlaylist.getId(), storeSong.getId());
                 try {
 
                     songPlaylistModel.addSongToPlaylist(newPlaylistSongs);
 
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     displayError(e);
                     e.printStackTrace();
-                }
-                finally {
+                } finally {
                     defaultMenu();
                     tblViewSearch.setVisible(true);
                     btnBarSong.setVisible(true);
                     vBoxDefault.setVisible(false);
                 }
-            }
-            else {
+            } else {
                 System.out.println("stored playlist is empty same goes for stored song");
             }
         }
@@ -460,33 +464,35 @@ public class MainViewController<songPath> extends BaseController implements Init
     @FXML
     private void handleAddSongToPlaylist(MouseEvent mouseEvent) {
         selectedSong = (Song) tblViewSearch.getSelectionModel().getSelectedItem();
-        if (selectedSong != null){
+        if (selectedSong != null) {
             allowSongsInPlaylistView = false;
             storeSong = selectedSong;
             lblSelectPlaylist.setVisible(true);
         }
     }
 
-    public void play() throws Exception{
+    public void play() throws Exception {
         Song songToPlaySearch = tblViewSearch.getSelectionModel().getSelectedItem();
         if (songToPlaySearch != null) {
             playSong(songToPlaySearch.getFPath());
-        } else if (songToPlaySearch == null){}
+        } else if (songToPlaySearch == null) {
+        }
 
         Song songToPlayPlaylist = tblViewSongsInPlaylist.getSelectionModel().getSelectedItem();
         if (songToPlayPlaylist != null) {
             playSong(songToPlayPlaylist.getFPath());
-        } else if (songToPlayPlaylist == null){}
+        } else if (songToPlayPlaylist == null) {
+        }
     }
 
     public void pause() {
-        if (mediaPlayer != null){
+        if (mediaPlayer != null) {
             mediaPlayer.pause();
         }
     }
 
     public void handlePlaySong(ActionEvent actionEvent) throws Exception {
-        if (switchFromPlayAndPause == 1){
+        if (switchFromPlayAndPause == 1) {
             btnPlay.setText("||");
             switchFromPlayAndPause = 2;
             play();
@@ -501,26 +507,25 @@ public class MainViewController<songPath> extends BaseController implements Init
         File file = new File(songPath);
         Media mSong = new Media(file.getAbsoluteFile().toURI().toString());
 
-        if(mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING)
-        {
+        if (mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
             mediaPlayer.stop();
         }
-        try{
+        try {
             mediaPlayer = new MediaPlayer(mSong);
             playingTimer();
             mediaPlayer.play();
-            mediaPlayer.setOnEndOfMedia(()->{
+            mediaPlayer.setOnEndOfMedia(() -> {
                 Song song;
-                if(tblViewSearch.getSelectionModel().getSelectedIndex() != -1){
-                    int nextSongIndex = tblViewSearch.getSelectionModel().getSelectedIndex() +1;
+                if (tblViewSearch.getSelectionModel().getSelectedIndex() != -1) {
+                    int nextSongIndex = tblViewSearch.getSelectionModel().getSelectedIndex() + 1;
                     tblViewSearch.getSelectionModel().select(nextSongIndex);
                     song = tblViewSearch.getSelectionModel().getSelectedItem();
 
-                }else if(tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex() != -1){
-                    int nextSongIndex = tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex() +1;
+                } else if (tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex() != -1) {
+                    int nextSongIndex = tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex() + 1;
                     tblViewSongsInPlaylist.getSelectionModel().select(nextSongIndex);
                     song = tblViewSongsInPlaylist.getSelectionModel().getSelectedItem();
-                }else{
+                } else {
                     return;
                 }
                 try {
@@ -531,14 +536,14 @@ public class MainViewController<songPath> extends BaseController implements Init
                 }
 
             });
-        }catch (Exception exc) {
+        } catch (Exception exc) {
             exc.printStackTrace();
             throw new Exception("Could not play song", exc);
         }
     }
 
     public void handleStopSong(ActionEvent actionEvent) throws Exception {
-        if (mediaPlayer != null){
+        if (mediaPlayer != null) {
             mediaPlayer.stop();
         }
     }
@@ -591,26 +596,23 @@ public class MainViewController<songPath> extends BaseController implements Init
         txtTotalTime.setText(songPlaylistModel.formatDuration(totalTime)); // You can create a method to format the duration as needed
     }
 
-
-    private void playingTimer()
-    {
+    private void playingTimer() {
         songTimer.textProperty().bind(
-                new StringBinding()
-                {
+                new StringBinding() {
                     {
                         super.bind(mediaPlayer.currentTimeProperty());
                     }
 
                     @Override
                     protected String computeValue() {
-                        int time = (int) (mediaPlayer.getCurrentTime().toMillis()/1000);
-                        int minutes = time /60;
-                        int seconds = time %60;
+                        int time = (int) (mediaPlayer.getCurrentTime().toMillis() / 1000);
+                        int minutes = time / 60;
+                        int seconds = time % 60;
                         String textSeconds;
-                        if(seconds <= 9){
+                        if (seconds <= 9) {
                             textSeconds = "0" + seconds;
-                        }else{
-                            textSeconds = ""+ seconds;
+                        } else {
+                            textSeconds = "" + seconds;
                         }
                         return minutes + ":" + textSeconds;
                     }
@@ -619,6 +621,7 @@ public class MainViewController<songPath> extends BaseController implements Init
 
     /**
      * Set the items(playlists) in the the tableview that is linked to the user.
+     *
      * @param userLogged the current user of the application
      * @throws Exception
      */
@@ -629,6 +632,49 @@ public class MainViewController<songPath> extends BaseController implements Init
             tblViewPlaylist.setItems(FXCollections.observableList(userPlaylists));
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void handleMoveUp (ActionEvent actionEvent){
+        int index = tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex();
+        if (index != -1 && index > 0) {
+            tblViewSongsInPlaylist.getItems().add(index - 1, tblViewSongsInPlaylist.getItems().remove(index));
+            tblViewSongsInPlaylist.getSelectionModel().clearAndSelect(index - 1);
+        }
+    }
+
+    public void handleMoveDown (ActionEvent actionEvent){
+        int index = tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex();
+        int lastIndex = tblViewSongsInPlaylist.getItems().size() - 1;
+        if (index != -1 && index < lastIndex) {
+            tblViewSongsInPlaylist.getItems().add(index + 1, tblViewSongsInPlaylist.getItems().remove(index));
+            tblViewSongsInPlaylist.getSelectionModel().clearAndSelect(index + 1);
+        }
+    }
+
+    public void handleShuffle () {
+        if (!tblViewSongsInPlaylist.getItems().isEmpty()) {
+            // Get the index of the last played song
+            int lastPlayedIndex = tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex();
+
+            // Remove the last played song from the playlist
+            tblViewSongsInPlaylist.getItems().remove(lastPlayedIndex);
+
+            // Check if there are still songs in the playlist
+            if (!tblViewSongsInPlaylist.getItems().isEmpty()) {
+                // Play a random song from the updated playlist
+                int randomIndex = new Random().nextInt(tblViewSongsInPlaylist.getItems().size());
+                tblViewSongsInPlaylist.getSelectionModel().select(randomIndex);
+                Song randomSong = tblViewSongsInPlaylist.getSelectionModel().getSelectedItem();
+
+                try {
+                    playSong(randomSong.getFPath());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                mediaPlayer.stop();
+            }
         }
     }
 }
