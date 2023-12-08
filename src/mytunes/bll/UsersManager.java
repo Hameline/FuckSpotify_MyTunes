@@ -2,7 +2,6 @@ package mytunes.bll;
 
 
 import mytunes.be.Users;
-import mytunes.dal.IUsersDataAccess;
 import mytunes.dal.db.DAO_DB_Users;
 
 import java.io.IOException;
@@ -37,7 +36,7 @@ public class UsersManager {
     }*/
 
 
-    public boolean validateUser(String userName, String password) throws Exception {
+    public Users validateUser(String userName, String password) throws Exception {
         return DAO_DB.validateUser(userName, password);
     }
 

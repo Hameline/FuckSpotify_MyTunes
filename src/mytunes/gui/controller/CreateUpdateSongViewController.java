@@ -59,7 +59,6 @@ public class CreateUpdateSongViewController extends BaseController implements In
     @FXML
     private void handleUpdate(ActionEvent actionEvent) {
         if (selectedSong == null) {
-            // Handle no selection
             displayError(new Exception("No song selected"));
             return;
         }
@@ -79,8 +78,7 @@ public class CreateUpdateSongViewController extends BaseController implements In
             } else {
                 artistName = artist.getName();
             }
-
-            // Update genre
+            // Update genre, from a drop down menu, no
             List<Genre> allGenres = songPlaylistModel.getAllGenres();
             Genre selectedGenre = null;
             for (Genre genre : allGenres) {
@@ -112,21 +110,29 @@ public class CreateUpdateSongViewController extends BaseController implements In
 
     }
     @FXML
+    /**
+     * In this mehtod we handle the creation of a song.
+     */
     private void handleCreate(ActionEvent actionEvent) {
         String title = txtSongName.getText();
         String artistName = txtArtist.getText();
+        //we set the artist name to lower case in order for os the check if it's already existing.
         String artistNameLowercase = artistName.toLowerCase();
         String genreType = menuGenre.getValue();
         int time = Integer.parseInt(txtTime.getText());
         String fPath = txtFile.getText();
 
         try {
+            //checks if artist exist.
             Artist artist = songPlaylistModel.findArtistName(artistNameLowercase);
-            if (artist == null){
+            if (artist == null){ //if it doesn't exist, a new artist is created.
                 artist = new Artist(artistName, -1);
                 artistName = String.valueOf(songPlaylistModel.createArtist(artist));
             }
-
+            /**
+             * we have choosen to have all genre i DB - the user selects from drop down.
+             * So the user can't create a genre.
+             */
             List<Genre> allGenres = songPlaylistModel.getAllGenres();
             Genre selecedGenre = null;
             for (Genre genre : allGenres){
@@ -134,6 +140,7 @@ public class CreateUpdateSongViewController extends BaseController implements In
                 selecedGenre = genre;
                 break;
             }
+            // creates the song title here, no need to check for duplicate.
             Song newSong = new Song(-1, title, time, artist, selecedGenre, "", fPath);
             songPlaylistModel.createSong(newSong);
         } catch (Exception e) {

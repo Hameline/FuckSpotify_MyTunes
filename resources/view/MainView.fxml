@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" prefHeight="854.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
+<AnchorPane id="background" prefHeight="854.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
     <children>
         <VBox id="vboxplaylist" layoutY="126.0" stylesheets="@../css/MainView.css">
             <children>

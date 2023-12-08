@@ -26,8 +26,8 @@ public class PlaylistManager {
         return searchResult;
     }
 
-    public Playlist createPlaylist(Playlist newPlaylist) throws Exception {
-        return DAO_DB.createPlaylist(newPlaylist);
+    public Playlist createPlaylist(Playlist newPlaylist, int userID) throws Exception {
+        return DAO_DB.createPlaylist(newPlaylist, userID);
     }
 
     public void deletePlaylist(Playlist deletedPlaylist) throws Exception {
@@ -36,5 +36,9 @@ public class PlaylistManager {
 
     public Playlist updatePlaylist(Playlist selectedPlaylist) throws Exception {
         return DAO_DB.updatePlaylist(selectedPlaylist);
+    }
+
+    public List<Playlist> getUserPlaylist(int userID) throws Exception {
+        return DAO_DB.getUserPlaylist(userID);
     }
 }

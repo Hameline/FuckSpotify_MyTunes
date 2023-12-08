@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import mytunes.be.Users;
 import mytunes.bll.UsersManager;
 
 import java.io.FileInputStream;
@@ -56,10 +57,15 @@ public class LoginViewController implements Initializable {
             }
         }
 
-        if (usersManager.validateUser(userName, userPassword)) {
+        // here the method is run that validates the user credentials.
+        Users userLogged = usersManager.validateUser(userName, userPassword);
+        // if it matches you are logged in
+        if (userLogged != null ) {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainView.fxml"));
             Parent secondWindow = loader.load();
+            MainViewController mainViewController = loader.getController();
+            mainViewController.setPlaylistForUser(userLogged);
             Stage newStage = new Stage();
             newStage.setTitle("FSpotify");
             Scene scene = new Scene(secondWindow);

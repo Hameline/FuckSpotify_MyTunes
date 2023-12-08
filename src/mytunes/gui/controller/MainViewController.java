@@ -24,21 +24,23 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import mytunes.be.Playlist;
-import mytunes.be.PlaylistSongs;
-import mytunes.be.Song;
+import mytunes.be.*;
 import mytunes.bll.PlaylistSongsManager;
 import mytunes.gui.model.SongPlaylistModel;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("ALL")
 public class MainViewController<songPath> extends BaseController implements Initializable {
+
+    @FXML
+    private TableColumn tblViewSongInPlaylistSongUser, tblViewSongInPlaylistDurationUser, tblViewSongInPlaylistGenreUser, tblViewSongInPlaylistArtistUser;
 
     @FXML
     private Label txtTotalTime;
@@ -61,7 +63,8 @@ public class MainViewController<songPath> extends BaseController implements Init
     @FXML
     private GridPane btnMenuPlaylist;
     @FXML
-    //private TableView tblViewSongsInPlaylist;
+    private TableView<UserPlaylist> tblViewSongsInPlaylistUser;
+    @FXML
     private TableView<Song> tblViewSongsInPlaylist;
     @FXML
     private Label lblPlaylistName;
@@ -192,7 +195,8 @@ public class MainViewController<songPath> extends BaseController implements Init
         lblSelectPlaylist.setVisible(false);
 
         tblViewSearch.setItems(songPlaylistModel.getListOfSongs());
-        tblViewPlaylist.setItems(songPlaylistModel.getListOfPlaylists());
+        //tblViewPlaylist.setItems(songPlaylistModel.getListOfPlaylists());
+
     }
 
     @FXML
@@ -300,6 +304,7 @@ public class MainViewController<songPath> extends BaseController implements Init
         PopupWindow.showAndWait();
 
         tblViewSearch.refresh();
+
     }
 
     @FXML
@@ -329,6 +334,7 @@ public class MainViewController<songPath> extends BaseController implements Init
         PopupWindow.showAndWait();
 
         tblViewSearch.refresh();
+
     }
 
     public void handleDelete(ActionEvent actionEvent) throws Exception{
@@ -609,5 +615,20 @@ public class MainViewController<songPath> extends BaseController implements Init
                         return minutes + ":" + textSeconds;
                     }
                 });
+    }
+
+    /**
+     * Set the items(playlists) in the the tableview that is linked to the user.
+     * @param userLogged the current user of the application
+     * @throws Exception
+     */
+    public void setPlaylistForUser(Users userLogged) throws Exception {
+        try {
+            //makes a list from playlist that is linked to a user on the database.
+            List<Playlist> userPlaylists = songPlaylistModel.getUserPlaylist(userLogged.getUserID());
+            tblViewPlaylist.setItems(FXCollections.observableList(userPlaylists));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

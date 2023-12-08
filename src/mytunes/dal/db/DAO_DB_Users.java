@@ -19,6 +19,11 @@ public class DAO_DB_Users  {
         databaseConnector = new MyTunesDataBaseConnector();
     }
 
+    /**
+     * retrives all users from the database.
+     * @return
+     * @throws Exception
+     */
     public List<Users> getAllUsers() throws Exception {
         ArrayList<Users> allUsers = new ArrayList<>();
 
@@ -31,11 +36,11 @@ public class DAO_DB_Users  {
             // Loop through rows from the database result set
             while (rs.next()) {
 
-                //Map DB row to Playlist object
+                //Map DB row to User object
                 int id = rs.getInt("UserID");
                 String userName = rs.getString("UserName");
-                String email = rs.getNString("UserEmail");
-                String password = rs.getNString("UserPassword");
+                String email = rs.getString("UserEmail");
+                String password = rs.getString("UserPassword");
 
                 Users user = new Users(id, userName, email, password);
                 allUsers.add(user);
@@ -45,7 +50,7 @@ public class DAO_DB_Users  {
         catch (SQLException ex)
         {
             ex.printStackTrace();
-            throw new Exception("Could not get playlist from database", ex);
+            throw new Exception("Could not get users from database", ex);
         }
     }
 
@@ -110,8 +115,18 @@ public class DAO_DB_Users  {
         return user;
     }
 
-    public boolean validateUser(String userName, String password){
-
+    /**
+     * method to validate the user with the password
+     * @param userName
+     * @param password
+     * @return
+     */
+    public Users validateUser(String userName, String password){
+        Users user = null; // start with a null user.
+        /**
+         * get the userid from the user that is trying to log in, and is checking for
+         * if the password is matching that user.
+          */
         String sql = "SELECT * from FSpotify.dbo.Users where UserName = ? and UserPassword = ?";
 
         try (Connection conn = databaseConnector.getConnection();
@@ -121,10 +136,14 @@ public class DAO_DB_Users  {
             stmt.setString(2, password);
 
             ResultSet rs = stmt.executeQuery();
-            return rs.next();
+            if (rs.next()){
+                int id = rs.getInt("UserID");
+                String email = rs.getString("UserEmail");
+                user = new Users(id, userName, email, password);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return user;
     }
 }

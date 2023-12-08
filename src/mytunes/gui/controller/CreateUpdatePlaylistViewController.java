@@ -54,12 +54,12 @@ public class CreateUpdatePlaylistViewController extends BaseController implement
     }
 
     @FXML
-    private void handleCreate(ActionEvent actionEvent) {
-
+    private void handleCreate(ActionEvent actionEvent) throws Exception {
+        Integer userID = songPlaylistModel.getUserIDs().get(0);
         Playlist newPlaylist = new Playlist(-1, txtPlaylistName.getText());
 
         try {
-            songPlaylistModel.createPlaylist(newPlaylist);
+            songPlaylistModel.createPlaylist(newPlaylist, userID);
 
             btnCreate.getScene().getWindow().hide();
         }

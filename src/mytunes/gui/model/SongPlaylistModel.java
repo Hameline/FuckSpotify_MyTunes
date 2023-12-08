@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import mytunes.be.*;
 import mytunes.bll.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SongPlaylistModel {
@@ -27,10 +28,12 @@ public class SongPlaylistModel {
     private GenreManager genreManager;
     private PlaylistManager playlistManager;
     private PlaylistSongsManager playlistSongsManager;
+    private UsersManager usersManager;
 
     public SongPlaylistModel() throws Exception {
         songManager = new SongManager();
         genreManager = new GenreManager();
+        usersManager = new UsersManager();
         listOfSongs = FXCollections.observableArrayList();
         listOfSongs.addAll(songManager.getAllSongs());
 
@@ -131,8 +134,8 @@ public class SongPlaylistModel {
     }
 
     // Method to create a new playlist
-    public void createPlaylist(Playlist newPlaylist) throws Exception {
-        Playlist p = playlistManager.createPlaylist(newPlaylist);
+    public void createPlaylist(Playlist newPlaylist, int userID) throws Exception {
+        Playlist p = playlistManager.createPlaylist(newPlaylist, userID);
         listOfPlaylists.add(p);
     }
 
@@ -204,5 +207,18 @@ public class SongPlaylistModel {
         } else {
             return String.format("%02d seconds", seconds);
         }
+    }
+
+    public List<Playlist> getUserPlaylist(int userID) throws Exception {
+        return playlistManager.getUserPlaylist(userID);
+    }
+
+    public List<Integer> getUserIDs() throws Exception {
+        List<Users> allUsers = usersManager.getAllUsers();
+        List<Integer> userIDs = new ArrayList<>();
+        for (Users user : allUsers) {
+            userIDs.add(user.getUserID());
+        }
+        return userIDs;
     }
 }
