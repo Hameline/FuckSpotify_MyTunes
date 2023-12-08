@@ -36,10 +36,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("ALL")
 public class MainViewController<songPath> extends BaseController implements Initializable {
 
+    @FXML
+    private ListView vboxlistArtist;
     @FXML
     private TableColumn tblViewSongInPlaylistSongUser, tblViewSongInPlaylistDurationUser, tblViewSongInPlaylistGenreUser, tblViewSongInPlaylistArtistUser;
 
@@ -95,6 +98,8 @@ public class MainViewController<songPath> extends BaseController implements Init
     private TableColumn tblViewPlaylistUser;
     @FXML
     private TextField txtSearchField;
+    @FXML
+    private ListView vboxlistSuggested;
     private SongPlaylistModel songPlaylistModel;
     private CreateUpdatePlaylistViewController createUpdatePlaylistViewController;
     private Playlist selectedPlaylist = null;
@@ -146,9 +151,11 @@ public class MainViewController<songPath> extends BaseController implements Init
         btnDelete.setDisable(true);
         if (songPlaylistModel != null) {
             tblViewSearch.setItems(songPlaylistModel.getListOfSongs());
+            vboxlistSuggested.setItems(songPlaylistModel.getListOfSongs());
             tblViewPlaylist.setItems(songPlaylistModel.getListOfPlaylists());
 
         }
+
         tblViewSearchArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
         tblViewSearchGenre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
         tblViewSearchSong.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -481,7 +488,11 @@ public class MainViewController<songPath> extends BaseController implements Init
         Song songToPlayPlaylist = tblViewSongsInPlaylist.getSelectionModel().getSelectedItem();
         if (songToPlayPlaylist != null) {
             playSong(songToPlayPlaylist.getFPath());
-        } else if (songToPlayPlaylist == null) {
+        } else if (songToPlayPlaylist == null){}
+
+        Song songToPlaySuggested = (Song) vboxlistSuggested.getSelectionModel().getSelectedItem();
+        if (songToPlaySuggested != null) {
+            playSong(songToPlaySuggested.getFPath());
         }
     }
 

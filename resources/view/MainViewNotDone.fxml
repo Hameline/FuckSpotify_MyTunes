@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<HBox id="background" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox prefHeight="881.0" prefWidth="167.0">
+         <children>
+            <VBox prefHeight="823.0" prefWidth="167.0">
+               <children>
+                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="99.0" prefWidth="173.0" stylesheets="@../css/MainView.css" text="LOGO" />
+                  <HBox prefHeight="128.0" prefWidth="173.0" />
+                  <VBox id="vboxplaylist" prefHeight="571.0" prefWidth="173.0" stylesheets="@../css/MainView.css">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="181.0" text="+ New Playlist">
+                           <font>
+                              <Font name="Comic Sans MS Bold" size="12.0" />
+                           </font>
+                        </Button>
+                        <TableView prefHeight="562.0" prefWidth="170.0">
+                          <columns>
+                            <TableColumn prefWidth="172.0" text="Playlist" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <VBox prefHeight="881.0" prefWidth="1409.0">
+         <children>
+            <TextField id="defaultbutton" prefHeight="25.0" prefWidth="644.0" promptText="🔍 Search after a Song, Genre or Artist" stylesheets="@../css/MainView.css" VBox.vgrow="SOMETIMES">
+               <VBox.margin>
+                  <Insets left="80.0" right="902.0" top="10.0" />
+               </VBox.margin>
+            </TextField>
+            <HBox id="tblviewsearch" prefHeight="207.0" prefWidth="1139.0" stylesheets="@../css/MainView.css">
+               <children>
+                  <MenuButton mnemonicParsing="false" text="TIME">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                    </items>
+                     <graphic>
+                        <Label text="Playlist Name :" />
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="80.0" top="182.0" />
+                     </HBox.margin>
+                  </MenuButton>
+                  <Label id="text" prefHeight="17.0" prefWidth="91.0" stylesheets="@../css/MainView.css" text="Select a Playlist">
+                     <HBox.margin>
+                        <Insets top="187.0" />
+                     </HBox.margin>
+                  </Label>
+                  <ButtonBar prefHeight="0.0" prefWidth="265.0">
+                    <buttons>
+                      <Button mnemonicParsing="false" text="Delete" />
+                        <Button mnemonicParsing="false" text="Update" />
+                        <Button mnemonicParsing="false" text="Create" />
+                    </buttons>
+                     <HBox.margin>
+                        <Insets left="832.0" top="182.0" />
+                     </HBox.margin>
+                  </ButtonBar>
+               </children>
+               <VBox.margin>
+                  <Insets top="13.0" />
+               </VBox.margin>
+            </HBox>
+            <TableView id="tableviewsearch" stylesheets="@../css/MainView.css">
+              <columns>
+                <TableColumn prefWidth="215.0" text="Song" />
+                <TableColumn minWidth="1.0" prefWidth="60.0" text="Duration" />
+                  <TableColumn minWidth="1.0" prefWidth="194.0" text="Artist" />
+                  <TableColumn minWidth="1.0" prefWidth="158.0" text="Genre" />
+              </columns>
+               <VBox.margin>
+                  <Insets left="77.0" />
+               </VBox.margin>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</HBox>

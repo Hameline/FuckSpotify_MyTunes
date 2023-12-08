@@ -93,6 +93,9 @@ public class Song {
         }
         return minutes + ":" + textSeconds;
     }
+    public String toString() {
+        return this.title;
+    }
 
 
 }
