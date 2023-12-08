@@ -1,9 +1,14 @@
-#background{
+/* Styling for an element with the ID "background" */
+#background {
     -fx-background-color: linear-gradient(to top, rgba(2,0,36,1) 0%, rgba(2,1,25,1) 3%, rgba(2,6,25,1) 25%, rgba(1,2,17,1) 87%);
 }
-#text{
-    -fx-text-fill: white;
+
+/* Styling for an element with the ID "text" */
+#text {
+    -fx-text-fill: white; /* Setting text color to white */
 }
-#field{
-    -fx-background-radius: 4;
+
+/* Styling for an element with the ID "field" */
+#field {
+    -fx-background-radius: 4; /* Setting background radius to 4 */
 }

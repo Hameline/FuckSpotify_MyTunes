@@ -1,23 +1,34 @@
-#background{
+/* Styling for an element with the ID "background" */
+#background {
     -fx-background-color: linear-gradient(to top, rgba(2,0,36,1) 0%, rgba(5,12,46,1) 37%, rgba(18,19,82,1) 87%);
+    /* Applying a linear gradient background color from dark blue to light blue */
 }
-#vbox{
+
+/* Styling for an element with the ID "vbox" */
+#vbox {
     -fx-background-color: null;
     -fx-background-insets: 0;
     -fx-background-radius: 0;
     -fx-padding: 0;
     -fx-border-width: 0;
     -fx-border-color: transparent;
+    /* Resetting various background and border properties for the vbox */
 }
-#vboxtext{
+
+/* Styling for text inside an element with the ID "vboxtext" */
+#vboxtext {
     -fx-text-fill: white;
 }
-#text{
+
+/* Styling for general text elements with the ID "text" */
+#text {
     -fx-text-fill: white;
     -fx-stroke: firebrick; /* Set the outline color */
     -fx-stroke-width: 50px; /* Set the width of the outline */
 }
-#logo{
+
+/* Styling for an element with the ID "logo" */
+#logo {
     -fx-graphic: url("../images/logo.png");
     -fx-scale-x: 0.235; /* Adjust the scale factor as needed */
     -fx-scale-y: 0.235; /* Adjust the scale factor as needed */
@@ -26,29 +37,44 @@
     -fx-padding: 0;
     -fx-border-width: 0;
     -fx-border-color: transparent;
+    /* Setting a logo with specified scaling and resetting various background and border properties */
 }
-#playbutton{
+
+/* Styling for an element with the ID "playbutton" */
+#playbutton {
     -fx-graphic: url("../images/playbutton.png");
     -fx-scale-x: 0.1; /* Adjust the scale factor as needed */
     -fx-scale-y: 0.1; /* Adjust the scale factor as needed */
-}
-#vboxlist{
-    -fx-background-radius: 7 0 0 7; /* 1st is top 2nd one is right 3rd one is button 4th one is left */
+    /* Setting a play button image with specified scaling */
 }
 
-#vboxplaylist{
+/* Styling for an element with the ID "vboxlist" */
+#vboxlist {
+    -fx-background-radius: 7 0 0 7; /* 1st is top 2nd one is right 3rd one is button 4th one is left */
+    /* Applying rounded corners to the top-left of the vboxlist */
+}
+
+/* Styling for an element with the ID "vboxplaylist" */
+#vboxplaylist {
     -fx-background-color: null;
     -fx-background-insets: 0;
     -fx-background-radius: 0;
     -fx-padding: 0;
     -fx-border-width: 3 3 0 0; /* 1st is top 2nd one is right 3rd one is button 4th one is left */
     -fx-border-color: black;
+    /* Resetting various background and border properties for the vboxplaylist */
 }
-#defaultbutton{
+
+/* Styling for an element with the ID "defaultbutton" */
+#defaultbutton {
     -fx-background-radius: 10;
+    /* Applying rounded corners to the default button */
 }
-#tableviewsearch{
+
+/* Styling for an element with the ID "tableviewsearch" */
+#tableviewsearch {
     -fx-border-width: 3 0 0 3; /* 1st is top 2nd one is right 3rd one is button 4th one is left */
     -fx-border-color: black;
     -fx-background-radius: 10;
+    /* Applying a border and rounded corners to the tableviewsearch */
 }

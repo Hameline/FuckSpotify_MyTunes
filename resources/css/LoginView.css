@@ -1,10 +1,19 @@
+/* Styling for an element with the ID "background" */
 #background {
     -fx-background-color: linear-gradient(to top, rgba(2,0,36,1) 0%, rgba(5,12,46,1) 37%, rgba(18,19,82,1) 87%);
+    /* Applying a linear gradient background color from dark blue to light blue */
 }
-#text{
+
+/* Styling for an element with the ID "text" */
+#text {
     -fx-text-fill: white;
+    /* Setting text color to white */
 }
+
+/* Styling for an element with the ID "login-background" */
 #login-background {
     -fx-background-color: black;
+    /* Setting background color to black */
     -fx-background-radius: 14;
+    /* Applying a border-radius of 14 to create rounded corners */
 }
