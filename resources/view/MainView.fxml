@@ -123,5 +123,6 @@
       <Button fx:id="btnShuffle" layoutX="763.0" layoutY="751.0" mnemonicParsing="false" onAction="#handleShuffle" text="Shuffle" />
       <Button fx:id="btnMoveUp" layoutX="152.0" layoutY="215.0" mnemonicParsing="false" onAction="#handleMoveUp" text="up" />
       <Button fx:id="btnMoveDown" layoutX="152.0" layoutY="282.0" mnemonicParsing="false" onAction="#handleMoveDown" text="Down" />
+      <Button fx:id="showSearch" layoutX="604.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleShowSearch" text="Go to Search" />
     </children>
 </AnchorPane>
