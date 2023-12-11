@@ -53,7 +53,7 @@ public class MainViewController<songPath> extends BaseController implements Init
     @FXML
     private Slider volumeSlider;
     @FXML
-    private Label songTimer;
+    private Label songTimer, sonTimer2;
     @FXML
     private Label lblSelectPlaylist;
     @FXML
@@ -146,7 +146,7 @@ public class MainViewController<songPath> extends BaseController implements Init
         alert.showAndWait();
     }
 
-    // A setup method that comes with the abstract class "BseController". Here we setup how the program should look once opened
+    // A setup method that comes with the abstract class "BaseController". Here we setup how the program should look once opened
     @Override
     public void setup() {
         btnUpdate.setDisable(true);
@@ -649,6 +649,9 @@ public class MainViewController<songPath> extends BaseController implements Init
                 });
     }
 
+    public void songLength() {
+    }
+
     /**
      * Set the items(playlists) in the the tableview that is linked to the user.
      *
@@ -684,7 +687,7 @@ public class MainViewController<songPath> extends BaseController implements Init
         }
     }
 
-    // A shuffle button that you press to get a random song (its not a toggle button so you hve to press it again for
+    // A shuffle button that you press to get a random song (its not a toggle button so you have to press it again for
     // a new random song) it then removes the last played song temporarily from the playlist
     public void handleShuffle () {
         if (!tblViewSongsInPlaylist.getItems().isEmpty()) {
