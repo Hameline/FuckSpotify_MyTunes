@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" prefHeight="854.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
+<AnchorPane id="background" prefHeight="854.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
     <children>
         <VBox id="vboxplaylist" layoutY="126.0" stylesheets="@../css/MainView.css">
             <children>
@@ -124,7 +124,7 @@
       <Button fx:id="btnMoveUp" layoutX="152.0" layoutY="215.0" mnemonicParsing="false" onAction="#handleMoveUp" text="up" />
       <Button fx:id="btnMoveDown" layoutX="152.0" layoutY="282.0" mnemonicParsing="false" onAction="#handleMoveDown" text="Down" />
       <Button fx:id="toSearch" layoutX="604.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleShowSearch" text="Go to Search" />
-      <Label fx:id="songTimer2" alignment="CENTER" contentDisplay="CENTER" layoutX="1125.0" layoutY="776.0" text="total duration" textFill="#b9d620">
+      <Label fx:id="songTimer2" alignment="CENTER" contentDisplay="CENTER" layoutX="1125.0" layoutY="776.0" text="Song Duration" textFill="#b9d620">
          <font>
             <Font size="27.0" />
          </font>

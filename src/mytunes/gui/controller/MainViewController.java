@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("ALL")
 public class MainViewController<songPath> extends BaseController implements Initializable {
@@ -537,7 +536,8 @@ public class MainViewController<songPath> extends BaseController implements Init
         }
         try {
             mediaPlayer = new MediaPlayer(mSong);
-            playingTimer();
+            playingTimerUp();
+            playingTimerDown();
             mediaPlayer.play();
             mediaPlayer.setOnEndOfMedia(() -> {
                 Song song;
@@ -626,7 +626,7 @@ public class MainViewController<songPath> extends BaseController implements Init
     }
 
     // Shows the length the current song has played and counts up till the next song starts and the timer starts over
-    private void playingTimer() {
+    private void playingTimerUp() {
         songTimer.textProperty().bind(
                 new StringBinding() {
                     {
@@ -649,7 +649,29 @@ public class MainViewController<songPath> extends BaseController implements Init
                 });
     }
 
-    public void songLength() {
+    private void playingTimerDown() {
+        songTimer2.textProperty().bind(
+                new StringBinding() {
+                    {
+                        super.bind(mediaPlayer.currentTimeProperty());
+                    }
+                    // Makes the timer show in minutes and seconds, and count backwards.
+                    @Override
+                    protected String computeValue() {
+                        int totalTime = (int) (mediaPlayer.getTotalDuration().toMillis() / 1000);
+                        int currentTime = (int) (mediaPlayer.getCurrentTime().toMillis() / 1000);
+                        int remainingTime = totalTime - currentTime;
+                        int minutes = remainingTime / 60;
+                        int seconds = remainingTime % 60;
+                        String textSeconds;
+                        if (seconds <= 9) {
+                            textSeconds = "0" + seconds;
+                        } else {
+                            textSeconds = "" + seconds;
+                        }
+                        return minutes + ":" + textSeconds;
+                    }
+                });
     }
 
     /**
