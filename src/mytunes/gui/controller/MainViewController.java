@@ -53,7 +53,7 @@ public class MainViewController<songPath> extends BaseController implements Init
     @FXML
     private Slider volumeSlider;
     @FXML
-    private Label songTimer, sonTimer2;
+    private Label songTimer, songTimer2;
     @FXML
     private Label lblSelectPlaylist;
     @FXML
@@ -718,5 +718,6 @@ public class MainViewController<songPath> extends BaseController implements Init
     // Shows the search table (our list of songs)
     public void handleShowSearch(ActionEvent actionEvent) {
         tblViewSearch.setVisible(true);
+        btnBarSong.setVisible(true);
     }
 }
