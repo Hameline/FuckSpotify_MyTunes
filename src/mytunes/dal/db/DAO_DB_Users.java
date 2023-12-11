@@ -54,8 +54,15 @@ public class DAO_DB_Users  {
         }
     }
 
+    /**
+     * Here we use are able to create a new user in the database, and use him for the
+     * application. This is not implemented.
+     * @param users
+     * @return
+     * @throws Exception
+     */
     public Users createUser(Users users) throws Exception {
-        // SQL command
+        // SQL statement
         String sql = "INSERT INTO FSpotify.dbbo.Users (UserName, UserEmail, UserPassword) VALUES (?, ?, ?)";
 
         try (Connection conn = databaseConnector.getConnection();
@@ -66,10 +73,10 @@ public class DAO_DB_Users  {
             stmt.setString(2, users.getUserEmail());
             stmt.setString(3, users.getUserPassword());
 
-            // Run the specified SQL statement
+            // executes the statement
             stmt.executeUpdate();
 
-            // Get the generated ID from the DB
+            // Here we get the id that's generated in the database.
             ResultSet rs = stmt.getGeneratedKeys();
             int id = 0;
 
@@ -77,7 +84,7 @@ public class DAO_DB_Users  {
                 id = rs.getInt(1);
             }
 
-            // Create user object and send up the layers
+            // Creates a user that is sent through the layers
             Users createdUser = new Users(id, users.getUserName(), users.getUserEmail(), users.getUserPassword());
 
             return createdUser;
@@ -89,8 +96,14 @@ public class DAO_DB_Users  {
         }
     }
 
+    /**
+     *
+     * @param user
+     * @return
+     * @throws Exception
+     */
     public Users updateUser(Users user) throws Exception {
-        // SQL command
+        // SQL statement
         String sql = "update FSpotify.dbo.Users set UserName = ?, UserEmail = ?, UserPassword = ? where UserID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
@@ -104,7 +117,7 @@ public class DAO_DB_Users  {
             stmt.setInt(4, user.getUserID());
 
 
-            // Run the specified SQL statement
+            // Run SQL statement
             stmt.executeUpdate();
         }
         catch (SQLException ex)
@@ -122,10 +135,10 @@ public class DAO_DB_Users  {
      * @return
      */
     public Users validateUser(String userName, String password){
-        Users user = null; // start with a null user.
+        Users user = null; // starts the user as null
         /**
          * get the userid from the user that is trying to log in, and is checking for
-         * if the password is matching that user.
+         * if the password  matches that user.
           */
         String sql = "SELECT * from FSpotify.dbo.Users where UserName = ? and UserPassword = ?";
 

@@ -6,6 +6,13 @@ public class Users {
     private String userName, userEmail, userPassword;
 
 
+    /**
+     *
+     * @param userID = id in database
+     * @param userName = username in database
+     * @param userEmail = user email in database
+     * @param userPassword = password from database.
+     */
     public Users (int userID, String userName, String userEmail, String userPassword){
         this.userID = userID;
         this.userName = userName;

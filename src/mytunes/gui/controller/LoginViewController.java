@@ -45,6 +45,8 @@ public class LoginViewController implements Initializable {
     private void handleLogIn(ActionEvent actionEvent) throws Exception {
         String userName = txtUsername.getText();
         String userPassword = txtPassword.getText();
+        // Here safe the data input in the fields of the user, so that the
+        // program will remeber the user next time. This is safed in a file.
         if (rememberMe == true) {
             Properties login = new Properties();
 

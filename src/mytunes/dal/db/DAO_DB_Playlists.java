@@ -47,38 +47,6 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
         }
     }
 
-    /*public Playlist createPlaylist(Playlist playlist) throws Exception {
-        // SQL command
-        String sql = "INSERT INTO FSpotify.dbo.Playlist (PlaylistName) VALUES (?)";
-
-        try (Connection conn = databaseConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            // Bind parameters
-            stmt.setString(1, playlist.getName());
-
-            // Run the specified SQL statement
-            stmt.executeUpdate();
-
-            // Get the generated ID from the DB
-            ResultSet rs = stmt.getGeneratedKeys();
-            int id = 0;
-
-            if (rs.next()) {
-                id = rs.getInt(1);
-            }
-
-            // Create playlist object and send up the layers
-            Playlist createdPlaylist = new Playlist(id, playlist.getName());
-
-            return createdPlaylist;
-        }
-        catch (SQLException ex)
-        {
-            ex.printStackTrace();
-            throw new Exception("Could not create playlist", ex);
-        }
-    }*/
 
     /**
      * This method creates a playlist and locks it to a user. This will have the effect
@@ -220,12 +188,20 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
         }
     }
 
+    /**
+     * This method collects the playlist connected to a user.
+     * Meaning that the user will only see the paylist they are linked to.
+     * @param userID
+     * @return
+     * @throws Exception
+     */
     public List<Playlist> getUserPlaylist(int userID) throws Exception {
         ArrayList<Playlist> allUsersPlaylist = new ArrayList<>();
         String sql =
-                "SELECT p.PlaylistID, p.PlaylistName " +
-                        "FROM FSpotify.dbo.Playlist p " +
-                        "JOIN FSpotify.dbo.UserPlaylist up ON p.PlaylistID = up.PlaylistID " +
+                "SELECT p.PlaylistID, p.PlaylistName " + // get's the p ID and p Name.
+                        "FROM FSpotify.dbo.Playlist p " + // from the table Playlist
+                        "JOIN FSpotify.dbo.UserPlaylist up ON p.PlaylistID = up.PlaylistID " + // joins with userp
+                        // checks playlist for connectivety with user, only display the one with the user.
                         "WHERE up.UserID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
@@ -234,10 +210,10 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
             stmt.setInt(1, userID);
 
 
-            // Loop through rows from the database result set
+            // Collects data from the database
             try (ResultSet rs = stmt.executeQuery()){
                 while (rs.next()) {
-                    //Map DB row to User object
+                    //Creates of User object
                     int playlistIDid = rs.getInt("PlaylistID");
                     String playlistName = rs.getString("PlaylistName");
 

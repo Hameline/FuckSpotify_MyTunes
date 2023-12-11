@@ -7,7 +7,16 @@ public class Song {
     private Genre type;
 
 
-
+    /**
+     *
+     * @param id = song id in database
+     * @param title = title from database
+     * @param time = time in seconds from database
+     * @param artist = artist object from Artist class.
+     * @param type = type from Genre class
+     * @param formatedTime = is the formated time (min:sec) shown in the gui
+     * @param fPath = the path of the file of the music in the database.
+     */
     public Song(int id,String title, int time, Artist artist, Genre type, String formatedTime, String fPath) {
         this.id = id;
         this.title = title;

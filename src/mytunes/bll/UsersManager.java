@@ -36,6 +36,13 @@ public class UsersManager {
     }*/
 
 
+    /**
+     *
+     * @param userName
+     * @param password
+     * @return the sql statement here.
+     * @throws Exception
+     */
     public Users validateUser(String userName, String password) throws Exception {
         return DAO_DB.validateUser(userName, password);
     }

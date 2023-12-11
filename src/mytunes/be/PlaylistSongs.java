@@ -61,7 +61,17 @@ public class PlaylistSongs {
     }
 
 
-
+    /**
+     *
+     * @param songID
+     * @param playlistID
+     * @param title = song title
+     * @param time = time in seconds
+     * @param artist = artist from Artist class
+     * @param type = type from Genre class
+     * @param formatedTime = formated time (min:sec)
+     * @param fPath = filepath of the music file.
+     */
     public PlaylistSongs(int songID, int playlistID, String title, int time, Artist artist, Genre type, String formatedTime, String fPath) {
         this.playlistID = playlistID;
         this.songID = songID;

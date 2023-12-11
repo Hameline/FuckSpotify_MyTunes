@@ -5,6 +5,12 @@ public class Genre {
     private String type;
     private int id, artistID;
 
+    /**
+     *
+     * @param type = type from database
+     * @param id = id from database
+     * @param artistID = the artist id.
+     */
     public Genre (String type, int id, int artistID){
         this.type = type;
         this.id = id;

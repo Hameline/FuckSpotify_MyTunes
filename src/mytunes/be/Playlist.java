@@ -5,6 +5,11 @@ public class Playlist {
     private int id;
     private String name;
 
+    /**
+     *
+     * @param id = id from database
+     * @param name = name from database
+     */
     public Playlist(int id, String name) {
         this.id = id;
         this.name = name;

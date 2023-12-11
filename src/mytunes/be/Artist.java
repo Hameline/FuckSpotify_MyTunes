@@ -5,6 +5,11 @@ public class Artist {
     private String name;
     private int id;
 
+    /**
+     *
+     * @param name = name from database
+     * @param id = id from database
+     */
     public Artist(String name, int id){
         this.name = name;
         this.id = id;

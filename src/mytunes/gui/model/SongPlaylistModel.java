@@ -30,6 +30,7 @@ public class SongPlaylistModel {
     private PlaylistSongsManager playlistSongsManager;
     private UsersManager usersManager;
 
+
     public SongPlaylistModel() throws Exception {
         songManager = new SongManager();
         genreManager = new GenreManager();
@@ -47,7 +48,6 @@ public class SongPlaylistModel {
 
         playlistSongsManager = new PlaylistSongsManager();
         listSongsFromPlaylist = FXCollections.observableArrayList();
-        //listSongsFromPlaylist.addAll(playlistSongsManager.getAllSongsFromPlaylist());
 
     }
 
