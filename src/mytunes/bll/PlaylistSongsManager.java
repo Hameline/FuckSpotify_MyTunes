@@ -21,7 +21,7 @@ public class PlaylistSongsManager {
         return DAO_DB.addSongToPlaylist(newPlaylistSong);
     }
 
-    public static Song removeSongFromPlaylist(Song removedPlaylistSong) throws Exception {
+    public PlaylistSongs removeSongFromPlaylist(PlaylistSongs removedPlaylistSong) throws Exception {
         return DAO_DB.removeSongFromPlaylist(removedPlaylistSong);
     }
 

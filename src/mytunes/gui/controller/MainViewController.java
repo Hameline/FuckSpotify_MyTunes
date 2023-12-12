@@ -515,6 +515,7 @@ public class MainViewController<songPath> extends BaseController implements Init
         btnShuffle.setVisible(true);
         btnMoveUp.setVisible(true);
         btnMoveDown.setVisible(true);
+        storePlaylist = selectedPlaylist;
     }
     // Adds the selected song to a selected playlist by first clicking on the song in the search table and then
     // clicking the desired playlist
@@ -883,7 +884,10 @@ public class MainViewController<songPath> extends BaseController implements Init
 
         if (result.get() == ButtonType.OK) {
             Song removedPlaylistSong = tblViewSongsInPlaylist.getSelectionModel().getSelectedItem();
-            songPlaylistModel.removeSongFromPlaylist(removedPlaylistSong);
+            PlaylistSongs playlistSongs = new PlaylistSongs();
+            playlistSongs.setSongID(removedPlaylistSong.getId());
+            playlistSongs.setPlaylistID(storePlaylist.getId());
+            songPlaylistModel.removeSongFromPlaylist(playlistSongs);
         } else {
         }
     }

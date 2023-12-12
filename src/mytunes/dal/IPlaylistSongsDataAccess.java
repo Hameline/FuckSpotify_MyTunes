@@ -11,7 +11,7 @@ public interface IPlaylistSongsDataAccess {
 
     PlaylistSongs addSongToPlaylist(PlaylistSongs playlistSongs) throws Exception;
 
-    Song removeSongFromPlaylist(Song playlistSongs) throws Exception;
+    PlaylistSongs removeSongFromPlaylist(PlaylistSongs playlistSongs) throws Exception;
 
 
     List<Song> fetchSongsForPlaylist(int playlistId) throws Exception;

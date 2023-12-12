@@ -101,8 +101,7 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
     }
 
 
-    @Override
-    public Song removeSongFromPlaylist(Song playlistSongs) throws Exception {
+    public PlaylistSongs removeSongFromPlaylist(PlaylistSongs playlistSongs) throws Exception {
         // SQL command
         String sql = "delete from FSpotify.dbo.PlaylistSongs WHERE PlaylistID = ?, AND WHERE SongID = ?;";
 
@@ -110,8 +109,8 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
                 // Bind parameters
-                stmt.setInt(1, playlistSongs.getId());
-                stmt.setInt(2, song.getId());
+                stmt.setInt(1, playlistSongs.getPlaylistID());
+                stmt.setInt(2, playlistSongs.getSongID());
 
                 // Run the specified SQL statement
                 stmt.executeUpdate();
