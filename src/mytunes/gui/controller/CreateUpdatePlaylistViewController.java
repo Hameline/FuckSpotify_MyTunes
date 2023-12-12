@@ -17,14 +17,9 @@ public class CreateUpdatePlaylistViewController extends BaseController implement
     @FXML
     private TextField txtPlaylistName;
     @FXML
-    private Button btnUpdate;
-    @FXML
-    private Button btnCreate;
-
+    private Button btnUpdate, btnCreate;
     private SongPlaylistModel songPlaylistModel;
-
     private MainViewController mainViewController = new MainViewController<>();
-
     private Playlist selectedPlaylist;
 
     public CreateUpdatePlaylistViewController() throws Exception {

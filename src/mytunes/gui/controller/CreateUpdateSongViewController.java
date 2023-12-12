@@ -21,9 +21,10 @@ public class CreateUpdateSongViewController extends BaseController implements In
     private ComboBox<String> menuGenre;
     private SongPlaylistModel songPlaylistModel;
     private MainViewController mainViewController;
-    public Button btnUpdate, btnCreate, btnCancel;
     @FXML
-    private TextField txtSongName, txtArtist, txtGenre, txtAlbumName, txtTime, txtFile;
+    private Button btnUpdate, btnCreate, btnCancel;
+    @FXML
+    private TextField txtSongName, txtArtist, txtTime, txtFile;
     private Song selectedSong;
 
 
@@ -42,6 +43,8 @@ public class CreateUpdateSongViewController extends BaseController implements In
     public void initialize(URL location, ResourceBundle resources) {
         addToComboBox();
     }
+
+    // Setup comes from our BaseController and helps us set up how out program should look once it runs
     public void setup() {
         songPlaylistModel = getModel();
         if (selectedSong != null) {
@@ -52,6 +55,7 @@ public class CreateUpdateSongViewController extends BaseController implements In
         }
     }
 
+    // Here we insert new information for the selected song and updates it
     @FXML
     private void handleUpdate(ActionEvent actionEvent) {
         if (selectedSong == null) {
@@ -107,7 +111,7 @@ public class CreateUpdateSongViewController extends BaseController implements In
     }
     @FXML
     /**
-     * In this mehtod we handle the creation of a song.
+     * In this method we handle the creation of a song.
      */
     private void handleCreate(ActionEvent actionEvent) {
         String title = txtSongName.getText();
@@ -126,7 +130,7 @@ public class CreateUpdateSongViewController extends BaseController implements In
                 artistName = String.valueOf(songPlaylistModel.createArtist(artist));
             }
             /**
-             * we have choosen to have all genre i DB - the user selects from drop down.
+             * we have chosen to have all genre i DB - the user selects from drop down.
              * So the user can't create a genre.
              */
             List<Genre> allGenres = songPlaylistModel.getAllGenres();
@@ -147,6 +151,7 @@ public class CreateUpdateSongViewController extends BaseController implements In
         }
     }
 
+    // An error that pops up when something goes wrong with our create or update
     private void displayError(Throwable t)
     {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -155,6 +160,7 @@ public class CreateUpdateSongViewController extends BaseController implements In
         alert.showAndWait();
     }
 
+    // Adds new genres to the combo box
     private void addToComboBox(){
         try {
             List<Genre> genres = songPlaylistModel.getAllGenres();
@@ -171,11 +177,13 @@ public class CreateUpdateSongViewController extends BaseController implements In
         this.selectedSong = song;
     }
 
+    // A button that closes the window
     public void handleCancelSong(ActionEvent actionEvent) {
         Stage stage = (Stage) btnCancel.getScene().getWindow();
         stage.close();
     }
 
+    // A file chooser that opens your pathfinder so you can find and insert a mp3 or wav song file
     public void handleChooseFile(ActionEvent actionEvent) {
         FileChooser fc = new FileChooser();
         Stage stage = (Stage) btnCancel.getScene().getWindow();
