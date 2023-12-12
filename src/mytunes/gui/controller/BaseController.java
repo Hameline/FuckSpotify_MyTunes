@@ -13,5 +13,5 @@ public abstract class BaseController {
         this.model = model;
     }
 
-    public abstract void setup();
+    public abstract void setup() throws Exception;
 }

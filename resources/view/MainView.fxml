@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" prefHeight="854.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
+<AnchorPane id="background" prefHeight="854.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
     <children>
         <VBox id="vboxplaylist" layoutY="126.0" stylesheets="@../css/MainView.css">
             <children>
@@ -43,13 +43,13 @@
                         <Insets bottom="5.0" left="5.0" top="15.0" />
                     </padding>
                 </Label>
-                <ListView id="vboxlist" fx:id="vboxlistSuggested" orientation="HORIZONTAL" prefHeight="76.0" prefWidth="867.0" stylesheets="@../css/MainView.css" />
-                <Label id="vboxtext" stylesheets="@../css/MainView.css" text="Recommended Artist">
+                <ListView id="vboxlist" fx:id="vboxlistSuggested" onMouseClicked="#handlePlayFromVBox" orientation="HORIZONTAL" prefHeight="76.0" prefWidth="867.0" stylesheets="@../css/MainView.css" />
+                <Label id="vboxtext" fx:id="recommendedArtist" stylesheets="@../css/MainView.css" text="Recommended Artist">
                     <padding>
                         <Insets bottom="5.0" left="5.0" top="15.0" />
                     </padding>
                 </Label>
-                <ListView id="vboxlist" fx:id="vboxlistArtist" orientation="HORIZONTAL" prefHeight="76.0" prefWidth="867.0" stylesheets="@../css/MainView.css" />
+                <ListView id="vboxlist" fx:id="vboxlistArtist" onMouseClicked="#handlePlayFromVBox" orientation="HORIZONTAL" prefHeight="76.0" prefWidth="867.0" stylesheets="@../css/MainView.css" />
             </children>
         </VBox>
         <ButtonBar fx:id="btnBarSong" layoutX="982.0" layoutY="125.0" prefHeight="27.0" prefWidth="324.0">
@@ -67,7 +67,7 @@
                 <TableColumn fx:id="tblViewSearchGenre" prefWidth="117.0" text="Genre" />
             </columns>
         </TableView>
-        <TableView id="vbox" fx:id="tblViewSongsInPlaylist" layoutX="217.0" layoutY="155.0" prefHeight="570.0" prefWidth="1091.0" stylesheets="@../css/MainView.css">
+        <TableView id="vbox" fx:id="tblViewSongsInPlaylist" layoutX="217.0" layoutY="155.0" onMouseClicked="#handlePlaySongsFromPlaylist" prefHeight="570.0" prefWidth="1091.0" stylesheets="@../css/MainView.css">
             <columns>
                 <TableColumn fx:id="tblViewSongInPlaylistSong" prefWidth="218.0" text="Song" />
                 <TableColumn fx:id="tblViewSongInPlaylistDuration" minWidth="0.0" prefWidth="59.0" text="Duration" />
@@ -89,14 +89,12 @@
                 <Font size="27.0" />
             </font>
         </Label>
-        <GridPane fx:id="btnMenuPlaylist" layoutX="217.0" layoutY="131.0" prefHeight="68.0" prefWidth="275.0">
+        <GridPane fx:id="btnMenuPlaylist" layoutX="217.0" layoutY="131.0" prefHeight="25.0" prefWidth="275.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
@@ -123,7 +121,7 @@
       <Button fx:id="btnShuffle" layoutX="763.0" layoutY="751.0" mnemonicParsing="false" onAction="#handleShuffle" text="Shuffle" />
       <Button fx:id="btnMoveUp" layoutX="152.0" layoutY="215.0" mnemonicParsing="false" onAction="#handleMoveUp" text="up" />
       <Button fx:id="btnMoveDown" layoutX="152.0" layoutY="282.0" mnemonicParsing="false" onAction="#handleMoveDown" text="Down" />
-      <Button fx:id="toSearch" layoutX="604.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleShowSearch" text="Go to Search" />
+      <Button fx:id="toSearch" layoutX="498.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleShowSearch" prefHeight="3.0" prefWidth="85.0" text="Go to Search" />
       <Label fx:id="songTimer2" alignment="CENTER" contentDisplay="CENTER" layoutX="1125.0" layoutY="776.0" text="Song Duration" textFill="#b9d620">
          <font>
             <Font size="27.0" />

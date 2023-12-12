@@ -32,10 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @SuppressWarnings("ALL")
 public class MainViewController<songPath> extends BaseController implements Initializable {
@@ -44,17 +41,13 @@ public class MainViewController<songPath> extends BaseController implements Init
     private ListView vboxlistArtist;
     @FXML
     private TableColumn tblViewSongInPlaylistSongUser, tblViewSongInPlaylistDurationUser, tblViewSongInPlaylistGenreUser, tblViewSongInPlaylistArtistUser;
-
     @FXML
-    private Label txtTotalTime;
+    private Label txtTotalTime, songTimer, songTimer2, lblSelectPlaylist, lblPlaylistName, recommendedArtist;
     @FXML
-    private Button btnPlay, btnDelete, nextSong, previousSong, handlePlaySong, btnMoveUp, btnMoveDown, btnShuffle;
+    private Button btnPlay, btnDelete, nextSong, previousSong, handlePlaySong, btnMoveUp, btnMoveDown, btnShuffle, btnCreate, btnUpdate
+            ,btnMainMenu ,btnNewPlaylist;
     @FXML
     private Slider volumeSlider;
-    @FXML
-    private Label songTimer, songTimer2;
-    @FXML
-    private Label lblSelectPlaylist;
     @FXML
     private TableColumn tblViewSongInPlaylistSong;
     @FXML
@@ -70,15 +63,7 @@ public class MainViewController<songPath> extends BaseController implements Init
     @FXML
     private TableView<Song> tblViewSongsInPlaylist;
     @FXML
-    private Label lblPlaylistName;
-    @FXML
-    private Button btnCreate, btnUpdate;
-    @FXML
     private TableView tblViewPlaylist;
-    @FXML
-    private Button btnNewPlaylist;
-    @FXML
-    private Button btnMainMenu;
     @FXML
     private TableColumn tblViewSearchSong;
     @FXML
@@ -100,7 +85,6 @@ public class MainViewController<songPath> extends BaseController implements Init
     @FXML
     private ListView vboxlistSuggested;
     private SongPlaylistModel songPlaylistModel;
-    private CreateUpdatePlaylistViewController createUpdatePlaylistViewController;
     private Playlist selectedPlaylist = null;
     private Playlist storePlaylist = null;
     private Song selectedSong;
@@ -111,10 +95,12 @@ public class MainViewController<songPath> extends BaseController implements Init
     private TableColumn<Song, String> tblViewSearchDuration;
     private PlaylistSongsManager playlistSongsManager = new PlaylistSongsManager();
     private int switchFromPlayAndPause = 1;
+    private Users userID;
 
     public MainViewController() throws IOException {
         try {
             songPlaylistModel = new SongPlaylistModel();
+            userID = new Users();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,10 +108,15 @@ public class MainViewController<songPath> extends BaseController implements Init
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setup();
-        defaultMenu();
+        try {
+            setup();
+            defaultMenu();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         tblViewSearchDuration.setCellValueFactory(t -> new SimpleStringProperty(t.getValue().getTimeStamp()));
 
+        tblViewPlaylistPlaylist.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         txtSearchField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             try {
@@ -145,15 +136,29 @@ public class MainViewController<songPath> extends BaseController implements Init
         alert.showAndWait();
     }
 
+    public void setUserID(Users id) {
+        userID = id;
+    }
+
     // A setup method that comes with the abstract class "BaseController". Here we setup how the program should look once opened
     @Override
-    public void setup() {
+    public void setup() throws Exception {
         btnUpdate.setDisable(true);
         btnDelete.setDisable(true);
         if (songPlaylistModel != null) {
             tblViewSearch.setItems(songPlaylistModel.getListOfSongs());
             vboxlistSuggested.setItems(songPlaylistModel.getListOfSongs());
-            tblViewPlaylist.setItems(songPlaylistModel.getListOfPlaylists());
+            // here we fetch the songs from the database that is connected the the playlist with the id.
+            List<Song> songs = playlistSongsManager.fetchSongsForPlaylist(39);
+
+            updateTotalTimeTextField(songs);
+            ObservableList<Song> songObservableList = FXCollections.observableArrayList(songs);
+            vboxlistArtist.setItems(songObservableList);
+            recommendedArtist.setText("Skinz");
+
+            vboxlistArtist.refresh();
+            vboxlistSuggested.refresh();
+            tblViewPlaylist.refresh();
 
         }
 
@@ -171,7 +176,6 @@ public class MainViewController<songPath> extends BaseController implements Init
             }
         });
 
-        tblViewPlaylistPlaylist.setCellValueFactory(new PropertyValueFactory<>("name"));
         tblViewSearch.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
             @Override
             public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
@@ -186,10 +190,9 @@ public class MainViewController<songPath> extends BaseController implements Init
             }
         });
     }
-
     // Returns to the main menu by pressing the logo in the top left. Making the searchTable and the buttons to create,
     // update and delete invisible.
-    private void defaultMenu() {
+    private void defaultMenu() throws Exception {
         // MAKES the TBL VIEW INVISIBLE
         tblViewSearch.setVisible(false);
 
@@ -214,13 +217,32 @@ public class MainViewController<songPath> extends BaseController implements Init
         lblSelectPlaylist.setVisible(false);
 
         tblViewSearch.setItems(songPlaylistModel.getListOfSongs());
-        //tblViewPlaylist.setItems(songPlaylistModel.getListOfPlaylists());
 
+        handlePlaylistButtons(); // Disables all Buttons To do with the playlist object
+
+
+        // Stops all music from being played
+        if (switchFromPlayAndPause == 2) {
+            btnPlay.setText("▶");
+            switchFromPlayAndPause = 1;
+            pause();
+        }
+
+        // makes it so that refreshing the site the playlist will only show what is connected to each specefic user
+        setPlaylistForUser(userID);
+    }
+
+
+    // // Disables all Buttons To do with the playlist object
+    private void handlePlaylistButtons() {
+        btnMoveDown.setVisible(false);
+        btnMoveUp.setVisible(false);
+        btnShuffle.setVisible(false);
     }
 
     // Opens a new window to create or update a playlist by pressing the button "Create Playlist"
     @FXML
-    private void HandleNewPlaylist(ActionEvent actionEvent) throws IOException {
+    private void HandleNewPlaylist(ActionEvent actionEvent) throws Exception {
         Playlist selectedPlaylist = (Playlist) tblViewPlaylist.getSelectionModel().getSelectedItem();
         if (selectedPlaylist != null) {
 
@@ -240,8 +262,6 @@ public class MainViewController<songPath> extends BaseController implements Init
 
             PopupWindow.setScene(new Scene(popupWindow));
             PopupWindow.showAndWait();
-
-            tblViewPlaylist.refresh();
         }
         if (selectedPlaylist == null) {
             Stage stage = new Stage();
@@ -259,16 +279,41 @@ public class MainViewController<songPath> extends BaseController implements Init
 
             PopupWindow.setScene(new Scene(popupWindow));
             PopupWindow.showAndWait();
-
-            tblViewPlaylist.refresh();
         }
+        setPlaylistForUser(userID);
     }
 
     // A button that goes back to the front screen (the button is the logo in the top left corner
     @FXML
-    private void HandleMainMenu(ActionEvent actionEvent) {
+    private void HandleMainMenu(ActionEvent actionEvent) throws Exception {
         defaultMenu();
         setup();
+    }
+
+
+    // Shows the search table (our list of songs)
+    @FXML
+    private void handleShowSearch(ActionEvent actionEvent) {
+        searchItems();
+    }
+    private void searchItems() {
+
+            // MAKES the TBL VIEW VISIBLE
+
+            tblViewSearch.setVisible(true);
+
+            // MAKES the VBOX INVISIBLE
+            vBoxDefault.setVisible(false);
+
+            // MAKES the BUTTON BAR VISIBLE
+            btnBarSong.setVisible(true);
+
+            tblViewSongsInPlaylist.setVisible(false);
+
+            btnMenuPlaylist.setVisible(false);
+
+            handlePlaylistButtons();
+
     }
 
     // When you put in letters in the searchfield and press enter, the searchTable becomes visible along with the
@@ -277,32 +322,12 @@ public class MainViewController<songPath> extends BaseController implements Init
     private void handleSearchField(KeyEvent keyEvent) {
         // Detects if the ENTER KEY have been PRESSED
         if (keyEvent.getCode() == KeyCode.ENTER) {
-            // Looks TO SEE if the TXT SEARCH FIELD is NOT EMPTY
             if (!(txtSearchField.getText().isEmpty())) {
-
-                // MAKES the TBL VIEW VISIBLE                tblViewSearch.setVisible(true);
-
-                // MAKES the VBOX INVISIBLE
-                vBoxDefault.setVisible(false);
-
-                // MAKES the BUTTON BAR VISIBLE
-                btnBarSong.setVisible(true);
-
-                tblViewSongsInPlaylist.setVisible(false);
-
-                btnMenuPlaylist.setVisible(false);
+                searchItems();
             }
             // Looks TO SEE if the TXT SEARCH FIELD is EMPTY
             if (txtSearchField.getText().isEmpty()) {
-
-                // MAKES the TBT VIEW INVISIBLE
-                tblViewSearch.setVisible(false);
-
-                // MAKES the VBOX VISIBLE
-                vBoxDefault.setVisible(true);
-
-                // MAKES the BUTTON BAR INVISIBLE
-                btnBarSong.setVisible(false);
+                searchItems();
             }
         }
     }
@@ -364,7 +389,8 @@ public class MainViewController<songPath> extends BaseController implements Init
     }
 
     // Deletes the selected song and calls the confirmationAlertSOng method
-    public void handleDelete(ActionEvent actionEvent) throws Exception {
+    @FXML
+    private void handleDelete(ActionEvent actionEvent) throws Exception {
         try {
             confirmationAlertSong();
         } catch (Exception e) {
@@ -374,7 +400,8 @@ public class MainViewController<songPath> extends BaseController implements Init
     }
 
     // Gives you an alert for when you have selected and song and pressed the delete button
-    public void confirmationAlertSong() throws Exception {
+    @FXML
+    private void confirmationAlertSong() throws Exception {
         /**
          * skal have lavet en if statement der kontrollere om
          * sang er i en playliste før den skal slettes.
@@ -392,7 +419,7 @@ public class MainViewController<songPath> extends BaseController implements Init
         }
     }
 
-    // Deletes the selected playlist first the go to the playlist then select the dropdown menu  above the songs
+    // Deletes the selected playlist, first click on a playlist then select the dropdown menu above the songs
     // titled the playlists name and then clicking delete playlist
     @FXML
     private void handleDeletePlaylist(ActionEvent actionEvent) throws Exception {
@@ -408,6 +435,7 @@ public class MainViewController<songPath> extends BaseController implements Init
                 e.printStackTrace();
             }
         }
+        tblViewPlaylist.refresh();
     }
 
     /**
@@ -480,12 +508,16 @@ public class MainViewController<songPath> extends BaseController implements Init
                 System.out.println("stored playlist is empty same goes for stored song");
             }
         }
+        btnShuffle.setVisible(true);
+        btnMoveUp.setVisible(true);
+        btnMoveDown.setVisible(true);
     }
 
     // Adds the selected song to a selected playlist by first clicking on the song in the search table and then
     // clicking the desired playlist
     @FXML
-    private void handleAddSongToPlaylist(MouseEvent mouseEvent) {
+    private void handleAddSongToPlaylist(MouseEvent mouseEvent) throws Exception {
+        autoPlay(); // Auto Plays the Song when it is selected
         selectedSong = (Song) tblViewSearch.getSelectionModel().getSelectedItem();
         if (selectedSong != null) {
             allowSongsInPlaylistView = false;
@@ -494,27 +526,56 @@ public class MainViewController<songPath> extends BaseController implements Init
         }
     }
 
+    private void autoPlay() throws Exception {
+        btnPlay.setText("||"); // makes sure that no matter what sate the play button is in it goes to the play state
+        switchFromPlayAndPause = 2; // here it saves the information that the button is in the play state
+        play(); // Plays the song
+    }
+
     // Play method that will be used in out "handlePlaySong" method
-    public void play() throws Exception {
+    @FXML
+    private void play() throws Exception {
         // Plays the song in the search table
         Song songToPlaySearch = tblViewSearch.getSelectionModel().getSelectedItem();
-        if (songToPlaySearch != null) {
-            playSong(songToPlaySearch.getFPath());
-        }
         // Plays the song in the playlist table
         Song songToPlayPlaylist = tblViewSongsInPlaylist.getSelectionModel().getSelectedItem();
-        if (songToPlayPlaylist != null) {
-            playSong(songToPlayPlaylist.getFPath());
-        }
         // Plays the song in the suggested table
         Song songToPlaySuggested = (Song) vboxlistSuggested.getSelectionModel().getSelectedItem();
+        // Plays the song in the recommended artist table
+        Song songtoPlayArtist = (Song) vboxlistArtist.getSelectionModel().getSelectedItem();
+
+        if (songToPlaySearch != null) {
+            playSong(songToPlaySearch.getFPath());
+            songToPlayPlaylist = null; // makes it null so no 2 songs or more can play at the same time
+            songToPlaySuggested = null; // makes it null so no 2 songs or more can play at the same time
+            songtoPlayArtist = null; // makes it null so no 2 songs or more can play at the same time
+        }
+
+        if (songToPlayPlaylist != null) {
+            playSong(songToPlayPlaylist.getFPath());
+            songToPlaySearch = null; // makes it null so no 2 songs or more can play at the same time
+            songToPlaySuggested = null; // makes it null so no 2 songs or more can play at the same time
+            songtoPlayArtist = null; // makes it null so no 2 songs or more can play at the same time
+        }
+
         if (songToPlaySuggested != null) {
             playSong(songToPlaySuggested.getFPath());
+            songToPlaySearch = null; // makes it null so no 2 songs or more can play at the same time
+            songToPlayPlaylist = null; // makes it null so no 2 songs or more can play at the same time
+            songtoPlayArtist = null; // makes it null so no 2 songs or more can play at the same time
+        }
+
+        if (songtoPlayArtist != null) {
+            playSong(songtoPlayArtist.getFPath());
+            songToPlayPlaylist = null; // makes it null so no 2 songs or more can play at the same time
+            songToPlaySuggested = null; // makes it null so no 2 songs or more can play at the same time
+            songToPlaySearch = null; // makes it null so no 2 songs or more can play at the same time
         }
     }
 
     // Pause method that will be used in out "handlePlaySong" method
-    public void pause() {
+    @FXML
+    private void pause() {
         if (mediaPlayer != null) {
             mediaPlayer.pause();
         }
@@ -522,7 +583,8 @@ public class MainViewController<songPath> extends BaseController implements Init
 
     // ActionEvent for our play button that plays a song and changes the image of the button to a pause symbol that then
     // when pressed again pauses the song
-    public void handlePlaySong(ActionEvent actionEvent) throws Exception {
+    @FXML
+    private void handlePlaySong(ActionEvent actionEvent) throws Exception {
         if (switchFromPlayAndPause == 1) {
             btnPlay.setText("||");
             switchFromPlayAndPause = 2;
@@ -534,7 +596,8 @@ public class MainViewController<songPath> extends BaseController implements Init
         }
     }
 
-    public void playSong(String songPath) throws Exception {
+    @FXML
+    private void playSong(String songPath) throws Exception {
         File file = new File(songPath);// Creates a new file with the parameter songPath
         Media mSong = new Media(file.getAbsoluteFile().toURI().toString());// Creates a new media with the name mSong,
         // and takes the previous file, gets an abstract pathname, changes it to URI and then to string, so the program can read it.
@@ -575,14 +638,16 @@ public class MainViewController<songPath> extends BaseController implements Init
     }
 
     // Simply stops the currently playing song
-    public void handleStopSong(ActionEvent actionEvent) throws Exception {
+    @FXML
+    private void handleStopSong(ActionEvent actionEvent) throws Exception {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
         }
     }
 
     // A button that when pressed skips to the next song on the list of songs or on the playlist whichever you have selected
-    public void handleNextSong(ActionEvent actionEvent) throws Exception {
+    @FXML
+    private void handleNextSong(ActionEvent actionEvent) throws Exception {
         int indexSearch = tblViewSearch.getSelectionModel().getSelectedIndex();
         int indexPlaylist = tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex();
 
@@ -604,7 +669,8 @@ public class MainViewController<songPath> extends BaseController implements Init
     }
 
      // A button that goes back to the previous song
-    public void handlePreviousSong(ActionEvent actionEvent) throws Exception {
+    @FXML
+    private void handlePreviousSong(ActionEvent actionEvent) throws Exception {
         int indexSearch = tblViewSearch.getSelectionModel().getSelectedIndex();
         int indexPlaylist = tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex();
 
@@ -626,7 +692,8 @@ public class MainViewController<songPath> extends BaseController implements Init
     }
 
     // Puts the time of the whole playlist together and shows it on top of the playlist tableview
-    public void updateTotalTimeTextField(List<Song> songs) {
+    @FXML
+    private void updateTotalTimeTextField(List<Song> songs) {
         int totalTime = songPlaylistModel.calculateTotalTime(songs);
         // Assuming txtTotalTime is the TextField where you want to display the total time
         txtTotalTime.setText(songPlaylistModel.formatDuration(totalTime)); // You can create a method to format the duration as needed
@@ -699,7 +766,8 @@ public class MainViewController<songPath> extends BaseController implements Init
     }
 
     // Moves the selected song up on the playlist
-    public void handleMoveUp (ActionEvent actionEvent){
+    @FXML
+    private void handleMoveUp (ActionEvent actionEvent){
         int index = tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex();
         if (index != -1 && index > 0) { // As long as the selected song is on index 0 (first line) or above you can move a song up
             tblViewSongsInPlaylist.getItems().add(index - 1, tblViewSongsInPlaylist.getItems().remove(index));
@@ -708,7 +776,8 @@ public class MainViewController<songPath> extends BaseController implements Init
     }
 
     // Moves the selected song down on the playlist
-    public void handleMoveDown (ActionEvent actionEvent){
+    @FXML
+    private void handleMoveDown (ActionEvent actionEvent){
         int index = tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex();
         int lastIndex = tblViewSongsInPlaylist.getItems().size() - 1;
         if (index != -1 && index < lastIndex) { // Also here you can keep moving down till you reach the last index
@@ -719,7 +788,8 @@ public class MainViewController<songPath> extends BaseController implements Init
 
     // A shuffle button that you press to get a random song (its not a toggle button so you have to press it again for
     // a new random song) it then removes the last played song temporarily from the playlist
-    public void handleShuffle () {
+    @FXML
+    private void handleShuffle () {
         if (!tblViewSongsInPlaylist.getItems().isEmpty()) {
             // Get the index of the last played song
             int lastPlayedIndex = tblViewSongsInPlaylist.getSelectionModel().getSelectedIndex();
@@ -745,9 +815,13 @@ public class MainViewController<songPath> extends BaseController implements Init
         }
     }
 
-    // Shows the search table (our list of songs)
-    public void handleShowSearch(ActionEvent actionEvent) {
-        tblViewSearch.setVisible(true);
-        btnBarSong.setVisible(true);
+    @FXML
+    private void handlePlayFromVBox(MouseEvent mouseEvent) throws Exception {
+        autoPlay(); // Plays the Song when you click it
+    }
+
+    @FXML
+    private void handlePlaySongsFromPlaylist(MouseEvent mouseEvent) throws Exception {
+        autoPlay(); // Plays the Song when you click it
     }
 }

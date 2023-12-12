@@ -19,6 +19,9 @@ public class Users {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
     }
+    public Users() {
+
+    }
 
 
     public int getUserID() {

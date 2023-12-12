@@ -46,7 +46,7 @@ public class LoginViewController implements Initializable {
         String userName = txtUsername.getText();
         String userPassword = txtPassword.getText();
         // Here safe the data input in the fields of the user, so that the
-        // program will remeber the user next time. This is safed in a file.
+        // program will remember the user next time. This is saved in a file.
         if (rememberMe == true) {
             Properties login = new Properties();
 
@@ -68,6 +68,7 @@ public class LoginViewController implements Initializable {
             Parent secondWindow = loader.load();
             MainViewController mainViewController = loader.getController();
             mainViewController.setPlaylistForUser(userLogged);
+            mainViewController.setUserID(userLogged);
             Stage newStage = new Stage();
             newStage.setTitle("FSpotify");
             Scene scene = new Scene(secondWindow);
