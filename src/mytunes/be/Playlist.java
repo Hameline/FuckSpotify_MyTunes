@@ -15,6 +15,9 @@ public class Playlist {
         this.name = name;
     }
 
+    public Playlist() {
+    }
+
     public int getId() {
         return id;
     }

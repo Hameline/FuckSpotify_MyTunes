@@ -1,6 +1,8 @@
 package mytunes.gui.controller;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -38,6 +40,8 @@ import java.util.*;
 public class MainViewController<songPath> extends BaseController implements Initializable {
 
     @FXML
+    private ProgressBar songProgress;
+    @FXML
     private ListView vboxlistArtist;
     @FXML
     private TableColumn tblViewSongInPlaylistSongUser, tblViewSongInPlaylistDurationUser, tblViewSongInPlaylistGenreUser, tblViewSongInPlaylistArtistUser;
@@ -45,7 +49,7 @@ public class MainViewController<songPath> extends BaseController implements Init
     private Label txtTotalTime, songTimer, songTimer2, lblSelectPlaylist, lblPlaylistName, recommendedArtist;
     @FXML
     private Button btnPlay, btnDelete, nextSong, previousSong, handlePlaySong, btnMoveUp, btnMoveDown, btnShuffle, btnCreate, btnUpdate
-            ,btnMainMenu ,btnNewPlaylist;
+            ,btnMainMenu ,btnNewPlaylist, removeFromPlaylist;
     @FXML
     private Slider volumeSlider;
     @FXML
@@ -96,7 +100,7 @@ public class MainViewController<songPath> extends BaseController implements Init
     private PlaylistSongsManager playlistSongsManager = new PlaylistSongsManager();
     private int switchFromPlayAndPause = 1;
     private Users userID;
-
+    private int clicker;
     public MainViewController() throws IOException {
         try {
             songPlaylistModel = new SongPlaylistModel();
@@ -512,16 +516,16 @@ public class MainViewController<songPath> extends BaseController implements Init
         btnMoveUp.setVisible(true);
         btnMoveDown.setVisible(true);
     }
-
     // Adds the selected song to a selected playlist by first clicking on the song in the search table and then
     // clicking the desired playlist
     @FXML
     private void handleAddSongToPlaylist(MouseEvent mouseEvent) throws Exception {
-        selectedSong = (Song) tblViewSearch.getSelectionModel().getSelectedItem();
-
-        if (storeSong == selectedSong) {
+        clicker += 1;
+        if (clicker >= 2) {
             autoPlay(); // Auto Plays the Song when it is selected
+            clicker = 0;
         }
+        selectedSong = (Song) tblViewSearch.getSelectionModel().getSelectedItem();
         if (selectedSong != null) {
             allowSongsInPlaylistView = false;
             storeSong = selectedSong;
@@ -611,6 +615,7 @@ public class MainViewController<songPath> extends BaseController implements Init
             mediaPlayer = new MediaPlayer(mSong);
             playingTimerUp();
             playingTimerDown();
+            songProgress();
             mediaPlayer.play();
             mediaPlayer.setOnEndOfMedia(() -> {
                 Song song;
@@ -842,6 +847,44 @@ public class MainViewController<songPath> extends BaseController implements Init
         }
         if (selectedSong != null) {
             storeSong = selectedSong;
+        }
+    }
+
+    public void songProgress() {
+        ReadOnlyObjectWrapper<Number> progressWrapper = new ReadOnlyObjectWrapper<>(0);
+
+        // Bind the progress bar's progress to the progress of the mediaPlayer
+        progressWrapper.bind(Bindings.createObjectBinding(
+                () -> mediaPlayer.getCurrentTime().toMillis() / mediaPlayer.getTotalDuration().toMillis(),
+                mediaPlayer.currentTimeProperty(),
+                mediaPlayer.totalDurationProperty()
+        ));
+
+        // Bind the progress bar's progress property to the progress wrapper
+        songProgress.progressProperty().bind(progressWrapper);
+    }
+
+    public void handleRemoveSong(ActionEvent actionEvent) throws Exception {
+        try {
+            confirmationAlertPlaylistSong();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("Could not delete song from playlist", e);
+        }
+    }
+
+    @FXML
+    private void confirmationAlertPlaylistSong() throws Exception {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("You are about to remove a Song");
+        alert.setContentText("Are you sure you want to remove?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == ButtonType.OK) {
+            Song removedPlaylistSong = tblViewSongsInPlaylist.getSelectionModel().getSelectedItem();
+            songPlaylistModel.removeSongFromPlaylist(removedPlaylistSong);
+        } else {
         }
     }
 }

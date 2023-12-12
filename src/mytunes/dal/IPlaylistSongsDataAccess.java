@@ -1,10 +1,8 @@
 package mytunes.dal;
 
-import mytunes.be.Playlist;
 import mytunes.be.PlaylistSongs;
 import mytunes.be.Song;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface IPlaylistSongsDataAccess {
@@ -13,7 +11,7 @@ public interface IPlaylistSongsDataAccess {
 
     PlaylistSongs addSongToPlaylist(PlaylistSongs playlistSongs) throws Exception;
 
-    PlaylistSongs removeSongFromPlaylist(PlaylistSongs playlistSongs) throws Exception;
+    Song removeSongFromPlaylist(Song playlistSongs) throws Exception;
 
 
     List<Song> fetchSongsForPlaylist(int playlistId) throws Exception;
