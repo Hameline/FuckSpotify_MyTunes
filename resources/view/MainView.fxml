@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -20,6 +21,7 @@
 
 <AnchorPane id="background" prefHeight="854.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
     <children>
+      <ProgressBar fx:id="songProgress" layoutY="822.0" prefHeight="18.0" prefWidth="1308.0" progress="0.0" />
         <VBox id="vboxplaylist" layoutY="126.0" stylesheets="@../css/MainView.css">
             <children>
                 <Button fx:id="btnNewPlaylist" mnemonicParsing="false" onAction="#HandleNewPlaylist" prefHeight="25.0" prefWidth="149.0" stylesheets="@../css/MainView.css" text="+ New Playlist">
@@ -75,7 +77,6 @@
                 <TableColumn fx:id="tblViewSongInPlaylistGenre" prefWidth="117.0" text="Genre" />
             </columns>
         </TableView>
-        <Slider layoutX="439.0" layoutY="824.0" prefHeight="14.0" prefWidth="432.0" scaleX="3.0" scaleY="3.0" />
         <Label id="text" fx:id="lblSelectPlaylist" layoutX="217.0" layoutY="128.0" prefHeight="26.0" prefWidth="131.0" stylesheets="@../css/MainView.css" text="Select a Playlist" />
         <Button fx:id="btnPlay" layoutX="623.0" layoutY="809.0" mnemonicParsing="false" onAction="#handlePlaySong" prefHeight="44.0" prefWidth="62.0" text="▶">
             <font>
