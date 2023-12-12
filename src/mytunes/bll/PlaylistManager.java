@@ -30,12 +30,12 @@ public class PlaylistManager {
         return DAO_DB.createPlaylist(newPlaylist, userID);
     }
 
-    public void deletePlaylist(Playlist deletedPlaylist) throws Exception {
-        DAO_DB.deletePlaylist(deletedPlaylist);
+    public void deletePlaylist(Playlist deletedPlaylist, int userID) throws Exception {
+        DAO_DB.deletePlaylist(deletedPlaylist, userID);
     }
 
-    public Playlist updatePlaylist(Playlist selectedPlaylist) throws Exception {
-        return DAO_DB.updatePlaylist(selectedPlaylist);
+    public Playlist updatePlaylist(Playlist selectedPlaylist, int userID) throws Exception {
+        return DAO_DB.updatePlaylist(selectedPlaylist, userID);
     }
 
     public List<Playlist> getUserPlaylist(int userID) throws Exception {

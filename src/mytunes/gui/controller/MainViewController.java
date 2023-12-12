@@ -389,13 +389,14 @@ public class MainViewController<songPath> extends BaseController implements Init
     // Deletes the selected playlist first the go to the playlist then select the dropdown menu  above the songs
     // titled the playlists name and then clicking delete playlist
     @FXML
-    private void handleDeletePlaylist(ActionEvent actionEvent) {
+    private void handleDeletePlaylist(ActionEvent actionEvent) throws Exception {
+        int userID = songPlaylistModel.getUserIDs().get(0);
         selectedPlaylist = (Playlist) tblViewPlaylist.getSelectionModel().getSelectedItem();
 
         if (selectedPlaylist != null) {
             try {
                 // Delete movie in DAL layer (through the layers)
-                songPlaylistModel.deletePlaylist(selectedPlaylist);
+                songPlaylistModel.deletePlaylist(selectedPlaylist, userID);
             } catch (Exception e) {
                 displayError(e);
                 e.printStackTrace();

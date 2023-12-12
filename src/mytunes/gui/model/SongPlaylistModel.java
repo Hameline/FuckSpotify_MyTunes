@@ -140,14 +140,14 @@ public class SongPlaylistModel {
     }
 
     // Method to delete a playlist
-    public void deletePlaylist(Playlist deletedPlaylist) throws Exception {
-        playlistManager.deletePlaylist(deletedPlaylist);
+    public void deletePlaylist(Playlist deletedPlaylist, int userID) throws Exception {
+        playlistManager.deletePlaylist(deletedPlaylist, userID);
         listOfPlaylists.remove(deletedPlaylist);
     }
 
     // Method to update playlist information
-    public void updatePlaylist(Playlist selectedPlaylist) throws Exception {
-        playlistManager.updatePlaylist(selectedPlaylist);
+    public void updatePlaylist(Playlist selectedPlaylist, int userID) throws Exception {
+        playlistManager.updatePlaylist(selectedPlaylist, userID);
 
         Playlist p = listOfPlaylists.get(listOfPlaylists.indexOf(selectedPlaylist));
         p.setName(selectedPlaylist.getName());

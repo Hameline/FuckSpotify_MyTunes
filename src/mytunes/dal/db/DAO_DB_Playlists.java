@@ -107,9 +107,20 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
         }
     }
 
-    public Playlist updatePlaylist(Playlist playlist) throws Exception {
-        // SQL command
-        String sql = "UPDATE FSpotify.dbo.Playlist SET PlaylistName = ? WHERE PlaylistID = ?";
+    /**
+     *
+     * @param playlist
+     * @param userID
+     * @return
+     * @throws Exception
+     */
+    public Playlist updatePlaylist(Playlist playlist, int userID) throws Exception {
+        /**
+         * This updates a playlist name to what is entered, on the selected playlist.
+         * And checks if it avaible in the UserPlaylist table, where UserID and PlayistID is connected.
+         */
+        String sql = "UPDATE FSpotify.dbo.Playlist SET PlaylistName = ? WHERE PlaylistID = ? " +
+                     "AND EXISTS (SELECT 1 FROM FSpotify.dbo.UserPlaylist WHERE UserID = ? AND PlaylistID = ?)";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -118,6 +129,8 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
             // Bind parameters
             stmt.setString(1, playlist.getName());
             stmt.setInt(2, playlist.getId());
+            stmt.setInt(3, userID);
+            stmt.setInt(4, playlist.getId());
 
             // Run the specified SQL statement
             stmt.executeUpdate();
@@ -130,61 +143,41 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
         return playlist;
     }
 
-    public void deletePlaylist(Playlist playlist) throws Exception {
-        // SQL command
-        String sql = "delete from FSpotify.dbo.Playlist WHERE PlaylistID = ?;";
-        String sql1 = "DELETE From FSpotify.dbo.PlaylistSongs WHERE PlaylistID = ?;";
+    /**
+     * Method to delete the playlist from the database.
+     * @param playlist
+     * @param userID = hold the user id from the database
+     * @throws Exception
+     */
+    public void deletePlaylist(Playlist playlist, int userID) throws Exception {
+        // SQL statement
+        // first we delete from the playlist from the user.
+        String sqlUserP = "DELETE FROM FSpotify.dbo.UserPlaylist WHERE UserID = ? AND PlaylistID = ?;";
+        // then we delete from the table where playlist and songs are connected.
+        String sqlPS = "DELETE FROM FSpotify.dbo.PlaylistSongs WHERE PlaylistID = ?;";
+        // then we delete from the playlist from the database.
+        String sqlPl = "DELETE FROM FSpotify.dbo.Playlist WHERE PlaylistID = ? ";
 
-        try (Connection conn = databaseConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql1))
-        {
-            // Bind parameters
-            stmt.setInt(1, playlist.getId());
-
-            // Run the specified SQL statement
-            stmt.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
-            // create entry in log file
-            ex.printStackTrace();
-            throw new Exception("Could not delete playlist", ex);
-        }
-
-        try (Connection conn = databaseConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql))
-        {
-            // Bind parameters
-            stmt.setInt(1, playlist.getId());
-
-            // Run the specified SQL statement
-            stmt.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
-            // create entry in log file
-            ex.printStackTrace();
-            throw new Exception("Could not delete playlist", ex);
-        }
-    }
-    private void deletePlayListWithSongs(PlaylistSongs playlistSongs) throws Exception {
-        // SQL command
-        String sql = "delete from FSpotify.dbo.PlaylistSongs WHERE PlaylistID = ?;";
-
-        try (Connection conn = databaseConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql))
-        {
-            // Bind parameters
-            stmt.setInt(1, playlistSongs.getPlaylistID());
-
-            // Run the specified SQL statement
-            stmt.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
-            // create entry in log file
-            ex.printStackTrace();
-            throw new Exception("Could not delete playlist", ex);
+        try (Connection conn = databaseConnector.getConnection()) {
+            // we start by deleting it from the connection with the user.
+            try (PreparedStatement upstmt = conn.prepareStatement(sqlUserP)) {
+                upstmt.setInt(1, userID);
+                upstmt.setInt(2, playlist.getId());
+                upstmt.executeUpdate();
+            }
+            // Here we delete the playlist from the connection to songs.
+            try (PreparedStatement stmt = conn.prepareStatement(sqlPS)){
+                stmt.setInt(1, playlist.getId());
+                stmt.executeUpdate();
+            }
+            // here we delete the playlist from the database. No need to check for user id anymore.
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlPl)) {
+                pstmt.setInt(1, playlist.getId());
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException se){
+            se.printStackTrace();
+            throw new Exception("Failed to delete.", se);
         }
     }
 
@@ -198,7 +191,7 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
     public List<Playlist> getUserPlaylist(int userID) throws Exception {
         ArrayList<Playlist> allUsersPlaylist = new ArrayList<>();
         String sql =
-                "SELECT p.PlaylistID, p.PlaylistName " + // get's the p ID and p Name.
+                "SELECT p.PlaylistID, p.PlaylistName " + // get is the p ID and p Name.
                         "FROM FSpotify.dbo.Playlist p " + // from the table Playlist
                         "JOIN FSpotify.dbo.UserPlaylist up ON p.PlaylistID = up.PlaylistID " + // joins with userp
                         // checks playlist for connectivety with user, only display the one with the user.

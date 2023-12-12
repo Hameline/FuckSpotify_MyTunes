@@ -114,9 +114,7 @@ public class PlaylistSongs {
     public String getFormatedTime() {
         if (song != null) {
             return song.getConvertedTime();
-        } else {
-            return "no time";
         }
-
+        return "no time to display";
     }
 }

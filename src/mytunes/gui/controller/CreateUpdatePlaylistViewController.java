@@ -23,8 +23,7 @@ public class CreateUpdatePlaylistViewController extends BaseController implement
     private SongPlaylistModel songPlaylistModel;
 
     private MainViewController mainViewController;
-    private String updateString;
-    private int playlistID;
+
     private Playlist selectedPlaylist;
 
     public CreateUpdatePlaylistViewController() throws Exception {
@@ -40,15 +39,14 @@ public class CreateUpdatePlaylistViewController extends BaseController implement
     @FXML
     private void handleUpdate(ActionEvent actionEvent) throws  Exception {
         try {
+            int userID = songPlaylistModel.getUserIDs().get(0);
 
             selectedPlaylist.setName(txtPlaylistName.getText());
 
-            songPlaylistModel.updatePlaylist(selectedPlaylist);
-
+            songPlaylistModel.updatePlaylist(selectedPlaylist, userID);
             btnUpdate.getScene().getWindow().hide();
         }
         catch (Exception e) {
-            displayError(e);
             e.printStackTrace();
         }
     }
