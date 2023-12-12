@@ -65,6 +65,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
         }
     }
 
+    // Create a new song and insert it into out database
     public Song createSong(Song song) throws Exception {
         // SQL command
         String sql = "INSERT INTO FSpotify.dbo.Songs (SongTitle, SongDuration, ArtistID, GenreID, FormatedTime, songPath) VALUES (?,?,?,?,?,?);";
@@ -77,7 +78,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
             stmt.setInt(2, song.getTime());
             stmt.setInt(3, song.getArtist().getId());
             stmt.setInt(4, song.getGenre().getId());
-            stmt.setString(5, song.getFormatedTime());
+            stmt.setString(5, song.getFormatedTime()); // Formated time converts the time to min and sec
             stmt.setString(6, song.getFPath());
 
 
@@ -104,6 +105,7 @@ public class DAO_DB_Songs implements ISongDataAccess {
         }
     }
 
+    // Update the selected song on the database
     public Song updateSong(Song song) throws Exception {
         // SQL command
         String sql = "UPDATE FSpotify.dbo.Songs SET SongTitle = ?, SongDuration = ?, ArtistID = ?, GenreID = ? WHERE SongID = ?";
@@ -130,26 +132,44 @@ public class DAO_DB_Songs implements ISongDataAccess {
         return song;
     }
 
+    // Here we delete a song from the database. We have two separate prepared statements in case the song is in a playlist
     public Song deleteSong(Song song) throws Exception {
-        // SQL command
-        String sql = "delete from FSpotify.dbo.Songs WHERE SongID = ? " +
-                     "delete from FSpotify.dbo.PlaylistSongs where SongID = ?";
+        // SQL commands
+        String deletePlaylistSongSQL = "delete from FSpotify.dbo.PlaylistSongs where SongID = ?";
+        String deleteSongSQL = "delete from FSpotify.dbo.Songs WHERE SongID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement deletePlaylistSongStmt = conn.prepareStatement(deletePlaylistSongSQL);
+             PreparedStatement deleteSongStmt = conn.prepareStatement(deleteSongSQL)) {
 
-            // Bind parameters
-            stmt.setInt(1, song.getId());
-            stmt.setInt(2, song.getId());
+            // Start a transaction
+            conn.setAutoCommit(false);
 
-            // Run the specified SQL statement
-            stmt.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
+            try {
+                // Delete the song from the playlist
+                deletePlaylistSongStmt.setInt(1, song.getId());
+                deletePlaylistSongStmt.executeUpdate();
+
+                // Delete the song itself
+                deleteSongStmt.setInt(1, song.getId());
+                deleteSongStmt.executeUpdate();
+
+                // Commit the transaction if everything is successful
+                conn.commit();
+            } catch (SQLException ex) {
+                // Rollback the transaction if an error occurs
+                conn.rollback();
+                throw new Exception("Could not delete song", ex);
+            } finally {
+                // Reset auto-commit to true
+                conn.setAutoCommit(true);
+            }
+
+        } catch (SQLException ex) {
             ex.printStackTrace();
-            throw new Exception("Could not create song", ex);
+            throw new Exception("Could not delete song", ex);
         }
+
         return song;
     }
 }
