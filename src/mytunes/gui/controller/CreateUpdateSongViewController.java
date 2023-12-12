@@ -21,7 +21,6 @@ public class CreateUpdateSongViewController extends BaseController implements In
     private ComboBox<String> menuGenre;
     private SongPlaylistModel songPlaylistModel;
     private MainViewController mainViewController;
-    public ToggleButton tgglBtnIfAlbum;
     public Button btnUpdate, btnCreate, btnCancel;
     @FXML
     private TextField txtSongName, txtArtist, txtGenre, txtAlbumName, txtTime, txtFile;
@@ -53,9 +52,6 @@ public class CreateUpdateSongViewController extends BaseController implements In
         }
     }
 
-    @FXML
-    private void handleIfAlbum(ActionEvent actionEvent) {
-    }
     @FXML
     private void handleUpdate(ActionEvent actionEvent) {
         if (selectedSong == null) {

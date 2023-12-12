@@ -187,6 +187,8 @@ public class MainViewController<songPath> extends BaseController implements Init
         });
     }
 
+    // Returns to the main menu by pressing the logo in the top left. Making the searchTable and the buttons to create,
+    // update and delete invisible.
     private void defaultMenu() {
         // MAKES the TBL VIEW INVISIBLE
         tblViewSearch.setVisible(false);
@@ -216,6 +218,7 @@ public class MainViewController<songPath> extends BaseController implements Init
 
     }
 
+    // Opens a new window to create or update a playlist by pressing the button "Create Playlist"
     @FXML
     private void HandleNewPlaylist(ActionEvent actionEvent) throws IOException {
         Playlist selectedPlaylist = (Playlist) tblViewPlaylist.getSelectionModel().getSelectedItem();
@@ -268,6 +271,8 @@ public class MainViewController<songPath> extends BaseController implements Init
         setup();
     }
 
+    // When you put in letters in the searchfield and press enter, the searchTable becomes visible along with the
+    // buttons to create, update and delete
     @FXML
     private void handleSearchField(KeyEvent keyEvent) {
         // Detects if the ENTER KEY have been PRESSED
@@ -327,6 +332,7 @@ public class MainViewController<songPath> extends BaseController implements Init
 
     }
 
+    // Opens a new window where you can create or update a playlist
     @FXML
     private void handleUpdate(ActionEvent actionEvent) throws IOException {
 
@@ -650,6 +656,7 @@ public class MainViewController<songPath> extends BaseController implements Init
                 });
     }
 
+    // Shows the full length of the song and counts down
     private void playingTimerDown() {
         songTimer2.textProperty().bind(
                 new StringBinding() {

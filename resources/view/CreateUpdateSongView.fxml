@@ -4,17 +4,14 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" prefHeight="384.0" prefWidth="186.0" stylesheets="@../css/CreateUpdateSongView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.CreateUpdateSongViewController">
+<AnchorPane id="background" prefHeight="318.0" prefWidth="186.0" stylesheets="@../css/CreateUpdateSongView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.CreateUpdateSongViewController">
    <children>
       <TextField id="field" fx:id="txtSongName" layoutX="14.0" layoutY="63.0" prefHeight="25.0" prefWidth="160.0" promptText="Song Name" stylesheets="@../css/CreateUpdateSongView.css" />
       <TextField id="field" fx:id="txtArtist" layoutX="14.0" layoutY="97.0" prefHeight="25.0" prefWidth="160.0" promptText="Artists Name" stylesheets="@../css/CreateUpdateSongView.css" />
-      <TextField id="field" fx:id="txtAlbumName" layoutX="13.0" layoutY="343.0" prefHeight="26.0" prefWidth="160.0" promptText="Album Name" stylesheets="@../css/CreateUpdateSongView.css" />
       <TextField fx:id="txtFile" layoutX="14.0" layoutY="272.0" prefHeight="26.0" prefWidth="160.0" />
-      <ToggleButton id="field" fx:id="tgglBtnIfAlbum" layoutX="14.0" layoutY="308.0" mnemonicParsing="false" onAction="#handleIfAlbum" prefHeight="26.0" prefWidth="160.0" stylesheets="@../css/CreateUpdateSongView.css" text="Is Apart Of An Album" />
       <Button id="field" fx:id="btnUpdate" layoutX="14.0" layoutY="199.0" mnemonicParsing="false" onAction="#handleUpdate" stylesheets="@../css/CreateUpdateSongView.css" text="Update" />
       <Button id="field" fx:id="btnCreate" layoutX="120.0" layoutY="199.0" mnemonicParsing="false" onAction="#handleCreate" stylesheets="@../css/CreateUpdateSongView.css" text="Create" />
       <Label id="text" layoutX="16.0" layoutY="21.0" stylesheets="@../css/CreateUpdateSongView.css" text="Song Details">
