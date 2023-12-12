@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="background" prefHeight="854.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
+<AnchorPane id="background" prefHeight="854.0" prefWidth="1308.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainViewController">
     <children>
       <ProgressBar fx:id="songProgress" layoutY="822.0" prefHeight="18.0" prefWidth="1308.0" progress="0.0" />
         <VBox id="vboxplaylist" layoutY="126.0" stylesheets="@../css/MainView.css">
@@ -94,6 +94,7 @@
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -112,6 +113,7 @@
                     </graphic>
                 </MenuButton>
                 <Label id="text" fx:id="txtTotalTime" prefHeight="17.0" prefWidth="109.0" stylesheets="@../css/MainView.css" text="Total Time" GridPane.columnIndex="1" />
+            <Button fx:id="removeFromPlaylist" mnemonicParsing="false" onAction="#handleRemoveSong" text="Remove" GridPane.columnIndex="2" />
             </children>
         </GridPane>
         <Label fx:id="songTimer1" alignment="CENTER" contentDisplay="CENTER" layoutX="590.0" layoutY="763.0" prefHeight="39.0" prefWidth="131.0" text="Volume" textFill="#b9d620">

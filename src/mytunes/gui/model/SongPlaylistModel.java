@@ -121,6 +121,11 @@ public class SongPlaylistModel {
         listOfSongs.remove(s);
     }
 
+    public void removeSongFromPlaylist(Song removedSong) throws Exception {
+        PlaylistSongsManager.removeSongFromPlaylist(removedSong);
+        listSongsFromPlaylist.remove(removedSong);
+    }
+
     // Method to update song information
     public void updateSong(Song selectedSong) throws Exception {
         songManager.updateSong(selectedSong);
