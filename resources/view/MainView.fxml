@@ -45,13 +45,13 @@
                         <Insets bottom="5.0" left="5.0" top="15.0" />
                     </padding>
                 </Label>
-                <ListView id="vboxlist" fx:id="vboxlistSuggested" onMouseClicked="#handlePlayFromVBox" orientation="HORIZONTAL" prefHeight="76.0" prefWidth="867.0" stylesheets="@../css/MainView.css" />
+                <ListView id="vboxlist" fx:id="vboxlistSuggested" onMouseClicked="#handlePlayFromVBoxSuggested" orientation="HORIZONTAL" prefHeight="76.0" prefWidth="867.0" stylesheets="@../css/MainView.css" />
                 <Label id="vboxtext" fx:id="recommendedArtist" stylesheets="@../css/MainView.css" text="Recommended Artist">
                     <padding>
                         <Insets bottom="5.0" left="5.0" top="15.0" />
                     </padding>
                 </Label>
-                <ListView id="vboxlist" fx:id="vboxlistArtist" onMouseClicked="#handlePlayFromVBox" orientation="HORIZONTAL" prefHeight="76.0" prefWidth="867.0" stylesheets="@../css/MainView.css" />
+                <ListView id="vboxlist" fx:id="vboxlistArtist" onMouseClicked="#handlePlayFromVBoxArtist" orientation="HORIZONTAL" prefHeight="76.0" prefWidth="867.0" stylesheets="@../css/MainView.css" />
             </children>
         </VBox>
         <ButtonBar fx:id="btnBarSong" layoutX="982.0" layoutY="125.0" prefHeight="27.0" prefWidth="324.0">

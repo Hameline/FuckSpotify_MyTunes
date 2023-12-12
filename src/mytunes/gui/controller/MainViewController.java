@@ -517,8 +517,11 @@ public class MainViewController<songPath> extends BaseController implements Init
     // clicking the desired playlist
     @FXML
     private void handleAddSongToPlaylist(MouseEvent mouseEvent) throws Exception {
-        autoPlay(); // Auto Plays the Song when it is selected
         selectedSong = (Song) tblViewSearch.getSelectionModel().getSelectedItem();
+
+        if (storeSong == selectedSong) {
+            autoPlay(); // Auto Plays the Song when it is selected
+        }
         if (selectedSong != null) {
             allowSongsInPlaylistView = false;
             storeSong = selectedSong;
@@ -816,12 +819,29 @@ public class MainViewController<songPath> extends BaseController implements Init
     }
 
     @FXML
-    private void handlePlayFromVBox(MouseEvent mouseEvent) throws Exception {
-        autoPlay(); // Plays the Song when you click it
+    private void handlePlayFromVBoxSuggested(MouseEvent mouseEvent) throws Exception {
+        selectedSong = (Song) vboxlistSuggested.getSelectionModel().getSelectedItem();
+        doubleClickPlay();
     }
 
     @FXML
     private void handlePlaySongsFromPlaylist(MouseEvent mouseEvent) throws Exception {
-        autoPlay(); // Plays the Song when you click it
+        selectedSong = (Song) tblViewSongsInPlaylist.getSelectionModel().getSelectedItem();
+        doubleClickPlay();
+    }
+
+    @FXML
+    private void handlePlayFromVBoxArtist(MouseEvent mouseEvent) throws Exception {
+        selectedSong = (Song) vboxlistArtist.getSelectionModel().getSelectedItem();
+        doubleClickPlay();
+    }
+
+    private void doubleClickPlay() throws Exception {
+        if (storeSong == selectedSong) { // checks to see if we have a stored song that is the same as the current selected song. IF it is the same it plays it
+            autoPlay(); // Auto Plays the Song when it is selected
+        }
+        if (selectedSong != null) {
+            storeSong = selectedSong;
+        }
     }
 }
