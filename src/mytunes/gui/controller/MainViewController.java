@@ -153,6 +153,7 @@ public class MainViewController<songPath> extends BaseController implements Init
         if (songPlaylistModel != null) {
             tblViewSearch.setItems(songPlaylistModel.getListOfSongs());
             vboxlistSuggested.setItems(songPlaylistModel.getListOfSongs());
+            tblViewPlaylist.setItems(songPlaylistModel.getListOfPlaylists());
             // here we fetch the songs from the database that is connected the the playlist with the id.
             List<Song> songs = playlistSongsManager.fetchSongsForPlaylist(39);
 
