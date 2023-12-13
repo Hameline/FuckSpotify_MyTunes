@@ -200,17 +200,25 @@ public class SongPlaylistModel {
         return totalTime;
     }
 
+    /**
+     * This method calculates the total time of the songs i the selected playlist and shower it to the user.
+     * @param totalTime = of all the songs in the playlist.
+     * @return
+     */
     public String formatDuration(int totalTime) {
         int hours = totalTime / 3600;
         int minutes = (totalTime % 3600) / 60;
         int seconds = totalTime % 60;
 
         if (hours > 0) {
-            return String.format("%d hours %02d minutes %02d seconds", hours, minutes, seconds);
+            // shows the time as h:min:sec
+            return String.format("%d h. %02d min. %02d sec.", hours, minutes, seconds);
         } else if (minutes > 0) {
-            return String.format("%02d minutes %02d seconds", minutes, seconds);
+            // shows time as min:sec
+            return String.format("%02d min. %02d sec.", minutes, seconds);
         } else {
-            return String.format("%02d seconds", seconds);
+            // shows time as sec
+            return String.format("%02d sec.", seconds);
         }
     }
 
@@ -218,6 +226,11 @@ public class SongPlaylistModel {
         return playlistManager.getUserPlaylist(userID);
     }
 
+    /**
+     * This method collect and put the user's id in a list that we can use in other methods.
+     * @return
+     * @throws Exception
+     */
     public List<Integer> getUserIDs() throws Exception {
         List<Users> allUsers = usersManager.getAllUsers();
         List<Integer> userIDs = new ArrayList<>();

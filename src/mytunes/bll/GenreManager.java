@@ -20,8 +20,4 @@ public class GenreManager {
     public List<Genre> getAllGenre() throws Exception {
         return DAO_DB.getAllGenre();
     }
-
-
-
-
 }

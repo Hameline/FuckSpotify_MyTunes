@@ -16,12 +16,11 @@ public class PlaylistSongsManager {
         DAO_DB = new DAO_DB_PlaylistSongs();
     }
 
-
     public PlaylistSongs addSongToPlaylist(PlaylistSongs newPlaylistSong) throws Exception {
         return DAO_DB.addSongToPlaylist(newPlaylistSong);
     }
 
-    public PlaylistSongs removeSongFromPlaylist(PlaylistSongs removedPlaylistSong) throws Exception {
+    public static PlaylistSongs removeSongFromPlaylist(PlaylistSongs removedPlaylistSong) throws Exception {
         return DAO_DB.removeSongFromPlaylist(removedPlaylistSong);
     }
 

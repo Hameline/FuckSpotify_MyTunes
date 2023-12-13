@@ -2,7 +2,6 @@ package mytunes.gui.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import mytunes.be.Playlist;
@@ -40,10 +39,11 @@ public class CreateUpdatePlaylistViewController extends BaseController implement
             selectedPlaylist.setName(txtPlaylistName.getText());
 
             songPlaylistModel.updatePlaylist(selectedPlaylist, userID);
-            btnUpdate.getScene().getWindow().hide();
         }
         catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            btnUpdate.getScene().getWindow().hide();
         }
     }
 
@@ -54,13 +54,12 @@ public class CreateUpdatePlaylistViewController extends BaseController implement
 
         try {
             songPlaylistModel.createPlaylist(newPlaylist, userID);
-
-            btnCreate.getScene().getWindow().hide();
-
         }
         catch (Exception e) {
             displayError(e);
             e.printStackTrace();
+        } finally {
+            btnCreate.getScene().getWindow().hide();
         }
     }
 

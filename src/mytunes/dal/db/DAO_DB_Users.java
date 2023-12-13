@@ -56,9 +56,9 @@ public class DAO_DB_Users  {
 
     /**
      * Here we use are able to create a new user in the database, and use him for the
-     * application. This is not implemented.
+     * application. This is not implemented, do to the missing of email and hash encrypting password.
      * @param users
-     * @return
+     * @return newUser (createdUser)
      * @throws Exception
      */
     public Users createUser(Users users) throws Exception {
@@ -68,7 +68,7 @@ public class DAO_DB_Users  {
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            // Bind parameters
+            // Binds the parameters
             stmt.setString(1, users.getUserName());
             stmt.setString(2, users.getUserEmail());
             stmt.setString(3, users.getUserPassword());
@@ -83,10 +83,8 @@ public class DAO_DB_Users  {
             if (rs.next()) {
                 id = rs.getInt(1);
             }
-
             // Creates a user that is sent through the layers
             Users createdUser = new Users(id, users.getUserName(), users.getUserEmail(), users.getUserPassword());
-
             return createdUser;
         }
         catch (SQLException ex)

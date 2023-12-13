@@ -25,7 +25,6 @@ public class DAO_DB_Songs implements ISongDataAccess {
     }
 
     public List<Song> getAllSongs() throws Exception {
-
         ArrayList<Song> allSongs = new ArrayList<>();
 
         try (Connection conn = databaseConnector.getConnection();
@@ -38,7 +37,6 @@ public class DAO_DB_Songs implements ISongDataAccess {
 
             // Loop through rows from the database result set
             while (rs.next()) {
-
                 //Map DB row to Song object
                 int id = rs.getInt("SongID");
                 String title = rs.getString("SongTitle");
@@ -56,7 +54,6 @@ public class DAO_DB_Songs implements ISongDataAccess {
                 allSongs.add(song);
             }
             return allSongs;
-
         }
         catch (SQLException ex)
         {
@@ -65,9 +62,14 @@ public class DAO_DB_Songs implements ISongDataAccess {
         }
     }
 
-    // Create a new song and insert it into out database
+    /**
+     * Create a new song and insert it into out database
+     * @param song
+     * @return
+     * @throws Exception
+     */
     public Song createSong(Song song) throws Exception {
-        // SQL command
+        // SQL statement
         String sql = "INSERT INTO FSpotify.dbo.Songs (SongTitle, SongDuration, ArtistID, GenreID, FormatedTime, songPath) VALUES (?,?,?,?,?,?);";
 
         try (Connection conn = databaseConnector.getConnection();
@@ -78,9 +80,8 @@ public class DAO_DB_Songs implements ISongDataAccess {
             stmt.setInt(2, song.getTime());
             stmt.setInt(3, song.getArtist().getId());
             stmt.setInt(4, song.getGenre().getId());
-            stmt.setString(5, song.getFormatedTime()); // Formated time converts the time to min and sec
+            stmt.setString(5, song.getFormatedTime()); // Formatted time converts the time to min and sec
             stmt.setString(6, song.getFPath());
-
 
             // Run the specified SQL statement
             stmt.executeUpdate();
@@ -92,7 +93,6 @@ public class DAO_DB_Songs implements ISongDataAccess {
             if (rs.next()) {
                 id = rs.getInt(1);
             }
-
             // Create song object and send up the layers
             Song createdSong = new Song(id, song.getTitle(), song.getTime(), song.getArtist(), song.getGenre(), song.getFormatedTime(), song.getFPath());
 
@@ -105,22 +105,24 @@ public class DAO_DB_Songs implements ISongDataAccess {
         }
     }
 
-    // Update the selected song on the database
+    /**
+     * Update the selected song on the database
+     * @param song
+     * @return
+     * @throws Exception
+     */
     public Song updateSong(Song song) throws Exception {
-        // SQL command
+        // SQL statement
         String sql = "UPDATE FSpotify.dbo.Songs SET SongTitle = ?, SongDuration = ?, ArtistID = ?, GenreID = ? WHERE SongID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-
             // Bind parameters
             stmt.setString(1,song.getTitle());
             stmt.setInt(2, song.getTime());
             stmt.setInt(3, song.getArtist().getId());
             stmt.setInt(4, song.getGenre().getId());
             stmt.setInt(5, song.getId());
-
             // Run the specified SQL statement
             stmt.executeUpdate();
         }
@@ -132,16 +134,21 @@ public class DAO_DB_Songs implements ISongDataAccess {
         return song;
     }
 
-    // Here we delete a song from the database. We have two separate prepared statements in case the song is in a playlist
+    /**
+     *  Here we delete a song from the database.
+     *  We have two separate prepared statements in case the song is in a playlist
+     * @param song
+     * @return
+     * @throws Exception
+     */
     public Song deleteSong(Song song) throws Exception {
-        // SQL commands
+        // SQL statement
         String deletePlaylistSongSQL = "delete from FSpotify.dbo.PlaylistSongs where SongID = ?";
         String deleteSongSQL = "delete from FSpotify.dbo.Songs WHERE SongID = ?";
 
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement deletePlaylistSongStmt = conn.prepareStatement(deletePlaylistSongSQL);
              PreparedStatement deleteSongStmt = conn.prepareStatement(deleteSongSQL)) {
-
             // Start a transaction
             conn.setAutoCommit(false);
 
@@ -149,11 +156,9 @@ public class DAO_DB_Songs implements ISongDataAccess {
                 // Delete the song from the playlist
                 deletePlaylistSongStmt.setInt(1, song.getId());
                 deletePlaylistSongStmt.executeUpdate();
-
                 // Delete the song itself
                 deleteSongStmt.setInt(1, song.getId());
                 deleteSongStmt.executeUpdate();
-
                 // Commit the transaction if everything is successful
                 conn.commit();
             } catch (SQLException ex) {
@@ -164,12 +169,10 @@ public class DAO_DB_Songs implements ISongDataAccess {
                 // Reset auto-commit to true
                 conn.setAutoCommit(true);
             }
-
         } catch (SQLException ex) {
             ex.printStackTrace();
             throw new Exception("Could not delete song", ex);
         }
-
         return song;
     }
 }

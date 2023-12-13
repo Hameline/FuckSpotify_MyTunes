@@ -76,7 +76,7 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
 
     @Override
     public PlaylistSongs addSongToPlaylist(PlaylistSongs playlistSongs) throws Exception {
-        // SQL command
+        // SQL statement
         String sql = "INSERT INTO FSpotify.dbo.PlaylistSongs (PlaylistID, SongID) VALUES (?, ?)";
 
         try (Connection conn = databaseConnector.getConnection()) {
@@ -88,7 +88,6 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
 
                 // Run the specified SQL statement
                 stmt.executeUpdate();
-
                 // Create playlist object and send up the layers
                 PlaylistSongs addSongToPlaylist = new PlaylistSongs(playlistSongs.getPlaylistID(), playlistSongs.getSongID());
 
@@ -100,10 +99,9 @@ public class DAO_DB_PlaylistSongs implements IPlaylistSongsDataAccess {
         }
     }
 
-
     public PlaylistSongs removeSongFromPlaylist(PlaylistSongs playlistSongs) throws Exception {
         // SQL command
-        String sql = "delete from FSpotify.dbo.PlaylistSongs WHERE PlaylistID = ?, AND WHERE SongID = ?;";
+        String sql = "delete from FSpotify.dbo.PlaylistSongs WHERE PlaylistID = ? AND SongID = ?;";
 
         try (Connection conn = databaseConnector.getConnection()) {
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {

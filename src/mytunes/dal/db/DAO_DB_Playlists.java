@@ -26,10 +26,8 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
         {
             String sql = "SELECT * FROM FSpotify.dbo.Playlist;";
             ResultSet rs = stmt.executeQuery(sql);
-
             // Loop through rows from the database result set
             while (rs.next()) {
-
                 //Map DB row to Playlist object
                 int id = rs.getInt("PlaylistID");
                 String name = rs.getString("PlaylistName");
@@ -38,7 +36,6 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
                 allPlaylists.add(playlist);
             }
             return allPlaylists;
-
         }
         catch (SQLException ex)
         {
@@ -46,7 +43,6 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
             throw new Exception("Could not get playlist from database", ex);
         }
     }
-
 
     /**
      * This method creates a playlist and locks it to a user. This will have the effect
@@ -65,19 +61,16 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
         try (Connection conn = databaseConnector.getConnection()) {
             // this makes it able for us to run one statement at the time, so that both will have an effect on the database.
             conn.setAutoCommit(false);
-
             try (PreparedStatement stmtPlaylist = conn.prepareStatement(sqlPlaylist, Statement.RETURN_GENERATED_KEYS)) {
                 // Bind parameters for playlist
                 stmtPlaylist.setString(1, playlist.getName());
                 // Run the SQL statement for playlist.
                 stmtPlaylist.executeUpdate();
-
                 // Get the playlist ID from the DB
                 try (ResultSet rs = stmtPlaylist.getGeneratedKeys()) {
                     if (rs.next()) {
                         int newPlaylistId = rs.getInt(1);
                         playlist.setPlaylistID(newPlaylistId); // set the ID of the playlist
-
                         try (PreparedStatement stmtUserPlaylist = conn.prepareStatement(sqlUserPlaylist)) {
                             // Bind parameters for UserPlaylist
                             stmtUserPlaylist.setInt(1, userId);
@@ -85,10 +78,8 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
                             // Run the SQL statement for UserPlaylist
                             stmtUserPlaylist.executeUpdate();
                         }
-
                         // Commit the transaction
                         conn.commit();
-
                         return playlist; // The playlist now has an ID set
                     } else {
                         // If we didn't get an ID, something went wrong
@@ -201,7 +192,6 @@ public class DAO_DB_Playlists implements IPlaylistDataAccess {
              PreparedStatement stmt = conn.prepareStatement(sql))
         {
             stmt.setInt(1, userID);
-
 
             // Collects data from the database
             try (ResultSet rs = stmt.executeQuery()){

@@ -6,7 +6,6 @@ public class Song {
     private Artist artist;
     private Genre type;
 
-
     /**
      *
      * @param id = song id in database
@@ -26,8 +25,6 @@ public class Song {
         this.type = type;
         this.fPath = fPath;
     }
-
-
 
     public int getId() {
         return id;
@@ -49,12 +46,18 @@ public class Song {
         return time;
     }
 
+    /**
+     * shows time as a formated string (h:min:sec)
+     * @return the time that is shown to the user.
+     */
     public String getConvertedTime() {
         int hours = (int) time / 3600;
         int minutes = (int) (time % 3600) / 60;
         int seconds = (int) time % 60;
         formatedTime = hours > 0
+                // h:min:sec
                 ? String.format("%d:%02d:%02d", hours, minutes, seconds)
+                // min:sec
                 : String.format("%d:%02d", minutes, seconds);
         return formatedTime;
     }

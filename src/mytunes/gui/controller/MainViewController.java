@@ -39,6 +39,7 @@ import java.util.*;
 @SuppressWarnings("ALL")
 public class MainViewController<songPath> extends BaseController implements Initializable {
 
+    public MenuItem btnMenuDelete;
     @FXML
     private ProgressBar songProgress;
     @FXML
@@ -301,23 +302,15 @@ public class MainViewController<songPath> extends BaseController implements Init
         searchItems();
     }
     private void searchItems() {
-
             // MAKES the TBL VIEW VISIBLE
-
             tblViewSearch.setVisible(true);
-
             // MAKES the VBOX INVISIBLE
             vBoxDefault.setVisible(false);
-
             // MAKES the BUTTON BAR VISIBLE
             btnBarSong.setVisible(true);
-
             tblViewSongsInPlaylist.setVisible(false);
-
             btnMenuPlaylist.setVisible(false);
-
             handlePlaylistButtons();
-
     }
 
     // When you put in letters in the searchfield and press enter, the searchTable becomes visible along with the
@@ -358,7 +351,6 @@ public class MainViewController<songPath> extends BaseController implements Init
         PopupWindow.showAndWait();
 
         tblViewSearch.refresh();
-
     }
 
     // Opens a new window where you can create or update a playlist
@@ -432,7 +424,6 @@ public class MainViewController<songPath> extends BaseController implements Init
 
         if (selectedPlaylist != null) {
             try {
-                // Delete movie in DAL layer (through the layers)
                 songPlaylistModel.deletePlaylist(selectedPlaylist, userID);
             } catch (Exception e) {
                 displayError(e);
@@ -484,8 +475,6 @@ public class MainViewController<songPath> extends BaseController implements Init
                 tblViewSongInPlaylistSong.setCellValueFactory(new PropertyValueFactory<>("title"));
                 tblViewSongInPlaylistDuration.setCellValueFactory(new PropertyValueFactory<>("formatedTime"));
                 tblViewSongsInPlaylist.refresh();
-
-
             } else {
                 defaultMenu();
             }
@@ -638,7 +627,6 @@ public class MainViewController<songPath> extends BaseController implements Init
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-
             });
         } catch (Exception exc) {
             exc.printStackTrace();
@@ -888,7 +876,6 @@ public class MainViewController<songPath> extends BaseController implements Init
             playlistSongs.setSongID(removedPlaylistSong.getId());
             playlistSongs.setPlaylistID(storePlaylist.getId());
             songPlaylistModel.removeSongFromPlaylist(playlistSongs);
-        } else {
         }
     }
 }

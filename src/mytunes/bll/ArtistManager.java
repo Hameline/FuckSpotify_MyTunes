@@ -29,8 +29,6 @@ public class ArtistManager {
         return DAO_DB.createArtist(newArtist);
     }
 
-
-
     public Artist updateArtist(Artist selectedSong) throws Exception {
         return DAO_DB.updateArtist(selectedSong);
     }

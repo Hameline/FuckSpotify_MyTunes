@@ -108,10 +108,8 @@ public class PlaylistSongs {
         this.songID = id;
     }
 
-
-
     /**
-     * return null - skal have fixet det.
+     *
      * @return
      */
     public String getFormatedTime() {

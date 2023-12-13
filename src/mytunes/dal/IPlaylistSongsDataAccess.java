@@ -13,6 +13,5 @@ public interface IPlaylistSongsDataAccess {
 
     PlaylistSongs removeSongFromPlaylist(PlaylistSongs playlistSongs) throws Exception;
 
-
     List<Song> fetchSongsForPlaylist(int playlistId) throws Exception;
 }

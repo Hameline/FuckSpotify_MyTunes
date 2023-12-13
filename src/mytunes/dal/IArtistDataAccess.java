@@ -14,6 +14,5 @@ public interface IArtistDataAccess {
 
     public Artist updateArtist(Artist artist) throws Exception;
 
-
     public Artist findArtistByName(String name) throws SQLException;
 }

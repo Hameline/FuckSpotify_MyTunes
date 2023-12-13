@@ -20,7 +20,6 @@ public class GenreSearcher {
         return searchResult;
     }
 
-
     private boolean compareToSongGenre(String query, Genre genre) {
         return genre.getType().toLowerCase().contains(query.toLowerCase());
     }

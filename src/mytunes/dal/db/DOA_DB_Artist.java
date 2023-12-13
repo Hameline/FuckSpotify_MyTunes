@@ -28,11 +28,9 @@ public class DOA_DB_Artist implements IArtistDataAccess {
 
             // Loop through rows from the database result set
             while (rs.next()) {
-
                 //Map DB row to Song object
                 int id = rs.getInt("ArtistID");
                 String nameA = rs.getString("ArtistName");
-
                 //Creates a new artist and add it to the list of artist
                 Artist artist = new Artist(nameA, id);
                 allArtist.add(artist);

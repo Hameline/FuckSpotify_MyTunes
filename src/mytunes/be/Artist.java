@@ -15,7 +15,6 @@ public class Artist {
         this.id = id;
     }
 
-
     @Override
     public String toString() {
         return this.name;
@@ -37,11 +36,4 @@ public class Artist {
         return name;
     }
 
-    public String toLowerCase() {
-        return toString();
-    }
-
-    public String getArtistName() {
-        return name;
-    }
 }

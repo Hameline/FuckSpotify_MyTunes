@@ -5,7 +5,6 @@ public class Users {
     private int userID;
     private String userName, userEmail, userPassword;
 
-
     /**
      *
      * @param userID = id in database
@@ -22,7 +21,6 @@ public class Users {
     public Users() {
 
     }
-
 
     public int getUserID() {
         return userID;
